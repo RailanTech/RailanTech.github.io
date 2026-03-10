@@ -57,7 +57,7 @@
             fetch(webhookUrl, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ categoria: categoria, relato: relato })
+                body: JSON.stringify({ categoria: categoria, relato: relato, senha: "RailanSeguro100" })
             })
             .then(response => response.text()) 
             .then(respostaDaIA => {
