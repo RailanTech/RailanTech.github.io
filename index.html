@@ -3,28 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Segurança Nacional - Verificador de Links</title>
+    <title>Portal de Segurança Nacional - Verificador</title>
     <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
-
     <div class="header">
         <h1>🛡️ Sistema Nacional de Verificação</h1>
         <p>Ambiente Seguro - Proteção contra Fraudes Digitais</p>
     </div>
-
+    
     <div class="nav-menu">
         <a href="index.html">🔍 Verificador de Links</a>
-        <a href="relatos.html">📝 Central de Relatos</a>
+        <a href="reclamacoes.html">📝 Central de Relatos</a>
     </div>
 
     <div class="container">
         <h2>Verificador de Sites e Promoções</h2>
-        <p class="instrucao">Cole abaixo o link (URL) que você recebeu para verificar se é um site oficial ou uma tentativa de golpe.</p>
-
+        <p class="instrucao">Cole abaixo o link (URL) para verificar se é um site oficial ou tentativa de golpe.</p>
+        
         <input type="text" id="linkInput" placeholder="Ex: www.loja-oficial.com.br">
         <button class="btn-oficial" onclick="verificarLink()">🔍 VERIFICAR SEGURANÇA</button>
-
+        
         <div id="resultado"></div>
     </div>
 
@@ -34,35 +33,33 @@
         async function verificarLink() {
             let linkDigitado = document.getElementById('linkInput').value.toLowerCase().trim();
             const divResultado = document.getElementById('resultado');
-
+            
             if (linkDigitado === "") {
                 alert("Por favor, cole um link na caixa primeiro!"); return;
             }
-
             if (!linkDigitado.startsWith('http://') && !linkDigitado.startsWith('https://')) {
                 linkDigitado = 'https://' + linkDigitado;
             }
-
             try {
                 const urlObj = new URL(linkDigitado);
                 const dominioPrincipal = urlObj.hostname;
                 const resposta = await fetch('sites.json');
                 const sitesSeguros = await resposta.json();
-
                 let ehSeguro = false;
+                
                 for (let i = 0; i < sitesSeguros.length; i++) {
                     if (dominioPrincipal === sitesSeguros[i] || dominioPrincipal.endsWith("." + sitesSeguros[i])) {
                         ehSeguro = true; break;
                     }
                 }
-
+                
                 divResultado.style.display = "block";
                 if (ehSeguro) {
                     divResultado.className = "seguro";
                     divResultado.innerHTML = "✅ SITE OFICIAL IDENTIFICADO<br><span style='font-size:14px; color:#555;'>Pode acessar com segurança. O link pertence à loja verdadeira.</span>";
                 } else {
                     divResultado.className = "perigo";
-                    divResultado.innerHTML = "🚨 ALERTA DE RISCO MAXIMO!<br><span style='font-size:14px; color:#555;'>Não reconhecemos este link como oficial. Alta chance de ser um GOLPE ou site falso!</span>";
+                    divResultado.innerHTML = "🚨 ALERTA DE RISCO MÁXIMO!<br><span style='font-size:14px; color:#555;'>Não reconhecemos este link como oficial. Alta chance de ser um GOLPE ou site falso!</span>";
                 }
             } catch (e) {
                 alert("Formato de link inválido. Verifique o que foi colado.");
