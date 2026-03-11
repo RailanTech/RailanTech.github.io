@@ -15,7 +15,6 @@ body {
 .header h1 { margin: 0; font-size: 24px; }
 .header p { margin: 5px 0 0 0; font-size: 14px; color: #d1e5f0; }
 
-/* Menu de Navegação */
 .nav-menu {
     background-color: #002d54;
     padding: 10px;
@@ -41,7 +40,7 @@ body {
     text-align: center;
 }
 h2 { color: #00427a; font-size: 20px; }
-.instrucao { color: #666; margin-bottom: 20px; }
+p.instrucao { color: #666; margin-bottom: 20px; font-size: 14px; }
 
 input[type="text"], select, textarea {
     width: 100%;
