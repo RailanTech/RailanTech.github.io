@@ -50,7 +50,7 @@
                 return;
             }
             
-            // COLOQUE SEU LINK DO MAKE AQUI (COPIE DA BOLINHA VERMELHA)
+            // PLANO A: TENTAR ENVIAR PARA O MAKE (Robô)
             const webhookUrl = "https://hook.eu1.make.com/zwsk3qjpnu4b7p7ef9yt9qd8mvn9e16p"; 
             
             const botao = document.getElementById("btnEnviar");
@@ -67,13 +67,18 @@
                     data_envio: dataAtual 
                 })
             }).then(response => {
+                if (!response.ok) throw new Error("Falha no robô"); 
+                
                 alert("✅ Sucesso! O sistema recebeu sua mensagem com segurança.");
                 document.getElementById("categoria").value = "";
                 document.getElementById("relato").value = "";
                 botao.innerText = "ENVIAR RELATO PARA ANÁLISE";
                 botao.style.backgroundColor = "#00427a";
+                
             }).catch(error => {
-                alert("❌ Erro de conexão. Verifique sua internet.");
+                // 🛡️ PLANO B: SE O MAKE ESTIVER SEM ENERGIA OU FALHAR
+                alert("🚨 ATENÇÃO: O nosso robô de análise automática está em manutenção ou sobrecarregado no momento.\n\nPara não perder a sua informação, por favor envie o seu relato agora mesmo para o nosso e-mail oficial de emergência:\n\n✉️ analise.seguranca@proton.me");
+                
                 botao.innerText = "ENVIAR RELATO PARA ANÁLISE";
                 botao.style.backgroundColor = "#00427a";
             });
