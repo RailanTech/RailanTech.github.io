@@ -12,23 +12,12 @@
             <img src="escudo-sem-fundo.png" alt="Escudo Oficial" style="height: 55px;">
             Sistema Nacional de Verificação
         </h1>
+        <p>Ambiente Seguro - Proteção contra Fraudes Digitais</p>
     </div>
 
     <div class="nav-menu">
         <a href="index.html">🔍 Verificador (Início)</a>
         <a href="chat.html" class="ativo">🤖 Assistente</a>
-        <a href="reclamacoes.html">📝 Central de Relatos</a>
-        <a href="radar.html">
-            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: text-bottom; margin-right: 4px;">
-                <circle cx="12" cy="12" r="10"></circle>
-                <circle cx="12" cy="7" r="2"></circle>
-                <path d="M5 11h14"></path>
-                <path d="M9 20l3-6 3 6"></path>
-            </svg>
-            Radar Acessibilidade
-        </a>
-        <a href="defesa.html">⚔️ Espada da Lei</a>
-        <a href="biblioteca.html">📚 Biblioteca</a>
     </div>
 
     <div class="container-radar">
@@ -66,16 +55,17 @@
             let respostaRobo = "";
 
             if(pergunta.includes('golpe') || pergunta.includes('roubo') || pergunta.includes('falso') || pergunta.includes('pix')) {
-                respostaRobo = "Calma! A primeira regra é: Bloqueie o contato imediatamente. Não mande mais dinheiro. Vá na nossa Sala de 'Alerta de Golpes' para ver como denunciar no banco.";
+                // AQUI ESTÁ A MÁGICA: O Robô entrega o link da sala escondida!
+                respostaRobo = "Calma! A primeira regra é: Bloqueie o contato imediatamente. Não mande mais dinheiro. <a href='reclamacoes.html' style='color: #007bff; font-weight: bold;'>👉 Clique aqui para ver os 3 passos para recuperar seu dinheiro</a>.";
             } 
             else if(pergunta.includes('direito') || pergunta.includes('lei') || pergunta.includes('surdo') || pergunta.includes('pcd') || pergunta.includes('imposto')) {
-                respostaRobo = "Excelente! Pessoas com deficiência (PCD) têm direito a Passe Livre, Intérprete de Libras e isenção de impostos. Leia tudo mastigado na nossa Sala de 'Seus Direitos'.";
+                respostaRobo = "Pessoas com deficiência (PCD) têm direitos garantidos por lei. <a href='defesa.html' style='color: #007bff; font-weight: bold;'>👉 Clique aqui para ler a Espada da Lei</a>.";
             }
             else if(pergunta.includes('loja') || pergunta.includes('comprar') || pergunta.includes('site') || pergunta.includes('seguro')) {
-                respostaRobo = "Para saber se um site é seguro, vá na nossa página inicial (🔍 Verificador) e cole o link da loja lá. Eu vou analisar se é oficial ou falso para você!";
+                respostaRobo = "Para saber se um site é seguro, vá na nossa página inicial (Verificador) e cole o link da loja lá. Eu vou analisar se é oficial ou falso para você!";
             }
             else {
-                respostaRobo = "Desculpe, meu sistema ainda está aprendendo! 🐢 Tente usar palavras mais simples, como: 'golpe', 'direitos' ou 'loja'. Ou visite nossa Biblioteca no menu acima.";
+                respostaRobo = "Desculpe, meu sistema ainda está aprendendo! 🐢 Tente usar palavras mais simples, como: 'golpe', 'direitos' ou 'loja'.";
             }
 
             setTimeout(() => {
@@ -93,5 +83,9 @@
             }
         });
     </script>
+
+    <div class="footer">
+        <p>Desenvolvido por RailanTech | Portal de Transparência Digital</p>
+    </div>
 </body>
 </html>
