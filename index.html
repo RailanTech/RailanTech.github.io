@@ -35,11 +35,10 @@
 
     <script>
         function verificarSeguranca() {
-            // .trim() para evitar erro de espaço invisível!
-            const link = document.getElementById('linkInput').value.toLowerCase().trim();
+            const linkCru = document.getElementById('linkInput').value.toLowerCase().trim();
             const resultado = document.getElementById('resultado');
 
-            if (link === '') {
+            if (linkCru === '') {
                 resultado.style.display = 'block';
                 resultado.style.backgroundColor = '#fff3cd';
                 resultado.style.borderLeft = '5px solid #ffc107';
@@ -47,24 +46,37 @@
                 return;
             }
 
-            // Paciência de Tartaruga: Analisando...
             resultado.style.display = 'block';
             resultado.style.backgroundColor = '#d1ecf1';
             resultado.style.borderLeft = '5px solid #17a2b8';
             resultado.innerHTML = '<strong style="color: #0c5460;">⏳ Analisando...</strong> <span style="color: #0c5460;">Aguarde enquanto consultamos o sistema de segurança...</span>';
 
-            // 🧠 LÓGICA DE 1%: Separar Falso e Oficial
             setTimeout(() => {
-                if (link.includes('gov.br') || link.includes('cert.br')) {
-                    // LUZ VERDE: Site Oficial Seguro
+                if (linkCru.includes('gov.br') || linkCru.includes('cert.br')) {
+                    // LUZ VERDE
                     resultado.style.backgroundColor = '#d4edda';
                     resultado.style.borderLeft = '5px solid #28a745';
                     resultado.innerHTML = '<strong style="color: #155724;">✅ SITE OFICIAL E SEGURO!</strong> <p style="color: #155724; margin-top: 5px; margin-bottom:0;">Este link pertence ao Governo ou a uma instituição oficial. É seguro navegar.</p>';
                 } else {
-                    // LUZ VERMELHA: Site Suspeito
+                    // LUZ VERMELHA COM A PONTE (1% DE MONSTRO)
+                    const linkLimpo = encodeURIComponent(linkCru);
+                    const linkVT = `https://www.virustotal.com/gui/search/${linkLimpo}`;
+                    const linkSC = `https://www.siteconfiavel.com.br/`;
+
                     resultado.style.backgroundColor = '#f8d7da';
                     resultado.style.borderLeft = '5px solid #dc3545';
-                    resultado.innerHTML = '<strong style="color: #721c24;">🚨 ATENÇÃO: LINK SUSPEITO!</strong> <p style="color: #721c24; margin-top: 5px; margin-bottom:0;">Este site não tem selo de segurança oficial. <a href="chat.html" style="color: #721c24; font-weight: bold; text-decoration: underline;">Fale com o Assistente</a> para saber como se proteger.</p>';
+                    resultado.innerHTML = `
+                        <strong style="color: #721c24; font-size: 18px;">🚨 ATENÇÃO: LINK SUSPEITO!</strong> 
+                        <p style="color: #721c24; margin-top: 5px; margin-bottom: 15px;">Este site não tem selo oficial. Para ter 100% de certeza, tire a prova nos sistemas abaixo ou fale com nosso robô:</p>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                            <a href="${linkSC}" target="_blank" style="background-color: #ff9800; color: white; padding: 12px; text-decoration: none; border-radius: 8px; font-weight: bold; text-align: center; font-size: 16px;">🛡️ Prova no Site Confiável ↗️</a>
+                            
+                            <a href="${linkVT}" target="_blank" style="background-color: #002b36; color: white; padding: 12px; text-decoration: none; border-radius: 8px; font-weight: bold; text-align: center; font-size: 16px;">🦠 Raio-X no VirusTotal ↗️</a>
+                            
+                            <a href="chat.html" style="background-color: #007bff; color: white; padding: 12px; text-decoration: none; border-radius: 8px; font-weight: bold; text-align: center; font-size: 16px;">🤖 Falar com o Assistente</a>
+                        </div>
+                    `;
                 }
             }, 2000);
         }
