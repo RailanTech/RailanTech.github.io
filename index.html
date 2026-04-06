@@ -11,7 +11,7 @@
         input[type="text"] { width: 90%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; }
         button { background-color: #007BFF; color: white; border: none; padding: 12px 20px; border-radius: 5px; font-size: 16px; cursor: pointer; font-weight: bold; width: 100%; }
         button:hover { background-color: #0056b3; }
-        #resultado { margin-top: 20px; padding: 15px; border-radius: 5px; text-align: left; font-size: 14px; background-color: #e9ecef; color: #333; min-height: 50px; }
+        #resultado { margin-top: 20px; padding: 15px; border-radius: 5px; text-align: left; font-size: 14px; background-color: #e9ecef; color: #333; min-height: 50px; overflow-wrap: break-word;}
     </style>
 </head>
 <body>
@@ -34,12 +34,9 @@
                 return;
             }
 
-            divResultado.innerHTML = "⏳ Analisando... aguarde!";
+            divResultado.innerHTML = "⏳ Analisando com Raio-X... aguarde!";
 
-            // 🛡️ TÚNEL INVISÍVEL (BACKEND SEGURO) - CHAVE BLINDADA NO CLOUDFLARE 🛡️
             const url_do_cofre = "https://tiny-lab-bc9b.analise-seguranca.workers.dev";
-
-            // A MENSAGEM PARA O MOTOR DO GOOGLE
             const comando_ia = `Analise este link e diga se é seguro ou golpe (Responda em português de forma clara): ${link}`;
             
             const payload = {
@@ -47,26 +44,40 @@
             };
 
             try {
-                // O GITHUB BATE NA PORTA DO CLOUDFLARE
                 const resposta_do_cofre = await fetch(url_do_cofre, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
 
-                if (!resposta_do_cofre.ok) {
-                    throw new Error(`Erro na conexão com o Cofre: ${resposta_do_cofre.status}`);
+                // LENDO A RESPOSTA BRUTA E LIGANDO O RAIO-X
+                const texto_bruto = await resposta_do_cofre.text();
+                
+                try {
+                    const dados = JSON.parse(texto_bruto);
+                    
+                    // SE O GOOGLE MANDOU UM ERRO (EX: Chave inválida)
+                    if (dados.error) {
+                        divResultado.innerHTML = "🚨 <b>Bloqueio do Google:</b> " + dados.error.message;
+                        return;
+                    }
+
+                    // SE DEU TUDO CERTO
+                    if (dados.candidates && dados.candidates[0]) {
+                        const texto_final = dados.candidates[0].content.parts[0].text;
+                        divResultado.innerHTML = "✅ <b>Análise da IA:</b><br><br>" + texto_final;
+                    } else {
+                        divResultado.innerHTML = "⚠️ <b>Resposta Estranha:</b> " + texto_bruto;
+                    }
+
+                } catch (e) {
+                    // SE O CLOUDFLARE TRAVOU E MANDOU TEXTO
+                    divResultado.innerHTML = "🚨 <b>Bloqueio do Cloudflare:</b> " + texto_bruto;
                 }
 
-                const dados_do_google = await resposta_do_cofre.json();
-                
-                // PEGA A RESPOSTA INTELIGENTE E MOSTRA NA TELA
-                const texto_final = dados_do_google.candidates[0].content.parts[0].text;
-                divResultado.innerHTML = "✅ <b>Análise da IA:</b><br><br>" + texto_final;
-
             } catch (erro) {
-                console.error("Erro Técnico:", erro);
-                divResultado.innerHTML = "❌ Erro no Radar. Verifique se o link do Cloudflare está correto.";
+                // SE A INTERNET FALHOU OU DEU BLOQUEIO DE CORS
+                divResultado.innerHTML = "❌ <b>Erro de Conexão:</b> " + erro.message;
             }
         }
     </script>
