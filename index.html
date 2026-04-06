@@ -32,10 +32,10 @@
         // O TRADUTOR VISUAL DE LUXO
         function formatarTexto(texto) {
             return texto
-                .replace(/### (.*?)\n/g, '<h3>$1</h3>') // Transforma ### em títulos azuis
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Transforma ** em Negrito
-                .replace(/\*(.*?)\*/g, '<em>$1</em>') // Transforma * em Itálico
-                .replace(/\n/g, '<br>'); // Transforma quebras invisíveis em quebras reais
+                .replace(/### (.*?)\n/g, '<h3>$1</h3>') 
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') 
+                .replace(/\*(.*?)\*/g, '<em>$1</em>') 
+                .replace(/\n/g, '<br>'); 
         }
 
         async function verificarLink() {
@@ -45,7 +45,7 @@
             // SE NÃO TIVER LINK
             if (!link) {
                 divResultado.style.display = "block";
-                divResultado.style.borderLeftColor = "#ea4335"; // Faixa Vermelha
+                divResultado.style.borderLeftColor = "#ea4335"; 
                 divResultado.innerHTML = "❌ <b>Por favor, cole um link primeiro!</b>";
                 return;
             }
@@ -82,8 +82,19 @@
 
                     if (dados.candidates && dados.candidates[0]) {
                         const texto_ia = dados.candidates[0].content.parts[0].text;
-                        divResultado.style.borderLeftColor = "#34a853"; // Faixa Verde de Sucesso
-                        divResultado.innerHTML = "✅ <b>Análise Concluída:</b><br><br>" + formatarTexto(texto_ia);
+                        
+                        // 🧠 A MÁGICA DAS CORES: IDENTIFICANDO O GOLPE PARA FICAR VERMELHO
+                        const texto_maiusculo = texto_ia.toUpperCase();
+                        const eh_golpe = texto_maiusculo.includes("GOLPE") || texto_maiusculo.includes("FALSO") || texto_maiusculo.includes("FRAUDE") || texto_maiusculo.includes("PERIGO") || texto_maiusculo.includes("MALICIOSO");
+
+                        if (eh_golpe) {
+                            divResultado.style.borderLeftColor = "#ea4335"; // Faixa VERMELHA de Perigo
+                            divResultado.innerHTML = "🚨 <b>ALERTA MÁXIMO DE GOLPE:</b><br><br>" + formatarTexto(texto_ia);
+                        } else {
+                            divResultado.style.borderLeftColor = "#34a853"; // Faixa VERDE de Sucesso
+                            divResultado.innerHTML = "✅ <b>Análise Concluída: Seguro</b><br><br>" + formatarTexto(texto_ia);
+                        }
+                        
                     } else {
                         divResultado.style.borderLeftColor = "#ea4335";
                         divResultado.innerHTML = "⚠️ <b>Erro de Resposta:</b> " + texto_bruto;
