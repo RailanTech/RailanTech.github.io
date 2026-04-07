@@ -34,6 +34,8 @@
                 .replace(/### (.*?)\n/g, '<h3>$1</h3>') 
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') 
                 .replace(/\*(.*?)\*/g, '<em>$1</em>') 
+                .replace(/\[SEGURO\]/gi, '') 
+                .replace(/\[GOLPE\]/gi, '') 
                 .replace(/\n/g, '<br>'); 
         }
 
@@ -53,7 +55,9 @@
             divResultado.innerHTML = "⏳ <b>Analisando cada detalhe do site... aguarde!</b>";
 
             const url_do_cofre = "https://tiny-lab-bc9b.analise-seguranca.workers.dev";
-            const comando_ia = `Analise este link e diga se é seguro ou golpe (Responda em português de forma clara, dividindo em tópicos e dando dicas finais de segurança): ${link}`;
+            
+            // 🤖 COMANDO ATUALIZADO (Lógica de Monstro)
+            const comando_ia = `Analise este link: ${link}. REGRA MÁXIMA: Comece a sua resposta OBRIGATORIAMENTE digitando a etiqueta secreta [SEGURO] se o site for verdadeiro/oficial, ou a etiqueta [GOLPE] se o site for falso/perigoso. Após a etiqueta, pule uma linha, explique em tópicos e dê dicas de segurança.`;
             
             const payload = {
                 contents: [{ parts: [{ text: comando_ia }] }]
@@ -80,17 +84,19 @@
                     if (dados.candidates && dados.candidates[0]) {
                         const texto_ia = dados.candidates[0].content.parts[0].text;
                         const texto_maiusculo = texto_ia.toUpperCase();
-                        const eh_golpe = texto_maiusculo.includes("GOLPE") || texto_maiusculo.includes("FALSO") || texto_maiusculo.includes("FRAUDE") || texto_maiusculo.includes("PERIGO") || texto_maiusculo.includes("MALICIOSO");
+                        
+                        // O Robô agora só dispara o alarme se achar a etiqueta exata [GOLPE]
+                        const eh_golpe = texto_maiusculo.includes("[GOLPE]");
 
                         let status_final = "SEGURO";
 
                         if (eh_golpe) {
                             status_final = "GOLPE";
                             divResultado.style.borderLeftColor = "#ea4335"; 
-                            divResultado.innerHTML = "🚨 <b>ALERTA MÁXIMO DE GOLPE:</b><br><br>" + formatarTexto(texto_ia);
+                            divResultado.innerHTML = "🚨 <b>ALERTA MÁXIMO DE GOLPE:</b><br>" + formatarTexto(texto_ia);
                         } else {
                             divResultado.style.borderLeftColor = "#34a853"; 
-                            divResultado.innerHTML = "✅ <b>Análise Concluída: Seguro</b><br><br>" + formatarTexto(texto_ia);
+                            divResultado.innerHTML = "✅ <b>Análise Concluída: Seguro</b><br>" + formatarTexto(texto_ia);
                         }
 
                         // =================================================================
