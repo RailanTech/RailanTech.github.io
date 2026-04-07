@@ -25,15 +25,22 @@
             width: 90%; 
             margin: 20px; 
         }
+        /* PONTO FORTE: A Arte Visual do Brasão */
+        .brasao {
+            max-width: 120px; 
+            height: auto; 
+            margin: 0 auto 25px auto; 
+            display: block; 
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
         h1 { 
             color: #1D1D1F; 
             font-size: 28px; 
             font-weight: 700;
+            margin-top: 0;
             margin-bottom: 8px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 10px; 
+            display: block; 
+            text-align: center; 
             letter-spacing: -0.5px;
         }
         /* MARKETING PRECISO (Emoção) */
@@ -106,7 +113,9 @@
 <body>
 
     <div class="container">
-        <h1>🛡️ Radar Anti-Golpe</h1>
+        <img src="brasao.png" alt="Selo Oficial de Segurança Railan Tech" class="brasao">
+        
+        <h1>Radar Anti-Golpe</h1>
         <div class="subtitle">O seu escudo digital. Verificação oficial e instantânea contra fraudes.</div>
         
         <input type="text" id="linkInput" placeholder="Cole o link suspeito aqui...">
