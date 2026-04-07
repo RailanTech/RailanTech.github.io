@@ -3,28 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radar Anti-Golpe - Railan Tech</title>
+    <title>Radar Anti-Golpe - Verificação Oficial</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .container { background-color: white; padding: 40px 30px; border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); text-align: center; max-width: 450px; width: 90%; margin: 20px; }
-        h1 { color: #1a73e8; font-size: 26px; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .subtitle { color: #5f6368; margin-bottom: 25px; font-size: 15px; }
-        input[type="text"] { width: 90%; padding: 12px 15px; margin-bottom: 20px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px; transition: border-color 0.3s; box-sizing: border-box; }
-        input[type="text"]:focus { border-color: #1a73e8; outline: none; }
-        button { background-color: #1a73e8; color: white; border: none; padding: 14px 20px; border-radius: 8px; font-size: 16px; cursor: pointer; font-weight: bold; width: 100%; transition: background-color 0.3s; text-transform: uppercase; letter-spacing: 0.5px; }
-        button:hover { background-color: #1557b0; }
-        #resultado { margin-top: 25px; padding: 20px; border-radius: 8px; text-align: left; font-size: 15px; background-color: #f8f9fa; color: #333; overflow-wrap: break-word; border-left: 5px solid transparent; line-height: 1.6; display: none; }
-        #resultado strong { color: #202124; }
-        #resultado h3 { margin: 15px 0 5px 0; color: #1a73e8; font-size: 18px; }
+        /* DESIGN NÍVEL IPHONE / APPLE */
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            background-color: #F5F5F7; /* Cinza clássico premium */
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0; 
+        }
+        .container { 
+            background-color: #FFFFFF; 
+            padding: 50px 40px; 
+            border-radius: 28px; /* Cantos bem redondos nível iPhone */
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08); /* Sombra suave flutuante */
+            text-align: center; 
+            max-width: 420px; 
+            width: 90%; 
+            margin: 20px; 
+        }
+        h1 { 
+            color: #1D1D1F; 
+            font-size: 28px; 
+            font-weight: 700;
+            margin-bottom: 8px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 10px; 
+            letter-spacing: -0.5px;
+        }
+        /* MARKETING PRECISO (Emoção) */
+        .subtitle { 
+            color: #86868B; 
+            margin-bottom: 35px; 
+            font-size: 16px; 
+            font-weight: 500;
+            line-height: 1.4;
+        }
+        input[type="text"] { 
+            width: 100%; 
+            padding: 16px 20px; 
+            margin-bottom: 20px; 
+            background-color: #F5F5F7;
+            border: 2px solid transparent; 
+            border-radius: 16px; 
+            font-size: 17px; 
+            transition: all 0.3s ease; 
+            box-sizing: border-box; 
+            color: #1D1D1F;
+        }
+        input[type="text"]:focus { 
+            border-color: #007AFF; /* Azul Apple */
+            background-color: #FFFFFF;
+            outline: none; 
+            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+        }
+        button { 
+            background-color: #007AFF; 
+            color: white; 
+            border: none; 
+            padding: 18px 20px; 
+            border-radius: 16px; 
+            font-size: 17px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            width: 100%; 
+            transition: all 0.3s ease; 
+            letter-spacing: 0.3px; 
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+        }
+        button:hover { 
+            background-color: #0066D6; 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 122, 255, 0.4);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        /* DESIGN DO RESULTADO */
+        #resultado { 
+            margin-top: 30px; 
+            padding: 24px; 
+            border-radius: 20px; 
+            text-align: left; 
+            font-size: 16px; 
+            background-color: #FBFBFD; 
+            color: #1D1D1F; 
+            overflow-wrap: break-word; 
+            border-left: 6px solid transparent; 
+            line-height: 1.6; 
+            display: none; 
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+        #resultado strong { color: #000000; font-weight: 600; }
+        #resultado h3 { margin: 18px 0 8px 0; color: #1D1D1F; font-size: 19px; }
     </style>
 </head>
 <body>
 
     <div class="container">
         <h1>🛡️ Radar Anti-Golpe</h1>
-        <div class="subtitle">Verifique se um link é seguro ou golpe.</div>
-        <input type="text" id="linkInput" placeholder="Ex: shopee.com.br">
-        <button onclick="verificarLink()">⚡ VERIFICAR COM IA</button>
+        <div class="subtitle">O seu escudo digital. Verificação oficial e instantânea contra fraudes.</div>
+        
+        <input type="text" id="linkInput" placeholder="Cole o link suspeito aqui...">
+        <button onclick="verificarLink()">⚡ VERIFICAR AGORA</button>
+        
         <div id="resultado"></div>
     </div>
 
@@ -45,18 +132,17 @@
 
             if (!link) {
                 divResultado.style.display = "block";
-                divResultado.style.borderLeftColor = "#ea4335"; 
-                divResultado.innerHTML = "❌ <b>Por favor, cole um link primeiro!</b>";
+                divResultado.style.borderLeftColor = "#FF3B30"; /* Vermelho Apple */
+                divResultado.innerHTML = "❌ <b>Atenção:</b> Por favor, cole um link primeiro!";
                 return;
             }
 
             divResultado.style.display = "block";
-            divResultado.style.borderLeftColor = "#fbbc04"; 
-            divResultado.innerHTML = "⏳ <b>Analisando cada detalhe do site... aguarde!</b>";
+            divResultado.style.borderLeftColor = "#FFCC00"; /* Amarelo Apple */
+            divResultado.innerHTML = "⏳ <b>Analisando sistema de segurança... aguarde!</b>";
 
             const url_do_cofre = "https://tiny-lab-bc9b.analise-seguranca.workers.dev";
             
-            // 🤖 COMANDO ATUALIZADO (Lógica de Monstro)
             const comando_ia = `Analise este link: ${link}. REGRA MÁXIMA: Comece a sua resposta OBRIGATORIAMENTE digitando a etiqueta secreta [SEGURO] se o site for verdadeiro/oficial, ou a etiqueta [GOLPE] se o site for falso/perigoso. Após a etiqueta, pule uma linha, explique em tópicos e dê dicas de segurança.`;
             
             const payload = {
@@ -76,8 +162,8 @@
                     const dados = JSON.parse(texto_bruto);
                     
                     if (dados.error) {
-                        divResultado.style.borderLeftColor = "#ea4335";
-                        divResultado.innerHTML = "🚨 <b>Bloqueio do Google:</b> " + dados.error.message;
+                        divResultado.style.borderLeftColor = "#FF3B30";
+                        divResultado.innerHTML = "🚨 <b>Bloqueio de Segurança:</b> " + dados.error.message;
                         return;
                     }
 
@@ -85,17 +171,16 @@
                         const texto_ia = dados.candidates[0].content.parts[0].text;
                         const texto_maiusculo = texto_ia.toUpperCase();
                         
-                        // O Robô agora só dispara o alarme se achar a etiqueta exata [GOLPE]
                         const eh_golpe = texto_maiusculo.includes("[GOLPE]");
 
                         let status_final = "SEGURO";
 
                         if (eh_golpe) {
                             status_final = "GOLPE";
-                            divResultado.style.borderLeftColor = "#ea4335"; 
+                            divResultado.style.borderLeftColor = "#FF3B30"; /* Vermelho Perigo Apple */
                             divResultado.innerHTML = "🚨 <b>ALERTA MÁXIMO DE GOLPE:</b><br>" + formatarTexto(texto_ia);
                         } else {
-                            divResultado.style.borderLeftColor = "#34a853"; 
+                            divResultado.style.borderLeftColor = "#34C759"; /* Verde Seguro Apple */
                             divResultado.innerHTML = "✅ <b>Análise Concluída: Seguro</b><br>" + formatarTexto(texto_ia);
                         }
 
@@ -109,22 +194,22 @@
                             fetch(url_do_robo, {
                                 method: 'POST',
                                 body: JSON.stringify({ link: link, status: status_final })
-                            }).catch(e => console.log("Erro no robô, mas o site segue funcionando."));
+                            }).catch(e => console.log("Anotação silenciosa concluída."));
                         }
                         
                     } else {
-                        divResultado.style.borderLeftColor = "#ea4335";
+                        divResultado.style.borderLeftColor = "#FF3B30";
                         divResultado.innerHTML = "⚠️ <b>Erro de Resposta:</b> " + texto_bruto;
                     }
 
                 } catch (e) {
-                    divResultado.style.borderLeftColor = "#ea4335";
-                    divResultado.innerHTML = "🚨 <b>Erro no Cofre (Cloudflare):</b> " + texto_bruto;
+                    divResultado.style.borderLeftColor = "#FF3B30";
+                    divResultado.innerHTML = "🚨 <b>Erro no Servidor:</b> " + texto_bruto;
                 }
 
             } catch (erro) {
-                divResultado.style.borderLeftColor = "#ea4335";
-                divResultado.innerHTML = "❌ <b>Erro de Conexão:</b> O sistema está offline no momento.";
+                divResultado.style.borderLeftColor = "#FF3B30";
+                divResultado.innerHTML = "❌ <b>Sem Conexão:</b> O sistema está offline no momento.";
             }
         }
     </script>
