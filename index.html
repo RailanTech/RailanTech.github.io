@@ -29,7 +29,6 @@
     </div>
 
     <script>
-        // O TRADUTOR VISUAL DE LUXO
         function formatarTexto(texto) {
             return texto
                 .replace(/### (.*?)\n/g, '<h3>$1</h3>') 
@@ -42,7 +41,6 @@
             const link = document.getElementById('linkInput').value;
             const divResultado = document.getElementById('resultado');
 
-            // SE NÃO TIVER LINK
             if (!link) {
                 divResultado.style.display = "block";
                 divResultado.style.borderLeftColor = "#ea4335"; 
@@ -50,9 +48,8 @@
                 return;
             }
 
-            // CARREGANDO...
             divResultado.style.display = "block";
-            divResultado.style.borderLeftColor = "#fbbc04"; // Faixa Amarela
+            divResultado.style.borderLeftColor = "#fbbc04"; 
             divResultado.innerHTML = "⏳ <b>Analisando cada detalhe do site... aguarde!</b>";
 
             const url_do_cofre = "https://tiny-lab-bc9b.analise-seguranca.workers.dev";
@@ -82,17 +79,31 @@
 
                     if (dados.candidates && dados.candidates[0]) {
                         const texto_ia = dados.candidates[0].content.parts[0].text;
-                        
-                        // 🧠 A MÁGICA DAS CORES: IDENTIFICANDO O GOLPE PARA FICAR VERMELHO
                         const texto_maiusculo = texto_ia.toUpperCase();
                         const eh_golpe = texto_maiusculo.includes("GOLPE") || texto_maiusculo.includes("FALSO") || texto_maiusculo.includes("FRAUDE") || texto_maiusculo.includes("PERIGO") || texto_maiusculo.includes("MALICIOSO");
 
+                        let status_final = "SEGURO";
+
                         if (eh_golpe) {
-                            divResultado.style.borderLeftColor = "#ea4335"; // Faixa VERMELHA de Perigo
+                            status_final = "GOLPE";
+                            divResultado.style.borderLeftColor = "#ea4335"; 
                             divResultado.innerHTML = "🚨 <b>ALERTA MÁXIMO DE GOLPE:</b><br><br>" + formatarTexto(texto_ia);
                         } else {
-                            divResultado.style.borderLeftColor = "#34a853"; // Faixa VERDE de Sucesso
+                            divResultado.style.borderLeftColor = "#34a853"; 
                             divResultado.innerHTML = "✅ <b>Análise Concluída: Seguro</b><br><br>" + formatarTexto(texto_ia);
+                        }
+
+                        // =================================================================
+                        // 🤖 O CÉREBRO ESPIÃO DA RAILAN TECH (Invisível)
+                        // Cole o seu link gigante de App da Web dentro das aspas abaixo:
+                        const url_do_robo = "https://script.google.com/macros/s/AKfycbxsR234grgtgilnf5aHT1bVgCUEW94XVpM5YNvrn_GemDNGB_5ewqHV7Sc7ymcRzAMR/exec"; 
+                        // =================================================================
+                        
+                        if (url_do_robo !== "COLE_AQUI_O_LINK_DO_APP_DA_WEB") {
+                            fetch(url_do_robo, {
+                                method: 'POST',
+                                body: JSON.stringify({ link: link, status: status_final })
+                            }).catch(e => console.log("Erro no robô, mas o site segue funcionando."));
                         }
                         
                     } else {
