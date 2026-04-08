@@ -9,49 +9,72 @@
         /* DESIGN NÍVEL IPHONE / APPLE */
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            background-color: #F5F5F7; /* Cinza clássico premium */
+            background-color: #F5F5F7; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
             min-height: 100vh; 
             margin: 0; 
+            padding: 20px 0;
         }
         .container { 
             background-color: #FFFFFF; 
-            padding: 50px 40px; 
-            border-radius: 28px; /* Cantos bem redondos nível iPhone */
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08); /* Sombra suave flutuante */
+            padding: 40px 30px; 
+            border-radius: 28px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08); 
             text-align: center; 
             max-width: 420px; 
             width: 90%; 
             margin: 20px; 
         }
-        /* PONTO FORTE: A Arte Visual do Brasão */
         .brasao {
-            max-width: 120px; 
+            max-width: 100px; 
             height: auto; 
-            margin: 0 auto 25px auto; 
+            margin: 0 auto 20px auto; 
             display: block; 
             filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
         }
         h1 { 
             color: #1D1D1F; 
-            font-size: 28px; 
+            font-size: 26px; 
             font-weight: 700;
             margin-top: 0;
             margin-bottom: 8px; 
-            display: block; 
-            text-align: center; 
             letter-spacing: -0.5px;
         }
-        /* MARKETING PRECISO (Emoção) */
         .subtitle { 
             color: #86868B; 
-            margin-bottom: 35px; 
-            font-size: 16px; 
+            margin-bottom: 30px; 
+            font-size: 15px; 
             font-weight: 500;
             line-height: 1.4;
         }
+        /* PONTO FORTE: PAINEL DE INVESTIGAÇÃO (Abas estilo Apple) */
+        .tabs {
+            display: flex;
+            background-color: #E5E5EA; /* Fundo cinza Apple */
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 20px;
+        }
+        .tab {
+            flex: 1;
+            padding: 10px 5px;
+            border: none;
+            background: transparent;
+            font-size: 14px;
+            font-weight: 600;
+            color: #86868B;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .tab.active {
+            background-color: #FFFFFF;
+            color: #1D1D1F;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+        }
+        
         input[type="text"] { 
             width: 100%; 
             padding: 16px 20px; 
@@ -59,24 +82,24 @@
             background-color: #F5F5F7;
             border: 2px solid transparent; 
             border-radius: 16px; 
-            font-size: 17px; 
+            font-size: 16px; 
             transition: all 0.3s ease; 
             box-sizing: border-box; 
             color: #1D1D1F;
         }
         input[type="text"]:focus { 
-            border-color: #007AFF; /* Azul Apple */
+            border-color: #007AFF; 
             background-color: #FFFFFF;
             outline: none; 
             box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
         }
-        button { 
+        button.verificar { 
             background-color: #007AFF; 
             color: white; 
             border: none; 
             padding: 18px 20px; 
             border-radius: 16px; 
-            font-size: 17px; 
+            font-size: 16px; 
             cursor: pointer; 
             font-weight: 600; 
             width: 100%; 
@@ -84,21 +107,21 @@
             letter-spacing: 0.3px; 
             box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
         }
-        button:hover { 
+        button.verificar:hover { 
             background-color: #0066D6; 
             transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(0, 122, 255, 0.4);
         }
-        button:active {
+        button.verificar:active {
             transform: translateY(0);
         }
-        /* DESIGN DO RESULTADO */
+        
         #resultado { 
-            margin-top: 30px; 
-            padding: 24px; 
+            margin-top: 25px; 
+            padding: 20px; 
             border-radius: 20px; 
             text-align: left; 
-            font-size: 16px; 
+            font-size: 15px; 
             background-color: #FBFBFD; 
             color: #1D1D1F; 
             overflow-wrap: break-word; 
@@ -108,7 +131,7 @@
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
         }
         #resultado strong { color: #000000; font-weight: 600; }
-        #resultado h3 { margin: 18px 0 8px 0; color: #1D1D1F; font-size: 19px; }
+        #resultado h3 { margin: 16px 0 6px 0; color: #1D1D1F; font-size: 18px; }
     </style>
 </head>
 <body>
@@ -116,16 +139,49 @@
     <div class="container">
         <img src="escudo-sem-fundo.png" alt="Selo Oficial de Segurança Railan Tech" class="brasao">
         
-        <h1>Radar Anti-Golpe</h1>
-        <div class="subtitle">O seu escudo digital. Verificação oficial e instantânea contra fraudes.</div>
+        <h1>Central de Inteligência</h1>
+        <div class="subtitle">Verificação oficial contra fraudes e golpes virtuais.</div>
         
+        <div class="tabs">
+            <button class="tab active" onclick="mudarAba('link', this)">🌐 Site</button>
+            <button class="tab" onclick="mudarAba('email', this)">📧 E-mail</button>
+            <button class="tab" onclick="mudarAba('pix', this)">📱 Chave/Tel</button>
+        </div>
+
         <input type="text" id="linkInput" placeholder="Cole o link suspeito aqui...">
-        <button onclick="verificarLink()">⚡ VERIFICAR AGORA</button>
+        <button class="verificar" onclick="verificarLink()">⚡ INICIAR VARREDURA</button>
         
         <div id="resultado"></div>
     </div>
 
     <script>
+        // Memória do botão atual
+        let tipoInvestigacao = "Site/Link";
+
+        // Lógica de 1% de Monstro: O site muda a caixa de texto sozinho
+        function mudarAba(tipo, elementoBotao) {
+            // Tira a cor de todos os botões
+            const abas = document.querySelectorAll('.tab');
+            abas.forEach(aba => aba.classList.remove('active'));
+            
+            // Coloca a cor só no botão clicado
+            elementoBotao.classList.add('active');
+
+            const input = document.getElementById('linkInput');
+            input.value = ""; // Limpa a caixa
+
+            if(tipo === 'link') {
+                tipoInvestigacao = "Site/Link";
+                input.placeholder = "Cole o link suspeito aqui...";
+            } else if(tipo === 'email') {
+                tipoInvestigacao = "E-mail";
+                input.placeholder = "Digite o e-mail suspeito aqui...";
+            } else if(tipo === 'pix') {
+                tipoInvestigacao = "Chave PIX ou Telefone";
+                input.placeholder = "Digite o PIX ou Telefone suspeito...";
+            }
+        }
+
         function formatarTexto(texto) {
             return texto
                 .replace(/### (.*?)\n/g, '<h3>$1</h3>') 
@@ -137,23 +193,24 @@
         }
 
         async function verificarLink() {
-            const link = document.getElementById('linkInput').value;
+            const dadoRecebido = document.getElementById('linkInput').value;
             const divResultado = document.getElementById('resultado');
 
-            if (!link) {
+            if (!dadoRecebido) {
                 divResultado.style.display = "block";
-                divResultado.style.borderLeftColor = "#FF3B30"; /* Vermelho Apple */
-                divResultado.innerHTML = "❌ <b>Atenção:</b> Por favor, cole um link primeiro!";
+                divResultado.style.borderLeftColor = "#FF3B30"; 
+                divResultado.innerHTML = "❌ <b>Atenção:</b> Por favor, preencha o campo primeiro!";
                 return;
             }
 
             divResultado.style.display = "block";
-            divResultado.style.borderLeftColor = "#FFCC00"; /* Amarelo Apple */
-            divResultado.innerHTML = "⏳ <b>Analisando sistema de segurança... aguarde!</b>";
+            divResultado.style.borderLeftColor = "#FFCC00"; 
+            divResultado.innerHTML = "⏳ <b>Buscando dados no sistema OSINT... aguarde!</b>";
 
             const url_do_cofre = "https://tiny-lab-bc9b.analise-seguranca.workers.dev";
             
-            const comando_ia = `Analise este link: ${link}. REGRA MÁXIMA: Comece a sua resposta OBRIGATORIAMENTE digitando a etiqueta secreta [SEGURO] se o site for verdadeiro/oficial, ou a etiqueta [GOLPE] se o site for falso/perigoso. Após a etiqueta, pule uma linha, explique em tópicos e dê dicas de segurança.`;
+            // O comando inteligente provisório (que depois esconderemos no Cloudflare)
+            const comando_ia = `Atue como um detetive antifraude OSINT. Analise esta informação (Tipo: ${tipoInvestigacao}) -> Dado: ${dadoRecebido}. REGRA MÁXIMA: Comece a sua resposta OBRIGATORIAMENTE com a etiqueta [SEGURO] se parecer oficial, ou [GOLPE] se for suspeito. Depois, pule linha e explique o motivo da análise em tópicos curtos.`;
             
             const payload = {
                 contents: [{ parts: [{ text: comando_ia }] }]
@@ -187,23 +244,22 @@
 
                         if (eh_golpe) {
                             status_final = "GOLPE";
-                            divResultado.style.borderLeftColor = "#FF3B30"; /* Vermelho Perigo Apple */
-                            divResultado.innerHTML = "🚨 <b>ALERTA MÁXIMO DE GOLPE:</b><br>" + formatarTexto(texto_ia);
+                            divResultado.style.borderLeftColor = "#FF3B30"; 
+                            divResultado.innerHTML = "🚨 <b>ALERTA DE RISCO DETECTADO:</b><br>" + formatarTexto(texto_ia);
                         } else {
-                            divResultado.style.borderLeftColor = "#34C759"; /* Verde Seguro Apple */
+                            divResultado.style.borderLeftColor = "#34C759"; 
                             divResultado.innerHTML = "✅ <b>Análise Concluída: Seguro</b><br>" + formatarTexto(texto_ia);
                         }
 
                         // =================================================================
                         // 🤖 O CÉREBRO ESPIÃO DA RAILAN TECH (Invisível)
-                        // Cole o seu link gigante de App da Web dentro das aspas abaixo:
                         const url_do_robo = "https://script.google.com/macros/s/AKfycbxsR234grgtgilnf5aHT1bVgCUEW94XVpM5YNvrn_GemDNGB_5ewqHV7Sc7ymcRzAMR/exec"; 
                         // =================================================================
                         
                         if (url_do_robo !== "COLE_AQUI_O_LINK_DO_APP_DA_WEB") {
                             fetch(url_do_robo, {
                                 method: 'POST',
-                                body: JSON.stringify({ link: link, status: status_final })
+                                body: JSON.stringify({ link: `(${tipoInvestigacao}) ${dadoRecebido}`, status: status_final })
                             }).catch(e => console.log("Anotação silenciosa concluída."));
                         }
                         
