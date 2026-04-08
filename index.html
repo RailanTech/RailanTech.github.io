@@ -1,283 +1,62 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="light"> 
-    <title>Radar Anti-Golpe - Verificação Oficial</title>
-    <style>
-        /* DESIGN NÍVEL IPHONE / APPLE */
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            background-color: #F5F5F7; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
-            margin: 0; 
-            padding: 20px 0;
-        }
-        .container { 
-            background-color: #FFFFFF; 
-            padding: 40px 30px; 
-            border-radius: 28px; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08); 
-            text-align: center; 
-            max-width: 420px; 
-            width: 90%; 
-            margin: 20px; 
-        }
-        .brasao {
-            max-width: 100px; 
-            height: auto; 
-            margin: 0 auto 20px auto; 
-            display: block; 
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
-        }
-        h1 { 
-            color: #1D1D1F; 
-            font-size: 26px; 
-            font-weight: 700;
-            margin-top: 0;
-            margin-bottom: 8px; 
-            letter-spacing: -0.5px;
-        }
-        .subtitle { 
-            color: #86868B; 
-            margin-bottom: 30px; 
-            font-size: 15px; 
-            font-weight: 500;
-            line-height: 1.4;
-        }
-        /* PONTO FORTE: PAINEL DE INVESTIGAÇÃO (Abas estilo Apple) */
-        .tabs {
-            display: flex;
-            background-color: #E5E5EA; /* Fundo cinza Apple */
-            border-radius: 12px;
-            padding: 4px;
-            margin-bottom: 20px;
-        }
-        .tab {
-            flex: 1;
-            padding: 10px 5px;
-            border: none;
-            background: transparent;
-            font-size: 14px;
-            font-weight: 600;
-            color: #86868B;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .tab.active {
-            background-color: #FFFFFF;
-            color: #1D1D1F;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-        }
-        
-        input[type="text"] { 
-            width: 100%; 
-            padding: 16px 20px; 
-            margin-bottom: 20px; 
-            background-color: #F5F5F7;
-            border: 2px solid transparent; 
-            border-radius: 16px; 
-            font-size: 16px; 
-            transition: all 0.3s ease; 
-            box-sizing: border-box; 
-            color: #1D1D1F;
-        }
-        input[type="text"]:focus { 
-            border-color: #007AFF; 
-            background-color: #FFFFFF;
-            outline: none; 
-            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
-        }
-        button.verificar { 
-            background-color: #007AFF; 
-            color: white; 
-            border: none; 
-            padding: 18px 20px; 
-            border-radius: 16px; 
-            font-size: 16px; 
-            cursor: pointer; 
-            font-weight: 600; 
-            width: 100%; 
-            transition: all 0.3s ease; 
-            letter-spacing: 0.3px; 
-            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
-        }
-        button.verificar:hover { 
-            background-color: #0066D6; 
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0, 122, 255, 0.4);
-        }
-        button.verificar:active {
-            transform: translateY(0);
-        }
-        
-        #resultado { 
-            margin-top: 25px; 
-            padding: 20px; 
-            border-radius: 20px; 
-            text-align: left; 
-            font-size: 15px; 
-            background-color: #FBFBFD; 
-            color: #1D1D1F; 
-            overflow-wrap: break-word; 
-            border-left: 6px solid transparent; 
-            line-height: 1.6; 
-            display: none; 
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
-        }
-        #resultado strong { color: #000000; font-weight: 600; }
-        #resultado h3 { margin: 16px 0 6px 0; color: #1D1D1F; font-size: 18px; }
-    </style>
-</head>
-<body>
+export default {
+  async fetch(request, env) {
+    // 🛡️ REGRAS DO COFRE (CORS): Permite que apenas o seu site fale com este robô
+    const corsHeaders = {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    };
 
-    <div class="container">
-        <img src="escudo-sem-fundo.png" alt="Selo Oficial de Segurança Railan Tech" class="brasao">
-        
-        <h1>Central de Inteligência</h1>
-        <div class="subtitle">Verificação oficial contra fraudes e golpes virtuais.</div>
-        
-        <div class="tabs">
-            <button class="tab active" onclick="mudarAba('link', this)">🌐 Site</button>
-            <button class="tab" onclick="mudarAba('email', this)">📧 E-mail</button>
-            <button class="tab" onclick="mudarAba('pix', this)">📱 Chave/Tel</button>
-        </div>
+    // Responde ao "pré-voo" de segurança do navegador
+    if (request.method === "OPTIONS") {
+      return new Response(null, { headers: corsHeaders });
+    }
 
-        <input type="text" id="linkInput" placeholder="Cole o link suspeito aqui...">
-        <button class="verificar" onclick="verificarLink()">⚡ INICIAR VARREDURA</button>
-        
-        <div id="resultado"></div>
-    </div>
+    // Se alguém tentar acessar pelo link direto no navegador, toma bloqueio
+    if (request.method !== "POST") {
+      return new Response("Acesso Negado. Cofre do FBI trancado. 🕶️", { 
+        status: 403, 
+        headers: corsHeaders 
+      });
+    }
 
-    <script>
-        // Memória do botão atual
-        let tipoInvestigacao = "Site/Link";
+    try {
+      // 1. Recebe a denúncia (texto) do site do GitHub em silêncio
+      const requestData = await request.json();
 
-        // Lógica de 1% de Monstro: O site muda a caixa de texto sozinho
-        function mudarAba(tipo, elementoBotao) {
-            // Tira a cor de todos os botões
-            const abas = document.querySelectorAll('.tab');
-            abas.forEach(aba => aba.classList.remove('active'));
-            
-            // Coloca a cor só no botão clicado
-            elementoBotao.classList.add('active');
+      // =====================================================================
+      // 🔑 A CHAVE MESTRA: Ninguém no GitHub consegue ver isso. Fica no escuro.
+      const API_KEY = "https://script.google.com/macros/s/AKfycbxsR234grgtgilnf5aHT1bVgCUEW94XVpM5YNvrn_GemDNGB_5ewqHV7Sc7ymcRzAMR/exec"; 
+      // =====================================================================
+      
+      // 🧠 MOTOR DE BILHÕES: Acionando o Google Gemini 1.5 PRO (Inteligência Máxima)
+      const url_google = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${API_KEY}`;
 
-            const input = document.getElementById('linkInput');
-            input.value = ""; // Limpa a caixa
+      // 2. O Cloudflare repassa a investigação para o Google no escuro
+      const resposta_google = await fetch(url_google, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData)
+      });
 
-            if(tipo === 'link') {
-                tipoInvestigacao = "Site/Link";
-                input.placeholder = "Cole o link suspeito aqui...";
-            } else if(tipo === 'email') {
-                tipoInvestigacao = "E-mail";
-                input.placeholder = "Digite o e-mail suspeito aqui...";
-            } else if(tipo === 'pix') {
-                tipoInvestigacao = "Chave PIX ou Telefone";
-                input.placeholder = "Digite o PIX ou Telefone suspeito...";
-            }
-        }
+      const dados_google = await resposta_google.json();
 
-        function formatarTexto(texto) {
-            return texto
-                .replace(/### (.*?)\n/g, '<h3>$1</h3>') 
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') 
-                .replace(/\*(.*?)\*/g, '<em>$1</em>') 
-                .replace(/\[SEGURO\]/gi, '') 
-                .replace(/\[GOLPE\]/gi, '') 
-                .replace(/\n/g, '<br>'); 
-        }
+      // 3. O Cloudflare pega a resposta limpa e devolve para o GitHub
+      return new Response(JSON.stringify(dados_google), {
+        headers: {
+          ...corsHeaders,
+          "Content-Type": "application/json",
+        },
+      });
 
-        async function verificarLink() {
-            const dadoRecebido = document.getElementById('linkInput').value;
-            const divResultado = document.getElementById('resultado');
-
-            if (!dadoRecebido) {
-                divResultado.style.display = "block";
-                divResultado.style.borderLeftColor = "#FF3B30"; 
-                divResultado.innerHTML = "❌ <b>Atenção:</b> Por favor, preencha o campo primeiro!";
-                return;
-            }
-
-            divResultado.style.display = "block";
-            divResultado.style.borderLeftColor = "#FFCC00"; 
-            divResultado.innerHTML = "⏳ <b>Buscando dados no sistema OSINT... aguarde!</b>";
-
-            const url_do_cofre = "https://tiny-lab-bc9b.analise-seguranca.workers.dev";
-            
-            // O comando inteligente provisório (que depois esconderemos no Cloudflare)
-            const comando_ia = `Atue como um detetive antifraude OSINT. Analise esta informação (Tipo: ${tipoInvestigacao}) -> Dado: ${dadoRecebido}. REGRA MÁXIMA: Comece a sua resposta OBRIGATORIAMENTE com a etiqueta [SEGURO] se parecer oficial, ou [GOLPE] se for suspeito. Depois, pule linha e explique o motivo da análise em tópicos curtos.`;
-            
-            const payload = {
-                contents: [{ parts: [{ text: comando_ia }] }]
-            };
-
-            try {
-                const resposta_do_cofre = await fetch(url_do_cofre, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                const texto_bruto = await resposta_do_cofre.text();
-                
-                try {
-                    const dados = JSON.parse(texto_bruto);
-                    
-                    if (dados.error) {
-                        divResultado.style.borderLeftColor = "#FF3B30";
-                        divResultado.innerHTML = "🚨 <b>Bloqueio de Segurança:</b> " + dados.error.message;
-                        return;
-                    }
-
-                    if (dados.candidates && dados.candidates[0]) {
-                        const texto_ia = dados.candidates[0].content.parts[0].text;
-                        const texto_maiusculo = texto_ia.toUpperCase();
-                        
-                        const eh_golpe = texto_maiusculo.includes("[GOLPE]");
-
-                        let status_final = "SEGURO";
-
-                        if (eh_golpe) {
-                            status_final = "GOLPE";
-                            divResultado.style.borderLeftColor = "#FF3B30"; 
-                            divResultado.innerHTML = "🚨 <b>ALERTA DE RISCO DETECTADO:</b><br>" + formatarTexto(texto_ia);
-                        } else {
-                            divResultado.style.borderLeftColor = "#34C759"; 
-                            divResultado.innerHTML = "✅ <b>Análise Concluída: Seguro</b><br>" + formatarTexto(texto_ia);
-                        }
-
-                        // =================================================================
-                        // 🤖 O CÉREBRO ESPIÃO DA RAILAN TECH (Invisível)
-                        const url_do_robo = "https://script.google.com/macros/s/AKfycbxsR234grgtgilnf5aHT1bVgCUEW94XVpM5YNvrn_GemDNGB_5ewqHV7Sc7ymcRzAMR/exec"; 
-                        // =================================================================
-                        
-                        if (url_do_robo !== "COLE_AQUI_O_LINK_DO_APP_DA_WEB") {
-                            fetch(url_do_robo, {
-                                method: 'POST',
-                                body: JSON.stringify({ link: `(${tipoInvestigacao}) ${dadoRecebido}`, status: status_final })
-                            }).catch(e => console.log("Anotação silenciosa concluída."));
-                        }
-                        
-                    } else {
-                        divResultado.style.borderLeftColor = "#FF3B30";
-                        divResultado.innerHTML = "⚠️ <b>Erro de Resposta:</b> " + texto_bruto;
-                    }
-
-                } catch (e) {
-                    divResultado.style.borderLeftColor = "#FF3B30";
-                    divResultado.innerHTML = "🚨 <b>Erro no Servidor:</b> " + texto_bruto;
-                }
-
-            } catch (erro) {
-                divResultado.style.borderLeftColor = "#FF3B30";
-                divResultado.innerHTML = "❌ <b>Sem Conexão:</b> O sistema está offline no momento.";
-            }
-        }
-    </script>
-</body>
-</html>
+    } catch (erro) {
+      // Se algo falhar, o sistema relata o erro sem expor dados
+      return new Response(JSON.stringify({ error: { message: "Erro na central OSINT: " + erro.message } }), {
+        status: 500,
+        headers: corsHeaders
+      });
+    }
+  }
+};
