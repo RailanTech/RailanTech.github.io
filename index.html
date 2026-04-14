@@ -44,13 +44,13 @@
         <div class="subtitle">Verificação oficial contra fraudes e golpes virtuais no Brasil.</div>
         
         <div class="tabs">
-            <button class="tab active" onclick="mudarAba('link', this)">🌐 Site</button>
+            <button class="tab active" onclick="mudarAba('link', this)">🔎 Raio-X Site</button>
             <button class="tab" onclick="mudarAba('email', this)">📧 E-mail</button>
             <button class="tab" onclick="mudarAba('pix', this)">📱 Chave/Tel</button>
             <button class="tab" onclick="mudarAba('cnpj', this)">🏢 CNPJ/CPF</button>
         </div>
 
-        <input type="text" id="linkInput" placeholder="Cole o link suspeito aqui...">
+        <input type="text" id="linkInput" placeholder="Cole o link suspeito aqui para o Raio-X...">
         <button class="verificar" onclick="verificarLink()">⚡ INICIAR VARREDURA</button>
         <div id="resultado"></div>
     </div>
@@ -68,7 +68,7 @@
     </div>
 
     <script>
-        // ESCUDO ANTI-HACKER
+        // 🛡️ ESCUDO ANTI-HACKER DA VITRINE (Mantido firme)
         document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
         document.onkeydown = function(e) {
             if(e.keyCode == 123) { return false; }
@@ -85,13 +85,13 @@
             const input = document.getElementById('linkInput');
             input.value = ""; 
 
-            if(tipo === 'link') { tipoInvestigacao = "Site/Link"; input.placeholder = "Cole o link suspeito aqui..."; } 
+            if(tipo === 'link') { tipoInvestigacao = "Site/Link"; input.placeholder = "Cole o link suspeito aqui para o Raio-X..."; } 
             else if(tipo === 'email') { tipoInvestigacao = "E-mail"; input.placeholder = "Cole o texto do e-mail suspeito aqui..."; } 
             else if(tipo === 'pix') { tipoInvestigacao = "Chave PIX ou Telefone"; input.placeholder = "Digite o PIX ou Telefone suspeito..."; }
             else if(tipo === 'cnpj') { tipoInvestigacao = "CNPJ/CPF"; input.placeholder = "Digite o CNPJ da loja ou CPF..."; }
         }
 
-        // 🧠 A MATEMÁTICA BRASILEIRA
+        // A Matemática Básica do BR roda aqui para economizar tempo do servidor
         function validarMatematicaBR(valor) {
             let numeros = valor.replace(/[^0-9]/g, '');
             if (numeros.length !== 11 && numeros.length !== 14) return false;
@@ -109,51 +109,50 @@
 
             if (!dadoRecebido) { divResultado.style.display = "block"; divResultado.style.borderLeftColor = "#FF3B30"; divResultado.innerHTML = "❌ <b>Atenção:</b> Preencha o campo primeiro!"; return; }
 
-            divResultado.style.display = "block"; divResultado.style.borderLeftColor = "#FFCC00"; divResultado.innerHTML = "⏳ <b>Buscando dados no sistema OSINT... aguarde!</b>";
+            divResultado.style.display = "block"; divResultado.style.borderLeftColor = "#FFCC00"; divResultado.innerHTML = "⏳ <b>Consultando Servidor Privado... aguarde!</b>";
 
-            // 🛑 BARREIRA RÁPIDA DE CNPJ
+            // Barreira de Matemática Local
             if (tipoInvestigacao === "CNPJ/CPF") {
                 if (!validarMatematicaBR(dadoRecebido)) {
                     divResultado.style.borderLeftColor = "#FF3B30"; 
-                    divResultado.innerHTML = "🚨 <b>ALERTA DE RISCO DETECTADO:</b><br><br><strong>Matemática Falsa:</strong> Este CNPJ/CPF não existe. É um número inventado por um golpista (Rato Grande). Não compre nada desta loja!";
+                    divResultado.innerHTML = "🚨 <b>ALERTA DE RISCO DETECTADO:</b><br><br><strong>Matemática Falsa:</strong> Este CNPJ/CPF não existe. É um número inventado por um golpista.";
                     return; 
                 }
             }
 
-            let comando_ia = "";
-            if (tipoInvestigacao === "Site/Link") {
-                comando_ia = `Atue como um detetive antifraude OSINT. Analise este Link/Site -> Dado: ${dadoRecebido}. REGRA MÁXIMA: Comece com [SEGURO] ou [GOLPE]. Depois explique o motivo em tópicos curtos focando em fraudes no Brasil.`;
-            } else if (tipoInvestigacao === "E-mail") {
-                comando_ia = `Atue como um detetive antifraude OSINT. Analise o texto deste E-mail -> Dado: ${dadoRecebido}. REGRA MÁXIMA: Comece com [SEGURO] ou [GOLPE]. Depois explique o motivo em tópicos curtos.`;
-            } else if (tipoInvestigacao === "Chave PIX ou Telefone") {
-                comando_ia = `Atue como um perito financeiro antifraude no Brasil. Analise este número ou PIX -> Dado: ${dadoRecebido}. REGRA MÁXIMA: Comece com [SEGURO] ou [GOLPE]. Verifique formato e risco de golpe. Explique em tópicos.`;
-            } else if (tipoInvestigacao === "CNPJ/CPF") {
-                comando_ia = `Atue como um perito antifraude de lojas online no Brasil. Analise este documento -> Dado: ${dadoRecebido}. REGRA MÁXIMA: Comece com [SEGURO] ou [GOLPE]. Explique os riscos de abrir empresas fantasmas usando dados de laranjas para roubar o povo brasileiro.`;
-            }
-
-            const url_do_cofre = "https://tiny-lab-bc9b.analise-seguranca.workers.dev";
-            const payload = { contents: [{ parts: [{ text: comando_ia }] }] };
+            // 🧠 O CÓDIGO BURRO: Ele não sabe de nada, só empacota e manda pro Cloudflare. O URL que você mandou na foto já está soldado aqui!
+            const url_do_cofre_cloudflare = "https://motor-osint-privado.analise-seguranca.workers.dev";
+            
+            const pacote_para_o_cofre = {
+                tipo: tipoInvestigacao,
+                dado: dadoRecebido
+            };
 
             try {
-                const resposta_do_cofre = await fetch(url_do_cofre, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                const texto_bruto = await resposta_do_cofre.text();
+                const resposta_do_cofre = await fetch(url_do_cofre_cloudflare, { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' }, 
+                    body: JSON.stringify(pacote_para_o_cofre) 
+                });
                 
-                try {
-                    const dados = JSON.parse(texto_bruto);
-                    if (dados.error) { divResultado.style.borderLeftColor = "#FF3B30"; divResultado.innerHTML = "🚨 <b>Bloqueio:</b> Tente novamente em 1 minuto."; return; }
+                const dados = await resposta_do_cofre.json();
+                
+                if (dados.erro) {
+                     divResultado.style.borderLeftColor = "#FF3B30"; divResultado.innerHTML = "🚨 <b>Erro no radar:</b> " + dados.erro; return; 
+                }
 
-                    if (dados.candidates && dados.candidates[0]) {
-                        const texto_ia = dados.candidates[0].content.parts[0].text;
-                        const eh_golpe = texto_ia.toUpperCase().includes("[GOLPE]");
-                        
-                        if (eh_golpe) { divResultado.style.borderLeftColor = "#FF3B30"; divResultado.innerHTML = "🚨 <b>ALERTA DE RISCO DETECTADO:</b><br>" + formatarTexto(texto_ia); } 
-                        else { divResultado.style.borderLeftColor = "#34C759"; divResultado.innerHTML = "✅ <b>Análise Concluída: Seguro</b><br>" + formatarTexto(texto_ia); }
-                    } else { divResultado.style.borderLeftColor = "#FF3B30"; divResultado.innerHTML = "⚠️ <b>Erro no radar.</b>"; }
-                } catch (e) { divResultado.style.borderLeftColor = "#FF3B30"; divResultado.innerHTML = "🚨 <b>Erro no servidor.</b>"; }
-            } catch (erro) { divResultado.style.borderLeftColor = "#FF3B30"; divResultado.innerHTML = "❌ <b>Offline.</b>"; }
+                const texto_resposta = dados.analise;
+                const eh_golpe = texto_resposta.toUpperCase().includes("[GOLPE]");
+                
+                if (eh_golpe) { divResultado.style.borderLeftColor = "#FF3B30"; divResultado.innerHTML = "🚨 <b>ALERTA DE RISCO DETECTADO:</b><br>" + formatarTexto(texto_resposta); } 
+                else { divResultado.style.borderLeftColor = "#34C759"; divResultado.innerHTML = "✅ <b>Análise Concluída:</b><br>" + formatarTexto(texto_resposta); }
+                
+            } catch (erro) { 
+                divResultado.style.borderLeftColor = "#FF3B30"; divResultado.innerHTML = "❌ <b>Servidor Privado Inacessível ou Oculto.</b>"; 
+            }
         }
 
-        // ================= LÓGICA DO QG =================
+        // ================= A LISTA NEGRA CONTINUA AQUI =================
         function abrirChat() { document.getElementById('janelaChat').style.display = 'flex'; }
         function fecharChat() { document.getElementById('janelaChat').style.display = 'none'; document.getElementById('chatAviso').innerHTML = ''; }
 
@@ -170,7 +169,6 @@
             aviso.style.color = "#007AFF"; aviso.innerHTML = "⏳ Enviando dossiê para a Central...";
 
             try {
-                // Captura IP e Local do alvo silenciosamente
                 let ip_capturado = "Desconhecido";
                 let local = "Desconhecido";
                 try {
@@ -189,7 +187,6 @@
                     mensagem: duvida
                 };
 
-                // 🔥 AQUI ESTÁ A SUA CHAVE DO COFRE INSERIDA COM SUCESSO! 🔥
                 const url_do_carteiro = "https://script.google.com/macros/s/AKfycbygIpdYMDxfROXI6DJG1e4_H1YVtZzLHVeQTxiqLEvrAEpQS7mIZ50ZXu7OPB43FLC0/exec";
                 
                 fetch(url_do_carteiro, {
