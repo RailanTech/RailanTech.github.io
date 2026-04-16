@@ -6,52 +6,89 @@
     <meta name="color-scheme" content="dark"> 
     <title>Radar Anti-Golpe - Central de Inteligência OSINT</title>
     <style>
-        /* ================= MODO TÁTICO NOTURNO (CYBER) ================= */
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #0B0F19; color: #E2E8F0; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px 0;}
-        .container { background-color: #111827; padding: 40px 30px; border-radius: 20px; box-shadow: 0 0 40px rgba(0, 122, 255, 0.08); border: 1px solid #1F2937; text-align: center; max-width: 420px; width: 90%; margin: 20px; position: relative; overflow: hidden;}
-        .container::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, transparent, #00F0FF, transparent); }
-        
-        .brasao { max-width: 90px; height: auto; margin: 0 auto 20px auto; display: block; filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.2));}
-        h1 { color: #FFFFFF; font-size: 24px; font-weight: 700; margin-top: 0; margin-bottom: 8px; letter-spacing: 0.5px; text-transform: uppercase;}
-        .subtitle { color: #9CA3AF; margin-bottom: 30px; font-size: 14px; font-weight: 400; line-height: 1.5;}
-        
-        /* O GRID PERFEITO 2x2 */
-        .tabs { display: flex; background-color: #1F2937; border-radius: 12px; padding: 6px; margin-bottom: 25px; flex-wrap: wrap; gap: 4px; border: 1px solid #374151;}
-        .tab { flex: 1 1 45%; padding: 10px 5px; border: none; background: transparent; font-size: 13px; font-weight: 600; color: #9CA3AF; border-radius: 8px; cursor: pointer; transition: all 0.3s ease;}
-        .tab.active { background-color: #374151; color: #00F0FF; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);}
+        /* ================= MODO IPHONE PREMIUM (OURO PURO) ================= */
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            /* Fundo escuro profundo com iluminação sutil */
+            background: radial-gradient(circle at 50% -20%, #1a233a 0%, #0B0F19 80%);
+            color: #E2E8F0; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px 0;
+        }
 
-        input[type="text"], input[type="email"], textarea { width: 100%; padding: 16px 20px; margin-bottom: 20px; background-color: #1F2937; border: 1px solid #374151; border-radius: 12px; font-size: 15px; transition: all 0.3s ease; box-sizing: border-box; color: #FFFFFF;}
-        input[type="text"]:focus, input[type="email"]:focus, textarea:focus { border-color: #00F0FF; background-color: #111827; outline: none; box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.15);}
-        input::placeholder, textarea::placeholder { color: #6B7280; }
+        /* Efeito "Glassmorphism" (Vidro Fosco Nível Apple) */
+        .container { 
+            background: rgba(17, 24, 39, 0.6); 
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 40px 30px; 
+            border-radius: 24px; 
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1); 
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            text-align: center; max-width: 420px; width: 90%; margin: 20px; position: relative; overflow: hidden;
+        }
         
-        button.verificar { background: linear-gradient(135deg, #007AFF, #00F0FF); color: #0B0F19; border: none; padding: 18px 20px; border-radius: 12px; font-size: 16px; cursor: pointer; font-weight: 700; width: 100%; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(0, 240, 255, 0.3);}
-        button.verificar:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 240, 255, 0.5); filter: brightness(1.1);}
+        /* A Linha Neon Superior com Movimento Suave */
+        .container::before { 
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; 
+            background: linear-gradient(90deg, transparent, #00F0FF, #007AFF, transparent); 
+            opacity: 0.8;
+        }
         
-        #resultado { margin-top: 25px; padding: 20px; border-radius: 16px; text-align: left; font-size: 14px; background-color: #1F2937; color: #E2E8F0; overflow-wrap: break-word; border-left: 4px solid transparent; line-height: 1.6; display: none; border: 1px solid #374151;}
+        /* ================= ANIMAÇÃO 3D DO ESCUDO (A MÁGICA 1% MONSTRO) ================= */
+        @keyframes flutuar3D {
+            0% { transform: translateY(0px) scale(1); filter: drop-shadow(0 5px 15px rgba(255, 215, 0, 0.2)); }
+            50% { transform: translateY(-12px) scale(1.02); filter: drop-shadow(0 25px 20px rgba(255, 215, 0, 0.4)); }
+            100% { transform: translateY(0px) scale(1); filter: drop-shadow(0 5px 15px rgba(255, 215, 0, 0.2)); }
+        }
+        .brasao { 
+            max-width: 95px; height: auto; margin: 0 auto 25px auto; display: block; 
+            animation: flutuar3D 4s ease-in-out infinite; /* Movimento contínuo e suave */
+            transition: all 0.3s ease;
+        }
+        
+        h1 { color: #FFFFFF; font-size: 26px; font-weight: 800; margin-top: 0; margin-bottom: 8px; letter-spacing: 0.5px; text-shadow: 0 2px 10px rgba(0,0,0,0.5);}
+        .subtitle { color: #9CA3AF; margin-bottom: 30px; font-size: 14px; font-weight: 400; line-height: 1.6;}
+        
+        /* O GRID PERFEITO 2x2 com Efeito Translúcido */
+        .tabs { display: flex; background: rgba(31, 41, 55, 0.5); border-radius: 16px; padding: 6px; margin-bottom: 25px; flex-wrap: wrap; gap: 6px; border: 1px solid rgba(255, 255, 255, 0.05);}
+        .tab { flex: 1 1 45%; padding: 12px 5px; border: none; background: transparent; font-size: 13px; font-weight: 600; color: #9CA3AF; border-radius: 12px; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);} /* Curva de animação magnética */
+        .tab:hover { color: #FFFFFF; background: rgba(255, 255, 255, 0.05);}
+        .tab.active { background: rgba(55, 65, 81, 0.8); color: #00F0FF; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);}
+
+        input[type="text"], input[type="email"], textarea { width: 100%; padding: 18px 20px; margin-bottom: 20px; background: rgba(11, 15, 25, 0.6); border: 1px solid rgba(55, 65, 81, 0.8); border-radius: 14px; font-size: 15px; transition: all 0.3s ease; box-sizing: border-box; color: #FFFFFF; box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);}
+        input[type="text"]:focus, input[type="email"]:focus, textarea:focus { border-color: #00F0FF; background: rgba(11, 15, 25, 0.9); outline: none; box-shadow: 0 0 0 4px rgba(0, 240, 255, 0.15), inset 0 2px 5px rgba(0,0,0,0.2); transform: translateY(-2px);}
+        input::placeholder, textarea::placeholder { color: #6B7280; font-weight: 500;}
+        
+        button.verificar { background: linear-gradient(135deg, #007AFF, #00F0FF); color: #0B0F19; border: none; padding: 18px 20px; border-radius: 14px; font-size: 16px; cursor: pointer; font-weight: 800; width: 100%; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-transform: uppercase; letter-spacing: 1.5px; box-shadow: 0 8px 25px rgba(0, 240, 255, 0.25);}
+        button.verificar:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 12px 30px rgba(0, 240, 255, 0.4); filter: brightness(1.1);}
+        button.verificar:active { transform: translateY(1px) scale(0.98); }
+        
+        #resultado { margin-top: 25px; padding: 22px; border-radius: 16px; text-align: left; font-size: 14px; background: rgba(31, 41, 55, 0.6); backdrop-filter: blur(10px); color: #E2E8F0; overflow-wrap: break-word; border-left: 4px solid transparent; line-height: 1.6; display: none; border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.2); animation: fadeEntrada 0.5s ease;}
+        @keyframes fadeEntrada { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         #resultado strong { color: #FFFFFF; font-weight: 700; }
-        #resultado h3 { margin: 16px 0 8px 0; color: #00F0FF; font-size: 16px; text-transform: uppercase; font-weight: 700;}
+        #resultado h3 { margin: 16px 0 8px 0; color: #00F0FF; font-size: 16px; text-transform: uppercase; font-weight: 800;}
 
         /* ================= ESTILOS DO MURAL DE PRINTS ================= */
-        .alerta-card { background: #111827; border: 1px solid #374151; border-radius: 12px; padding: 15px; margin-bottom: 15px; border-left: 4px solid #FF3366; text-align: left; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);}
-        .alerta-tag { background: #FF3366; color: #fff; font-size: 11px; font-weight: 800; padding: 4px 8px; border-radius: 6px; display: inline-block; letter-spacing: 1px; margin-bottom: 10px;}
-        .alerta-img { width: 100%; border-radius: 8px; border: 1px solid #374151; margin-bottom: 10px;}
-        .alerta-texto { font-size: 13px; color: #9CA3AF; margin: 0; line-height: 1.5;}
+        .alerta-card { background: rgba(17, 24, 39, 0.8); border: 1px solid rgba(55, 65, 81, 0.8); border-radius: 14px; padding: 18px; margin-bottom: 18px; border-left: 4px solid #FF3366; text-align: left; box-shadow: 0 8px 20px rgba(0,0,0,0.3); transition: transform 0.3s ease;}
+        .alerta-card:hover { transform: translateY(-2px); }
+        .alerta-tag { background: linear-gradient(90deg, #FF3366, #ff0040); color: #fff; font-size: 11px; font-weight: 800; padding: 6px 10px; border-radius: 8px; display: inline-block; letter-spacing: 1px; margin-bottom: 12px; box-shadow: 0 4px 10px rgba(255, 51, 102, 0.3);}
+        .alerta-img { width: 100%; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 12px;}
+        .alerta-texto { font-size: 14px; color: #D1D5DB; margin: 0; line-height: 1.6;}
 
         /* ================= CHAT SECRETO DO QG ================= */
-        .btn-flutuante { position: fixed; bottom: 24px; right: 24px; background: #1F2937; color: #00F0FF; border: 1px solid #374151; padding: 14px 22px; border-radius: 30px; font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.5); transition: all 0.3s ease; z-index: 1000;}
-        .btn-flutuante:hover { border-color: #00F0FF; background: #111827; box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);}
+        .btn-flutuante { position: fixed; bottom: 24px; right: 24px; background: rgba(31, 41, 55, 0.9); backdrop-filter: blur(10px); color: #00F0FF; border: 1px solid rgba(255, 255, 255, 0.1); padding: 16px 24px; border-radius: 30px; font-size: 14px; font-weight: 700; cursor: pointer; box-shadow: 0 15px 35px rgba(0,0,0,0.4); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 1000;}
+        .btn-flutuante:hover { transform: translateY(-5px) scale(1.05); border-color: #00F0FF; box-shadow: 0 20px 40px rgba(0, 240, 255, 0.2);}
         
-        .modal-chat { display: none; position: fixed; bottom: 90px; right: 24px; background-color: #111827; width: 340px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); z-index: 1001; flex-direction: column; overflow: hidden; border: 1px solid #374151;}
-        .modal-cabecalho { background-color: #1F2937; color: #FFFFFF; padding: 18px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #374151; }
-        .modal-cabecalho h2 { margin: 0; font-size: 16px; color: #00F0FF;}
-        .fechar-chat { cursor: pointer; font-size: 24px; font-weight: 400; color: #9CA3AF; transition: color 0.3s;}
+        .modal-chat { display: none; position: fixed; bottom: 90px; right: 24px; background: rgba(17, 24, 39, 0.95); backdrop-filter: blur(20px); width: 340px; border-radius: 24px; box-shadow: 0 25px 50px rgba(0,0,0,0.6); z-index: 1001; flex-direction: column; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1); animation: fadeEntrada 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
+        .modal-cabecalho { background: rgba(31, 41, 55, 0.8); color: #FFFFFF; padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .modal-cabecalho h2 { margin: 0; font-size: 16px; font-weight: 800; color: #00F0FF; letter-spacing: 0.5px;}
+        .fechar-chat { cursor: pointer; font-size: 26px; font-weight: 400; color: #9CA3AF; transition: color 0.3s;}
         .fechar-chat:hover { color: #FF3366; }
-        .modal-corpo { padding: 20px; }
-        .modal-corpo input, .modal-corpo textarea { margin-bottom: 12px; padding: 14px; border-radius: 10px; font-size: 14px; background: #0B0F19; color: #FFF; border: 1px solid #374151;}
+        .modal-corpo { padding: 24px; }
+        .modal-corpo input, .modal-corpo textarea { margin-bottom: 14px; padding: 16px; border-radius: 12px; font-size: 14px; background: rgba(11, 15, 25, 0.8); color: #FFF; border: 1px solid rgba(255, 255, 255, 0.05);}
         .modal-corpo textarea { resize: none; height: 90px; }
-        .btn-enviar-chat { background: #00F0FF; color: #0B0F19; border: none; padding: 14px; border-radius: 10px; font-weight: 700; cursor: pointer; width: 100%; font-size: 14px; text-transform: uppercase;}
-        .btn-enviar-chat:hover { background: #FFFFFF; }
-        #chatAviso { font-size: 13px; text-align: center; margin-top: 15px; font-weight: 500;}
+        .btn-enviar-chat { background: linear-gradient(135deg, #007AFF, #00F0FF); color: #0B0F19; border: none; padding: 16px; border-radius: 12px; font-weight: 800; cursor: pointer; width: 100%; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 240, 255, 0.2);}
+        .btn-enviar-chat:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 240, 255, 0.4); filter: brightness(1.1);}
+        #chatAviso { font-size: 13px; text-align: center; margin-top: 18px; font-weight: 600;}
     </style>
 </head>
 <body>
@@ -75,21 +112,17 @@
         </div>
 
         <div id="grupoAlertas" style="display: none;">
-            
             <div class="alerta-card">
                 <span class="alerta-tag">GOLPE COMPROVADO</span>
                 <img src="https://via.placeholder.com/400x200/1F2937/FF3366?text=PRINT+DO+WHATSAPP+FALSO" alt="Print de Golpe" class="alerta-img">
                 <p class="alerta-texto"><b>Tática do Rato:</b> Envia SMS dizendo que a conta do banco foi bloqueada para roubar a senha da vítima.</p>
             </div>
-
             <div class="alerta-card">
                 <span class="alerta-tag">FRAUDE IDENTIFICADA</span>
                 <img src="https://via.placeholder.com/400x200/1F2937/FF3366?text=PRINT+PROMO%C3%87%C3%83O+FALSA" alt="Print de Golpe" class="alerta-img">
                 <p class="alerta-texto"><b>Tática do Rato:</b> Anúncio de geladeira muito barata no Instagram. Quando você paga o PIX, o site some.</p>
             </div>
-
         </div>
-
     </div>
 
     <button class="btn-flutuante" onclick="abrirChat()">💬 Denúncia OSINT</button>
@@ -168,14 +201,11 @@
                 }
             }
 
-            // MOTOR CENTRAL NO CLOUDFLARE
             const url_do_cofre_cloudflare = "https://motor-osint-privado.analise-seguranca.workers.dev";
             const pacote_para_o_cofre = { tipo: tipoInvestigacao, dado: dadoRecebido };
 
             try {
-                const resposta_do_cofre = await fetch(url_do_cofre_cloudflare, { 
-                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(pacote_para_o_cofre) 
-                });
+                const resposta_do_cofre = await fetch(url_do_cofre_cloudflare, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(pacote_para_o_cofre) });
                 const dados = await resposta_do_cofre.json();
                 
                 if (dados.erro) { divResultado.style.borderLeftColor = "#FF3366"; divResultado.innerHTML = "🚨 <b>Erro no servidor:</b> " + dados.erro; return; }
@@ -183,19 +213,11 @@
                 const texto_resposta = dados.analise;
                 const eh_golpe = texto_resposta.toUpperCase().includes("[GOLPE]");
                 
-                if (eh_golpe) { 
-                    divResultado.style.borderLeftColor = "#FF3366"; 
-                    divResultado.innerHTML = "🚨 <b>AMEAÇA DETECTADA:</b><br>" + formatarTexto(texto_resposta); 
-                } else { 
-                    divResultado.style.borderLeftColor = "#00F0FF"; 
-                    divResultado.innerHTML = "✅ <b>VARREDURA LIMPA:</b><br>" + formatarTexto(texto_resposta); 
-                }
-            } catch (erro) { 
-                divResultado.style.borderLeftColor = "#FF3366"; divResultado.innerHTML = "❌ <b>Conexão com a Caixa Preta falhou.</b>"; 
-            }
+                if (eh_golpe) { divResultado.style.borderLeftColor = "#FF3366"; divResultado.innerHTML = "🚨 <b>AMEAÇA DETECTADA:</b><br>" + formatarTexto(texto_resposta); 
+                } else { divResultado.style.borderLeftColor = "#00F0FF"; divResultado.innerHTML = "✅ <b>VARREDURA LIMPA:</b><br>" + formatarTexto(texto_resposta); }
+            } catch (erro) { divResultado.style.borderLeftColor = "#FF3366"; divResultado.innerHTML = "❌ <b>Conexão com a Caixa Preta falhou.</b>"; }
         }
 
-        // ================= O CHAT DA LISTA NEGRA (AGORA VAI PARA O CLOUDFLARE) =================
         function abrirChat() { document.getElementById('janelaChat').style.display = 'flex'; }
         function fecharChat() { document.getElementById('janelaChat').style.display = 'none'; document.getElementById('chatAviso').innerHTML = ''; }
 
@@ -210,24 +232,14 @@
             aviso.style.color = "#00F0FF"; aviso.innerHTML = "⏳ Transmitindo dossiê para a Central Federal...";
 
             try {
-                // Monta o pacote de dados (O IP é pego automaticamente pelo Cloudflare agora!)
                 const dossie_cliente = { alerta: "🚨 ALERTA TÁTICO", nome: nome, email: email, mensagem: duvida };
-
-                // CANO BLINDADO: Apontando direto para o Buraco Negro!
                 const url_do_cofre_cloudflare = "https://motor-osint-privado.analise-seguranca.workers.dev";
                 
-                await fetch(url_do_cofre_cloudflare, { 
-                    method: 'POST', 
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(dossie_cliente) 
-                });
+                await fetch(url_do_cofre_cloudflare, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dossie_cliente) });
 
                 aviso.style.color = "#00F0FF"; aviso.innerHTML = "✅ Dossiê arquivado com sucesso!";
-                
                 setTimeout(() => { fecharChat(); document.getElementById('chatNome').value = ""; document.getElementById('chatEmail').value = ""; document.getElementById('chatDuvida').value = ""; }, 3000);
-            } catch (error) { 
-                aviso.style.color = "#FF3366"; aviso.innerHTML = "❌ Erro na transmissão."; 
-            }
+            } catch (error) { aviso.style.color = "#FF3366"; aviso.innerHTML = "❌ Erro na transmissão."; }
         }
     </script>
 </body>
