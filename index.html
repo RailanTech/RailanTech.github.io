@@ -36,19 +36,18 @@
             100% { transform: translateY(0px) scale(1) translateZ(0); filter: drop-shadow(0 5px 15px rgba(255, 215, 0, 0.2)); }
         }
         
-        /* ================= CORREÇÃO MÁXIMA PARA O PC NÃO EMBAÇAR A IMAGEM ================= */
+        /* ================= TRAVA DE QUALIDADE MÁXIMA (PC E CELULAR) ================= */
         .brasao { 
             max-width: 140px; height: auto; margin: 0 auto 25px auto; display: block; 
             animation: flutuar3D 4s ease-in-out infinite; 
             transition: all 0.3s ease;
             
-            /* Trava de Qualidade de Imagem 4K (Impede o PC de borrar) */
+            /* Impede navegadores como Brave e Chrome de embaçar a imagem 4K */
             image-rendering: -webkit-optimize-contrast; 
-            image-rendering: high-quality;
-            -ms-interpolation-mode: bicubic;
+            image-rendering: crisp-edges;
             transform: translateZ(0); 
             backface-visibility: hidden;
-            will-change: transform, filter;
+            will-change: transform;
         }
         
         h1 { color: #FFFFFF; font-size: 26px; font-weight: 800; margin-top: 0; margin-bottom: 8px; letter-spacing: 0.5px; text-shadow: 0 2px 10px rgba(0,0,0,0.5);}
@@ -94,10 +93,10 @@
         .btn-enviar-chat:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 240, 255, 0.4); filter: brightness(1.1);}
         #chatAviso { font-size: 13px; text-align: center; margin-top: 18px; font-weight: 600;}
 
-        /* ================= AJUSTE DE TAMANHO PARA TELAS GRANDES (PC) ================= */
+        /* ================= COMPENSAÇÃO DE TAMANHO PARA MONITORES ================= */
         @media (min-width: 768px) {
             .container { max-width: 480px; padding: 50px 40px; }
-            .brasao { max-width: 170px; } /* Brasão maior e mais nítido no monitor */
+            .brasao { max-width: 170px; } 
             h1 { font-size: 28px; }
         }
     </style>
@@ -212,6 +211,7 @@
                 }
             }
 
+            // CONEXÃO COM O MOTOR CLOUDFLARE
             const url_do_cofre_cloudflare = "https://motor-osint-privado.analise-seguranca.workers.dev";
             const pacote_para_o_cofre = { tipo: tipoInvestigacao, dado: dadoRecebido };
 
@@ -244,6 +244,8 @@
 
             try {
                 const dossie_cliente = { alerta: "🚨 ALERTA TÁTICO", nome: nome, email: email, mensagem: duvida };
+                
+                // CONEXÃO DIRETA COM O COFRE KV CLOUDFLARE
                 const url_do_cofre_cloudflare = "https://motor-osint-privado.analise-seguranca.workers.dev";
                 
                 await fetch(url_do_cofre_cloudflare, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dossie_cliente) });
