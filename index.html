@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RailanTech - Central Inteligente</title>
+    <title>Central RailanTech - Verificador Anti-Fraude</title>
     <style>
         /* =========================================
-           ARQUITETURA DE DESIGN: PADRÃO CLAUDE / PLANTA ORIGINAL
+           ARQUITETURA DE DESIGN: TERMINAL OSINT V1 (CORE) - OURO PURIFICADO
            ========================================= */
         :root {
             --bg-principal: #131314;
@@ -19,61 +19,77 @@
             --vermelho-alerta: #f28b82;
             --verde-seguro: #81c995;
             --amarelo-alerta: #fbc02d;
+            --ouro-puro: #d4af37;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
 
         body { background-color: var(--bg-principal); color: var(--texto-principal); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
-        /* BARRA SUPERIOR E MENU */
+        /* BARRA SUPERIOR E CONTROLE DE ACESSO */
         .top-bar { position: absolute; top: 0; width: 100%; padding: 15px 20px; display: flex; justify-content: flex-end; align-items: center; }
         .menu-btn { background: none; border: none; color: var(--texto-secundario); cursor: pointer; padding: 8px; border-radius: 50%; transition: 0.2s; }
         .menu-btn:hover { background-color: var(--bg-hover); }
 
-        .menu-flutuante { position: absolute; top: 60px; right: 20px; background-color: var(--bg-secundario); border-radius: 12px; width: 320px; padding: 10px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border: 1px solid var(--borda); display: none; z-index: 100; }
+        /* MÓDULO DE MENU FLUTUANTE (CORRIGINDO O TAMANHO DAS FRASES) */
+        .menu-flutuante {
+            position: absolute; top: 60px; right: 20px; background-color: var(--bg-secundario); border-radius: 12px;
+            width: 380px; padding: 10px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border: 1px solid var(--borda); display: none; z-index: 100;
+        }
         .menu-flutuante.ativo { display: block; animation: fadeIn 0.2s; }
-        .menu-item { padding: 12px 20px; display: flex; align-items: center; gap: 15px; color: var(--texto-principal); font-size: 14px; cursor: pointer; transition: 0.2s; }
-        .menu-item:hover { background-color: var(--bg-hover); }
-        .menu-item svg { fill: var(--texto-secundario); width: 20px; height: 20px; }
+        
+        .menu-item {
+            padding: 15px 20px; display: flex; align-items: center; gap: 15px;
+            color: var(--texto-principal);
+            /* AUMENTADO: Frases "mais pouco grande" (legível e imponente) */
+            font-size: 18px; 
+            font-weight: 500;
+            cursor: pointer; transition: 0.2s;
+        }
+        
+        /* Removido o destaque cinza claro de hover para o print aberto ficar limpo */
+        .menu-item:hover { background-color: rgba(255,255,255,0.03); } 
+        
+        .menu-item svg { fill: var(--texto-secundario); width: 22px; height: 22px; }
         .menu-divisor { height: 1px; background-color: var(--borda); margin: 8px 0; }
 
-        /* MÓDULO PRINCIPAL */
-        .main-container { width: 100%; max-width: 600px; padding: 20px; display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 40px; }
+        /* MÓDULO PRINCIPAL E INFORMAÇÃO PARA O POVO */
+        .main-container { width: 100%; max-width: 750px; padding: 20px; display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 5vh; }
         
-        /* A SUA PLANTA: O CARTÃO BRANCO (IMAGEM DESGIN) */
-        .cartao-design-oficial {
-            background-color: #ffffff;
-            border-radius: 36px;
-            padding: 40px 30px;
+        /* A SUA PLANTA EXATA (CONTEÚDO DIRETO NO FUNDO ESCURO - "BRANCO TIRAR") */
+        .conteudo-central {
             width: 100%;
-            max-width: 380px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            max-width: 450px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
-        .cartao-design-oficial img {
-            width: 140px;
+        .conteudo-central img {
+            width: 130px;
             height: auto;
-            margin-bottom: 15px;
-            filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.15));
+            margin-bottom: 20px;
+            filter: drop-shadow(0px 8px 20px rgba(0, 0, 0, 0.8));
         }
 
-        .cartao-design-oficial h1 {
-            color: #000000;
-            font-size: 26px;
+        .titulo-central {
+            color: var(--ouro-puro); /* Ouro Puro no nome */
+            font-size: 34px;
             font-weight: 600;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             letter-spacing: -0.5px;
         }
 
-        .cartao-design-oficial p {
-            color: #555555;
-            font-size: 14px;
+        .descricao-subtitulo {
+            color: var(--texto-secundario);
+            font-size: 16px;
             font-weight: 500;
+            line-height: 1.5;
         }
+        
+        /* Descrição adicional para o povo */
+        .descricao-povo { font-size: 15px; color: var(--texto-secundario); line-height: 1.6; max-width: 600px; margin-bottom: 40px; }
 
         /* VARREDURA */
         .prompt-box { width: 100%; background-color: var(--bg-secundario); border-radius: 32px; display: flex; align-items: center; padding: 5px 15px; border: 1px solid var(--borda); transition: 0.3s; }
@@ -93,13 +109,13 @@
 
         .loading { display: none; color: var(--texto-secundario); font-size: 14px; margin-top: 15px; text-align: center; }
 
-        /* MODAL DE INFORMAÇÃO (CORRIGINDO OS BOTÕES MORTOS) */
-        .modal-info { display: none; width: 100%; background-color: var(--bg-secundario); padding: 25px; border-radius: 12px; border: 1px solid var(--borda); margin-top: 20px; text-align: left; }
+        /* MODAL DE INFORMAÇÃO (AGORA ELES ABREM) */
+        .modal-info { display: none; width: 100%; max-width: 600px; background-color: var(--bg-secundario); padding: 25px; border-radius: 12px; border: 1px solid var(--borda); margin-top: 20px; text-align: left; }
         .modal-info h2 { font-size: 16px; margin-bottom: 10px; color: var(--destaque-azul); }
         .modal-info p { font-size: 14px; color: var(--texto-secundario); line-height: 1.5; margin-bottom: 15px; }
 
         /* PAINEL DOSSIÊ E BOTÃO FANTASMA */
-        #painel-denuncia { display: none; width: 100%; margin-top: 20px; background-color: var(--bg-secundario); padding: 25px; border-radius: 12px; border: 1px solid var(--borda); text-align: left; }
+        #painel-denuncia { display: none; width: 100%; max-width: 600px; margin-top: 20px; background-color: var(--bg-secundario); padding: 25px; border-radius: 12px; border: 1px solid var(--borda); text-align: left; }
         .input-padrao { width: 100%; background: var(--bg-principal); border: 1px solid var(--borda); color: var(--texto-principal); padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 14px; outline: none; }
         
         .btn-fantasma { width: 100%; background: transparent; border: 1px dashed var(--borda); color: var(--texto-secundario); padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 14px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: 0.2s; }
@@ -138,14 +154,18 @@
 
     <div class="main-container">
         
-        <div class="cartao-design-oficial">
+        <div class="conteudo-central">
             <img src="escudo-sem-fundo.png" alt="Selo Oficial RailanTech">
-            <h1>RailanTech</h1>
-            <p>Central Inteligente – OISNT Nível 1</p>
+            <h1 class="titulo-central">RailanTech</h1>
+            <p class="descricao-subtitulo">Central Inteligente – OISNT Nível 1 <br> Verificador Anti-Fraude Digital</p>
         </div>
+        
+        <p class="descricao-povo">
+            Não clique no escuro. Cole o link suspeito que você recebeu (SMS, WhatsApp ou E-mail) na barra abaixo e o sistema fará um Raio-X na hora para te proteger contra golpes.
+        </p>
 
         <div class="prompt-box">
-            <input type="text" id="input-link" placeholder="Cole o link suspeito aqui (Ex: correios.com.br)..." onkeypress="if(event.key === 'Enter') iniciarVarredura()">
+            <input type="text" id="input-link" placeholder="Cole o link suspeito aqui (Ex: correios.com.br-taxa.info)..." onkeypress="if(event.key === 'Enter') iniciarVarredura()">
             <button class="btn-enviar" onclick="iniciarVarredura()">
                 <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
             </button>
@@ -164,7 +184,7 @@
 
         <div id="painel-ajuda" class="modal-info">
             <h2>Central de Ajuda</h2>
-            <p><b>Como usar:</b> Copie o link suspeito que você recebeu (por SMS, WhatsApp ou E-mail) e cole na barra de pesquisa principal. O sistema cruzará os dados do domínio com nossos servidores para emitir um laudo de segurança imediato.</p>
+            <p><b>Como usar:</b> Copie o link suspeito que você recebeu e cole na barra de pesquisa principal. O sistema cruzará os dados do domínio com nossos servidores para emitir um laudo de segurança imediato.</p>
         </div>
 
         <div id="painel-denuncia">
@@ -195,7 +215,6 @@
         
         window.onclick = function(event) { if (!event.target.closest('.menu-btn') && !event.target.closest('.menu-flutuante')) { document.getElementById('menuFlutuante').classList.remove('ativo'); } }
         
-        // FUNÇÃO QUE FAZ OS BOTÕES DO MENU ABRIREM AS TELAS CERTAS
         function abrirPainel(idPainel) {
             document.getElementById('resultado-box').style.display = 'none';
             document.getElementById('painel-denuncia').style.display = 'none';
