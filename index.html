@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Central RailanTech</title>
+    <title>Central RailanTech - Verificador Anti-Fraude</title>
     <style>
         /* =========================================
            ARQUITETURA DE DESIGN: TERMINAL OSINT V1 (CORE)
@@ -18,46 +18,38 @@
             --destaque-azul: #a8c7fa;
             --vermelho-alerta: #f28b82;
             --verde-seguro: #81c995;
+            --amarelo-alerta: #fbc02d;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
 
-        body {
-            background-color: var(--bg-principal);
-            color: var(--texto-principal);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+        body { background-color: var(--bg-principal); color: var(--texto-principal); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
 
-        /* BARRA SUPERIOR E CONTROLE DE ACESSO */
+        /* BARRA SUPERIOR */
         .top-bar { width: 100%; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 18px; font-weight: 500; color: var(--texto-principal); display: flex; align-items: center; gap: 8px; }
         .menu-btn { background: none; border: none; color: var(--texto-secundario); cursor: pointer; padding: 8px; border-radius: 50%; transition: 0.2s; }
         .menu-btn:hover { background-color: var(--bg-hover); }
 
-        /* MODAL / MENU DE COMANDOS FLUTUANTE */
-        .menu-flutuante {
-            position: absolute; top: 60px; right: 20px; background-color: var(--bg-secundario); border-radius: 12px;
-            width: 320px; padding: 10px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border: 1px solid var(--borda); display: none; z-index: 100;
-        }
+        /* MENU FLUTUANTE */
+        .menu-flutuante { position: absolute; top: 60px; right: 20px; background-color: var(--bg-secundario); border-radius: 12px; width: 320px; padding: 10px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border: 1px solid var(--borda); display: none; z-index: 100; }
         .menu-flutuante.ativo { display: block; animation: fadeIn 0.2s; }
         .menu-item { padding: 12px 20px; display: flex; align-items: center; gap: 15px; color: var(--texto-principal); font-size: 14px; cursor: pointer; transition: 0.2s; }
         .menu-item:hover { background-color: var(--bg-hover); }
         .menu-item svg { fill: var(--texto-secundario); width: 20px; height: 20px; }
         .menu-divisor { height: 1px; background-color: var(--borda); margin: 8px 0; }
 
-        /* MOTOR DE INTERFACE PRINCIPAL */
-        .main-container { width: 100%; max-width: 750px; padding: 20px; margin-top: 5vh; display: flex; flex-direction: column; align-items: center; }
-        .titulo-central { font-size: 28px; font-weight: 400; margin-bottom: 40px; color: var(--texto-principal); text-align: center; }
+        /* MÓDULO PRINCIPAL E INFORMAÇÃO PARA O POVO */
+        .main-container { width: 100%; max-width: 750px; padding: 20px; margin-top: 5vh; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        
+        .titulo-central { font-size: 32px; font-weight: 500; margin-bottom: 15px; color: var(--texto-principal); }
         .titulo-central span { background: -webkit-linear-gradient(45deg, #a8c7fa, #c4c7c5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* O TEXTO EXPLICATIVO QUE FALTAVA */
+        .descricao-povo { font-size: 16px; color: var(--texto-secundario); line-height: 1.6; max-width: 600px; margin-bottom: 40px; }
 
-        /* MÓDULO DE VARREDURA */
-        .prompt-box {
-            width: 100%; background-color: var(--bg-secundario); border-radius: 32px; display: flex; align-items: center;
-            padding: 5px 15px; border: 1px solid var(--borda); transition: 0.3s;
-        }
+        /* VARREDURA */
+        .prompt-box { width: 100%; background-color: var(--bg-secundario); border-radius: 32px; display: flex; align-items: center; padding: 5px 15px; border: 1px solid var(--borda); transition: 0.3s; }
         .prompt-box:focus-within { border-color: var(--texto-secundario); background-color: var(--bg-hover); }
         .prompt-box input { flex: 1; background: transparent; border: none; color: var(--texto-principal); font-size: 16px; padding: 15px 10px; outline: none; }
         .prompt-box input::placeholder { color: var(--texto-secundario); }
@@ -65,16 +57,21 @@
         .btn-enviar:hover { background-color: rgba(255,255,255,0.1); }
         .btn-enviar svg { fill: var(--texto-secundario); width: 24px; height: 24px; }
 
-        /* TELA DE RELATÓRIO TÁTICO */
-        .resultado-box { width: 100%; margin-top: 30px; display: none; flex-direction: column; gap: 15px; }
+        /* RELATÓRIO */
+        .resultado-box { width: 100%; margin-top: 30px; display: none; flex-direction: column; gap: 15px; text-align: left; }
         .mensagem-ia { background-color: var(--bg-secundario); padding: 20px; border-radius: 12px; font-size: 15px; line-height: 1.6; border: 1px solid var(--borda); }
         .mensagem-ia.alerta { border-left: 4px solid var(--vermelho-alerta); }
         .mensagem-ia.seguro { border-left: 4px solid var(--verde-seguro); }
         .mensagem-ia.neutro { border-left: 4px solid var(--destaque-azul); }
 
-        /* PAINEL DE COMUNICAÇÃO SEGURA */
-        #painel-denuncia { display: none; width: 100%; max-width: 600px; margin-top: 20px; background-color: var(--bg-secundario); padding: 25px; border-radius: 12px; border: 1px solid var(--borda); }
+        /* PAINEL DOSSIÊ E BOTÃO FANTASMA */
+        #painel-denuncia { display: none; width: 100%; max-width: 600px; margin-top: 20px; background-color: var(--bg-secundario); padding: 25px; border-radius: 12px; border: 1px solid var(--borda); text-align: left; }
         .input-padrao { width: 100%; background: var(--bg-principal); border: 1px solid var(--borda); color: var(--texto-principal); padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 14px; outline: none; }
+        
+        .btn-fantasma { width: 100%; background: transparent; border: 1px dashed var(--borda); color: var(--texto-secundario); padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 14px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: 0.2s; }
+        .btn-fantasma:hover { background: var(--bg-hover); color: var(--texto-principal); border-color: var(--texto-secundario); }
+        .aviso-fantasma { display: none; background: rgba(251, 192, 45, 0.1); border-left: 4px solid var(--amarelo-alerta); padding: 12px; font-size: 13px; color: var(--amarelo-alerta); margin-bottom: 15px; border-radius: 4px; line-height: 1.5; }
+
         .btn-padrao { background-color: var(--destaque-azul); color: #000; border: none; padding: 12px 20px; border-radius: 20px; font-weight: 500; cursor: pointer; font-size: 14px; transition: 0.2s; }
         .btn-padrao:hover { opacity: 0.9; }
         .loading { display: none; color: var(--texto-secundario); font-size: 14px; margin-top: 15px; text-align: center; }
@@ -112,10 +109,14 @@
 
     <div class="main-container">
         
-        <h1 class="titulo-central">Olá, Agente. <br><span>Cole o link suspeito para iniciar a varredura.</span></h1>
+        <h1 class="titulo-central">Verificador Anti-Fraude <br><span>Descubra se um link é seguro.</span></h1>
+        
+        <p class="descricao-povo">
+            Recebeu um SMS de <b>"taxa dos Correios"</b>, promoções falsas ou mensagens de banco? Não clique no escuro. Cole o link abaixo e o nosso sistema fará um Raio-X na hora para te proteger contra golpes.
+        </p>
 
         <div class="prompt-box">
-            <input type="text" id="input-link" placeholder="Ex: correios.com.br-taxa.info..." onkeypress="if(event.key === 'Enter') iniciarVarredura()">
+            <input type="text" id="input-link" placeholder="Cole o link suspeito aqui (Ex: correios.com.br-taxa.info)..." onkeypress="if(event.key === 'Enter') iniciarVarredura()">
             <button class="btn-enviar" onclick="iniciarVarredura()">
                 <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
             </button>
@@ -131,6 +132,15 @@
             <h2 style="font-size: 16px; margin-bottom: 15px; font-weight: 500;">Dossiê de Agente (Envio Seguro)</h2>
             <input type="text" id="agente-nome" class="input-padrao" placeholder="Seu Nome">
             <input type="text" id="agente-contato" class="input-padrao" placeholder="Seu E-mail ou WhatsApp">
+            
+            <button class="btn-fantasma" onclick="acionarBotaoFantasma()">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/></svg>
+                Anexar Evidência (Foto / Vídeo)
+            </button>
+            <div id="aviso-fantasma" class="aviso-fantasma">
+                <b>[ ACESSO RESTRITO ]</b> O Módulo de Visão Computacional e Análise Neural (Vídeos/Imagens) está operando apenas para Agentes Nível 2. A liberação pública ocorrerá na próxima fase do sistema. Descreva a ameaça em texto.
+            </div>
+
             <textarea id="agente-mensagem" class="input-padrao" rows="3" placeholder="Descreva o golpe ou cole o texto do SMS aqui..."></textarea>
             <button class="btn-padrao" onclick="enviarDossie()">Transmitir para a Central</button>
             <div id="loading-denuncia" class="loading">Criptografando...</div>
@@ -142,22 +152,10 @@
     <script>
         const URL_CLOUDFLARE = "https://motor-osint-privado.analise-seguranca.workers.dev";
 
-        function toggleMenu() {
-            const menu = document.getElementById('menuFlutuante');
-            menu.classList.toggle('ativo');
-        }
-
-        window.onclick = function(event) {
-            if (!event.target.closest('.menu-btn') && !event.target.closest('.menu-flutuante')) {
-                document.getElementById('menuFlutuante').classList.remove('ativo');
-            }
-        }
-
-        function abrirDenuncia() {
-            document.getElementById('painel-denuncia').style.display = 'block';
-            document.getElementById('resultado-box').style.display = 'none';
-            toggleMenu();
-        }
+        function toggleMenu() { document.getElementById('menuFlutuante').classList.toggle('ativo'); }
+        window.onclick = function(event) { if (!event.target.closest('.menu-btn') && !event.target.closest('.menu-flutuante')) { document.getElementById('menuFlutuante').classList.remove('ativo'); } }
+        function abrirDenuncia() { document.getElementById('painel-denuncia').style.display = 'block'; document.getElementById('resultado-box').style.display = 'none'; toggleMenu(); }
+        function acionarBotaoFantasma() { document.getElementById('aviso-fantasma').style.display = 'block'; }
 
         async function iniciarVarredura() {
             const link = document.getElementById('input-link').value;
@@ -168,72 +166,39 @@
 
             if(!link) return;
 
-            painelDenuncia.style.display = 'none';
-            resBox.style.display = "none";
-            loadDiv.style.display = "block";
+            painelDenuncia.style.display = 'none'; resBox.style.display = "none"; loadDiv.style.display = "block";
 
             try {
-                const response = await fetch(URL_CLOUDFLARE, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ tipo: "link", dado: link })
-                });
-
+                const response = await fetch(URL_CLOUDFLARE, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ tipo: "link", dado: link }) });
                 const data = await response.json();
-                loadDiv.style.display = "none";
-                resBox.style.display = "flex";
+                loadDiv.style.display = "none"; resBox.style.display = "flex";
                 
                 let textoResposta = data.analise.replace(/\n/g, '<br>');
                 msgBox.innerHTML = textoResposta;
-
                 msgBox.className = "mensagem-ia"; 
-                if (textoResposta.includes("GOLPE") || textoResposta.includes("CRÍTICA")) {
-                    msgBox.classList.add("alerta");
-                } else if (textoResposta.includes("LIMPA") || textoResposta.includes("SEGURO")) {
-                    msgBox.classList.add("seguro");
-                } else {
-                    msgBox.classList.add("neutro");
-                }
-
+                if (textoResposta.includes("GOLPE") || textoResposta.includes("CRÍTICA")) msgBox.classList.add("alerta");
+                else if (textoResposta.includes("LIMPA") || textoResposta.includes("SEGURO")) msgBox.classList.add("seguro");
+                else msgBox.classList.add("neutro");
             } catch (e) {
-                loadDiv.style.display = "none";
-                resBox.style.display = "flex";
-                msgBox.className = "mensagem-ia alerta";
+                loadDiv.style.display = "none"; resBox.style.display = "flex"; msgBox.className = "mensagem-ia alerta";
                 msgBox.innerHTML = "Não foi possível conectar ao servidor OSINT.";
             }
         }
 
         async function enviarDossie() {
-            const nome = document.getElementById('agente-nome').value;
-            const contato = document.getElementById('agente-contato').value;
-            const mensagem = document.getElementById('agente-mensagem').value;
-            const resDiv = document.getElementById('resultado-denuncia');
-            const loadDiv = document.getElementById('loading-denuncia');
+            const nome = document.getElementById('agente-nome').value; const contato = document.getElementById('agente-contato').value; const mensagem = document.getElementById('agente-mensagem').value;
+            const resDiv = document.getElementById('resultado-denuncia'); const loadDiv = document.getElementById('loading-denuncia');
 
             if(!mensagem) return;
-
-            resDiv.innerHTML = "";
-            loadDiv.style.display = "block";
+            resDiv.innerHTML = ""; loadDiv.style.display = "block";
 
             try {
-                const response = await fetch(URL_CLOUDFLARE, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ alerta: true, nome: nome || "Anônimo", email: contato || "-", mensagem: mensagem })
-                });
-
+                const response = await fetch(URL_CLOUDFLARE, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ alerta: true, nome: nome || "Anônimo", email: contato || "-", mensagem: mensagem }) });
                 const data = await response.json();
-                loadDiv.style.display = "none";
-                resDiv.innerHTML = data.status;
-
-                document.getElementById('agente-nome').value = '';
-                document.getElementById('agente-contato').value = '';
-                document.getElementById('agente-mensagem').value = '';
-
+                loadDiv.style.display = "none"; resDiv.innerHTML = data.status;
+                document.getElementById('agente-nome').value = ''; document.getElementById('agente-contato').value = ''; document.getElementById('agente-mensagem').value = '';
             } catch (e) {
-                loadDiv.style.display = "none";
-                resDiv.style.color = "var(--vermelho-alerta)";
-                resDiv.innerHTML = "Falha no envio do relatório.";
+                loadDiv.style.display = "none"; resDiv.style.color = "var(--vermelho-alerta)"; resDiv.innerHTML = "Falha no envio do relatório.";
             }
         }
     </script>
