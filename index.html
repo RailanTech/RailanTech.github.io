@@ -46,9 +46,11 @@
         /* MÓDULO PRINCIPAL */
         .main-container { width: 100%; max-width: 750px; padding: 20px; display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 8vh; }
         
+        /* A ARTE VISUAL (FOTO 1: IMAGEM MAIS GRANDE) */
         .conteudo-central { width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 45px; }
-        .conteudo-central img { width: 170px; height: auto; margin-bottom: 15px; }
+        .conteudo-central img { width: 230px; height: auto; margin-bottom: 15px; max-width: 100%; } /* ESCUDO GIGANTE APROVADO */
 
+        /* TEXTO RAILANTECH (FOTO 1: VERDE/OK) */
         .titulo-central {
             font-size: 52px; font-weight: 600; margin-bottom: 5px; letter-spacing: -0.5px;
             background: -webkit-linear-gradient(45deg, var(--ouro-puro), var(--ouro-brilho));
@@ -57,7 +59,7 @@
 
         .descricao-subtitulo { color: var(--texto-secundario); font-size: 16px; font-weight: 500; line-height: 1.5; letter-spacing: 0.5px; }
 
-        /* BARRA DE VARREDURA COM O CLIPE DE PAPEL (A SUA EXIGÊNCIA) */
+        /* BARRA DE VARREDURA */
         .prompt-container { width: 100%; display: flex; flex-direction: column; align-items: center; }
         
         .prompt-box { 
@@ -66,19 +68,18 @@
         }
         .prompt-box:focus-within { border-color: var(--texto-secundario); background-color: var(--bg-hover); box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         
-        /* O Botão do Clipe de Papel */
-        .btn-anexo { background: transparent; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 10px; border-radius: 50%; transition: 0.2s; }
+        .btn-anexo { background: transparent; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 10px; border-radius: 50%; transition: 0.2s; flex-shrink: 0; }
         .btn-anexo:hover { background-color: rgba(255,255,255,0.1); }
         .btn-anexo svg { fill: var(--texto-secundario); width: 22px; height: 22px; }
 
-        .prompt-box input { flex: 1; background: transparent; border: none; color: var(--texto-principal); font-size: 16px; padding: 15px 10px; outline: none; }
-        .prompt-box input::placeholder { color: var(--texto-secundario); }
+        /* FOTO 2: CORREÇÃO DO ESTOURO NO CELULAR (min-width: 0 adicionado) */
+        .prompt-box input { flex: 1; min-width: 0; background: transparent; border: none; color: var(--texto-principal); font-size: 16px; padding: 15px 10px; outline: none; text-overflow: ellipsis; }
+        .prompt-box input::placeholder { color: var(--texto-secundario); text-overflow: ellipsis; }
         
-        .btn-enviar { background: transparent; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 10px; border-radius: 50%; transition: 0.2s; }
+        .btn-enviar { background: transparent; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 10px; border-radius: 50%; transition: 0.2s; flex-shrink: 0; }
         .btn-enviar:hover { background-color: rgba(255,255,255,0.1); }
         .btn-enviar svg { fill: var(--texto-secundario); width: 24px; height: 24px; }
 
-        /* AVISO RESTRITO PARA A BARRA PRINCIPAL */
         #aviso-anexo-principal { 
             display: none; width: 100%; background: rgba(251, 192, 45, 0.08); border-left: 4px solid var(--amarelo-alerta); 
             padding: 15px; font-size: 14px; color: var(--amarelo-alerta); margin-top: 15px; border-radius: 8px; line-height: 1.5; text-align: left;
@@ -93,7 +94,7 @@
 
         .loading { display: none; color: var(--texto-secundario); font-size: 14px; margin-top: 15px; text-align: center; font-weight: 500; }
 
-        /* MODAIS DE INFORMAÇÃO E DOSSIÊ */
+        /* MODAIS E DOSSIÊ */
         .modal-info { display: none; width: 100%; background-color: var(--bg-secundario); padding: 30px; border-radius: 16px; border: 1px solid var(--borda); margin-top: 25px; text-align: left; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
         .modal-info h2 { font-size: 20px; margin-bottom: 15px; color: var(--ouro-brilho); display: flex; align-items: center; gap: 10px; }
         .modal-info p { font-size: 15px; color: var(--texto-secundario); line-height: 1.7; margin-bottom: 15px; }
@@ -104,6 +105,13 @@
         .input-padrao:focus { border-color: var(--texto-secundario); }
         .btn-padrao { background-color: var(--destaque-azul); color: #000; border: none; padding: 15px 20px; border-radius: 30px; font-weight: 600; cursor: pointer; font-size: 15px; transition: 0.2s; width: 100%; box-shadow: 0 4px 10px rgba(168, 199, 250, 0.2); }
         .btn-padrao:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 6px 15px rgba(168, 199, 250, 0.3); }
+
+        /* ADAPTAÇÃO EXTRA PARA CELULARES (Garantia de layout) */
+        @media (max-width: 480px) {
+            .conteudo-central img { width: 180px; } /* Ajuste elegante para não quebrar a tela móvel */
+            .titulo-central { font-size: 42px; }
+            .prompt-box { padding: 5px 10px; }
+        }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
