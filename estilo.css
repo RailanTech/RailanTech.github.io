@@ -1,5 +1,5 @@
 /* =========================================
-   ARQUITETURA DE DESIGN: PADRÃO GEMINI UI
+   ARQUITETURA DE DESIGN: TERMINAL OSINT V1 (CORE)
    ========================================= */
 :root {
     --bg-principal: #131314;
@@ -29,7 +29,7 @@ body {
     align-items: center;
 }
 
-/* BARRA SUPERIOR E MENU FLUTUANTE */
+/* BARRA SUPERIOR E CONTROLE DE ACESSO */
 .top-bar {
     width: 100%; 
     padding: 15px 20px; 
@@ -61,7 +61,7 @@ body {
     background-color: var(--bg-hover); 
 }
 
-/* MODAL / MENU FLUTUANTE (Igual ao Print) */
+/* MODAL / MENU DE COMANDOS FLUTUANTE */
 .menu-flutuante {
     position: absolute; 
     top: 60px; 
@@ -108,7 +108,7 @@ body {
     margin: 8px 0; 
 }
 
-/* CONTAINER PRINCIPAL (ESTILO CHAT IA) */
+/* MOTOR DE INTERFACE PRINCIPAL */
 .main-container { 
     width: 100%; 
     max-width: 750px; 
@@ -133,7 +133,7 @@ body {
     -webkit-text-fill-color: transparent; 
 }
 
-/* BARRA DE PROMPT (VARREDURA) */
+/* MÓDULO DE VARREDURA */
 .prompt-box {
     width: 100%; 
     background-color: var(--bg-secundario); 
@@ -186,7 +186,7 @@ body {
     height: 24px; 
 }
 
-/* ÁREA DE RESULTADO DA IA */
+/* TELA DE RELATÓRIO TÁTICO */
 .resultado-box {
     width: 100%; 
     margin-top: 30px; 
@@ -208,7 +208,7 @@ body {
 .mensagem-ia.seguro { border-left: 4px solid var(--verde-seguro); }
 .mensagem-ia.neutro { border-left: 4px solid var(--destaque-azul); }
 
-/* TELA DE DENÚNCIA (OCULTA INICIALMENTE) */
+/* PAINEL DE COMUNICAÇÃO SEGURA */
 #painel-denuncia { 
     display: none; 
     width: 100%; 
