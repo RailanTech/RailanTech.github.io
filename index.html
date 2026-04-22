@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Central RailanTech - Inteligência Anti-Fraude</title>
+    <title>RailanTech Protect - Central de Inteligência Anti-Fraude</title>
     <style>
         /* =========================================
            ARQUITETURA DE DESIGN: TERMINAL OSINT V1 (OURO PURO 100%)
@@ -56,19 +56,17 @@
             margin-bottom: 40px;
         }
 
-        /* O SELO (FOTO NORMAL SEM SOMBRA SUJA) */
         .conteudo-central img {
             width: 290px;
             height: auto;
             margin-bottom: 20px;
         }
 
-        /* TITULO RAILANTECH E O ABISMO TÁTICO INTACTO */
         .titulo-central {
             color: var(--ouro-puro);
             font-size: 52px;
             font-weight: 600;
-            margin-bottom: 80px; 
+            margin-bottom: 80px; /* Abismo Tático no PC */
             letter-spacing: -0.5px;
         }
 
@@ -80,7 +78,6 @@
             letter-spacing: 0.5px;
         }
         
-        /* MARKETING PRECISO: DESCRIÇÃO POVO */
         .descricao-povo {
             font-size: 15px;
             color: var(--texto-secundario);
@@ -111,7 +108,6 @@
         .btn-enviar:hover { background-color: rgba(255,255,255,0.1); }
         .btn-enviar svg { fill: var(--texto-secundario); width: 24px; height: 24px; }
 
-        /* AVISO RESTRITO */
         .aviso-restrito { 
             display: none; width: 100%; background: rgba(251, 192, 45, 0.08); border-left: 4px solid var(--amarelo-alerta); 
             padding: 18px; font-size: 14px; color: var(--amarelo-alerta); margin-top: 20px; margin-bottom: 15px; border-radius: 12px; line-height: 1.6; text-align: left;
@@ -151,13 +147,25 @@
         }
         .btn-fechar:hover { background-color: rgba(255,255,255,0.07); color: var(--vermelho-alerta); }
 
-        /* ADAPTAÇÃO PARA CELULARES */
+        /* =========================================
+           ADAPTAÇÃO PERFEITA PARA CELULARES (A CURA DOS ERROS)
+           ========================================= */
         @media (max-width: 480px) {
-            .conteudo-central img { width: 220px; }
-            .titulo-central { font-size: 42px; margin-bottom: 60px; }
-            .conteudo-central { margin-bottom: 30px; }
-            .prompt-box { padding: 5px 12px; }
-            .modal-info, #painel-denuncia { width: 95%; right: 2.5%; padding: 25px; }
+            .main-container { margin-top: 5vh; padding: 15px; }
+            .conteudo-central img { width: 170px; margin-bottom: 15px; } /* Selo adaptado para não engolir a tela */
+            .titulo-central { font-size: 40px; margin-bottom: 25px; } /* O abismo tático reduzido no Celular para a barra subir */
+            .descricao-subtitulo { font-size: 14px; }
+            .descricao-povo { font-size: 14px; margin-top: 20px; margin-bottom: 30px; }
+            
+            /* Ajuste da Barra de Pesquisa no Celular */
+            .prompt-box { padding: 6px 12px; }
+            .prompt-box input { font-size: 14px; padding: 12px 8px; }
+            
+            /* Ajuste do Menu Flutuante (O erro da Linha Azul resolvido) */
+            .menu-flutuante { width: 90vw; right: 5vw; top: 65px; } 
+            
+            /* Ajuste dos Painéis e Dossiê */
+            .modal-info, #painel-denuncia { width: 95%; right: 2.5%; padding: 25px; margin-top: 15px; }
         }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
@@ -175,12 +183,13 @@
                 <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
                 Dossiê de Registro de Golpe
             </div>
-            <div class="menu-item" onclick="abrirPainel('painel-sobre')">
+            
+            <div class="menu-divisor"></div> <div class="menu-item" onclick="abrirPainel('painel-sobre')">
                 <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
                 Central de Segurança Digital
             </div>
-            <div class="menu-divisor"></div>
-            <div class="menu-item" onclick="abrirPainel('painel-ajuda')">
+            
+            <div class="menu-divisor"></div> <div class="menu-item" onclick="abrirPainel('painel-ajuda')">
                 <svg viewBox="0 0 24 24"><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg>
                 Ajuda / Guia Tático
             </div>
@@ -226,7 +235,7 @@
                 <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
             </button>
             <h2>
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg>
                 Sobre a Central RailanTech
             </h2>
             <p>O <b>Terminal de Inteligência RailanTech</b> não é apenas um verificador de links, é uma muralha de segurança contra o crime digital. Desenvolvido com arquitetura de dados de alta precisão (OSINT Nível 1), nosso motor intercepta ameaças financeiras e golpes de Engenharia Social no exato momento da consulta.</p>
