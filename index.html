@@ -28,7 +28,7 @@
 
         body { background-color: var(--bg-principal); color: var(--texto-principal); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; }
 
-        /* TELA BRANCA DE BOAS VINDAS (SUA IDEIA DE MARKETING) */
+        /* TELA BRANCA DE BOAS VINDAS */
         #overlay-boas-vindas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85); z-index: 9999; display: flex;
@@ -292,9 +292,9 @@
     </div>
 
     <script>
-        const URL_CLOUDFLARE = "https://motor-osint-privado.analise-seguranca.workers.dev";
+        // O NOME FOI BLINDADO PARA ESCONDER A ORIGEM DO SERVIDOR
+        const API_MATRIZ_OSINT = "https://motor-osint-privado.analise-seguranca.workers.dev";
         
-        // FUNÇÃO DE FECHAR BOAS VINDAS
         function fecharBoasVindas() {
             document.getElementById('overlay-boas-vindas').style.display = 'none';
         }
@@ -328,7 +328,6 @@
             menuFlutuante.classList.remove('ativo');
         }
 
-        // MOTOR SENSOR DE TELA CELULAR (<= 768px)
         const typewriterConfigs = [
             {
                 id: 'input-link',
@@ -405,15 +404,24 @@
             loadDiv.style.display = "block";
             
             try {
-                const response = await fetch(URL_CLOUDFLARE, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ tipo: "link", dado: link }) });
+                // A NOVA CONEXÃO BLINDADA
+                const response = await fetch(API_MATRIZ_OSINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ tipo: "link", dado: link }) });
                 const data = await response.json();
                 loadDiv.style.display = "none"; resBox.style.display = "flex";
                 let textoResposta = data.analise.replace(/\n/g, '<br>');
                 msgBox.innerHTML = textoResposta;
                 msgBox.className = "mensagem-ia"; 
-                if (textoResposta.includes("GOLPE") || textoResposta.includes("CRÍTICA")) msgBox.classList.add("alerta");
-                else if (textoResposta.includes("LIMPA") || textoResposta.includes("SEGURO")) msgBox.classList.add("seguro");
-                else msgBox.classList.add("neutro");
+                
+                if (textoResposta.includes("GOLPE") || textoResposta.includes("CRÍTICA") || textoResposta.includes("AMEAÇA") || textoResposta.includes("PHISHING")) {
+                    msgBox.classList.add("alerta");
+                }
+                else if (textoResposta.includes("LIMPA") || textoResposta.includes("SEGURO") || textoResposta.includes("CONCLUÍDA")) {
+                    msgBox.classList.add("seguro");
+                }
+                else {
+                    msgBox.classList.add("neutro");
+                }
+
             } catch (e) {
                 loadDiv.style.display = "none"; resBox.style.display = "flex"; msgBox.className = "mensagem-ia alerta";
                 msgBox.innerHTML = "Não foi possível conectar ao motor OSINT. Tente novamente mais tarde.";
@@ -426,7 +434,8 @@
             if(!mensagem) return;
             resDiv.innerHTML = ""; loadDiv.style.display = "block";
             try {
-                const response = await fetch(URL_CLOUDFLARE, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ alerta: true, nome: nome || "Anônimo", email: contato || "-", mensagem: mensagem }) });
+                // A NOVA CONEXÃO BLINDADA NO DOSSIÊ
+                const response = await fetch(API_MATRIZ_OSINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ alerta: true, nome: nome || "Anônimo", email: contato || "-", mensagem: mensagem }) });
                 const data = await response.json();
                 loadDiv.style.display = "none"; resDiv.innerHTML = data.status;
                 document.getElementById('agente-nome').value = ''; document.getElementById('agente-contato').value = ''; document.getElementById('agente-mensagem').value = '';
