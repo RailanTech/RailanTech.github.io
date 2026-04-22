@@ -72,7 +72,6 @@
         .btn-anexo svg { fill: var(--texto-secundario); width: 22px; height: 22px; }
 
         .prompt-box input { flex: 1; min-width: 0; background: transparent; border: none; color: var(--texto-principal); font-size: 16px; padding: 15px; outline: none; text-overflow: ellipsis; }
-        .prompt-box input::placeholder { color: var(--texto-secundario); text-overflow: ellipsis; }
         
         .btn-enviar { background: transparent; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 12px; border-radius: 50%; transition: 0.2s; flex-shrink: 0; }
         .btn-enviar:hover { background-color: rgba(255,255,255,0.1); }
@@ -150,7 +149,7 @@
             </div>
             <div class="menu-divisor"></div>
             <div class="menu-item" onclick="abrirPainel('painel-sobre')">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
                 Sobre a Central RailanTech
             </div>
             <div class="menu-divisor"></div>
@@ -178,7 +177,7 @@
                 <button class="btn-anexo" onclick="document.getElementById('aviso-anexo-principal').style.display='block'" title="Enviar arquivos">
                     <svg viewBox="0 0 24 24"><path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/></svg>
                 </button>
-                <input type="text" id="input-link" placeholder="Cole aqui Link, SMS de Golpe ou Telefone suspeito..." onkeypress="if(event.key === 'Enter') iniciarVarredura()">
+                <input type="text" id="input-link" onkeypress="if(event.key === 'Enter') iniciarVarredura()">
                 <button class="btn-enviar" onclick="iniciarVarredura()">
                     <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                 </button>
@@ -200,7 +199,7 @@
                 <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
             </button>
             <h2>
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg>
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
                 Sobre a Central RailanTech
             </h2>
             <p>O <b>Terminal de Inteligência RailanTech</b> não é apenas um verificador de links, é uma muralha de segurança contra o crime digital. Desenvolvido com arquitetura de dados de alta precisão (OSINT Nível 1), nosso motor intercepta ameaças financeiras e golpes de Engenharia Social no exato momento da consulta.</p>
@@ -226,8 +225,8 @@
             </button>
             <h2 class="dossie-title">Dossiê de Registro de Golpe</h2>
             
-            <input type="text" id="agente-nome" class="input-padrao" placeholder="Nome completo da vítima ou registro">
-            <input type="text" id="agente-contato" class="input-padrao" placeholder="Seu E-mail ou WhatsApp de Contato">
+            <input type="text" id="agente-nome" class="input-padrao">
+            <input type="text" id="agente-contato" class="input-padrao">
             
             <button class="btn-fantasma" onclick="document.getElementById('aviso-fantasma-dossie').style.display='block'">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/></svg>
@@ -277,9 +276,7 @@
             menuFlutuante.classList.remove('ativo');
         }
 
-        // ==========================================================
-        // SENSOR DE TELA: O MOTOR SÓ LIGA NO CELULAR (<= 768px)
-        // ==========================================================
+        // MOTOR SENSOR DE TELA CELULAR (<= 768px)
         const typewriterConfigs = [
             {
                 id: 'input-link',
@@ -299,10 +296,7 @@
         ];
 
         function startTypewriters() {
-            // LÓGICA DE UX AVANÇADA: SÓ EXECUTA EM CELULAR
             if (window.innerWidth <= 768) {
-                
-                // Limpa os textos estáticos do PC para iniciar a animação mobile
                 document.getElementById('input-link').placeholder = "";
                 document.getElementById('agente-nome').placeholder = "";
                 document.getElementById('agente-contato').placeholder = "";
@@ -310,6 +304,10 @@
                 typewriterConfigs.forEach(config => {
                     moverTexto(config);
                 });
+            } else {
+                document.getElementById('input-link').placeholder = "Cole aqui Link, SMS de Golpe ou Telefone suspeito...";
+                document.getElementById('agente-nome').placeholder = "Nome completo da vítima ou registro";
+                document.getElementById('agente-contato').placeholder = "Seu E-mail ou WhatsApp de Contato";
             }
         }
 
