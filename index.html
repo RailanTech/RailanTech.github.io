@@ -20,7 +20,7 @@
 
         body { background-color: var(--bg-principal); color: var(--texto-principal); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; }
 
-        /* TELA DE BOAS VINDAS (MARKETING PRECISO) */
+        /* TELA DE BOAS VINDAS */
         #overlay-boas-vindas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85); z-index: 9999; display: flex;
@@ -41,16 +41,47 @@
         .btn-iniciar-terminal { background: linear-gradient(45deg, var(--ouro-puro), var(--ouro-brilho)); color: #000; border: none; padding: 15px 30px; border-radius: 30px; font-weight: 700; font-size: 16px; cursor: pointer; margin-top: 15px; width: 100%; transition: 0.2s; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); }
         .btn-iniciar-terminal:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6); }
 
-        /* BARRA SUPERIOR E MENU FLUTUANTE */
+        /* BARRA SUPERIOR BASE */
         .top-bar { position: absolute; top: 0; width: 100%; padding: 20px 25px; display: flex; justify-content: flex-end; align-items: center; z-index: 100; }
         .menu-btn { background: none; border: none; color: var(--texto-secundario); cursor: pointer; padding: 10px; border-radius: 50%; transition: 0.2s; }
         .menu-btn:hover { background-color: var(--bg-hover); }
+        
+        /* MENU FLUTUANTE (MOBILE PADRÃO) */
         .menu-flutuante { position: absolute; top: 70px; right: 25px; background-color: var(--bg-secundario); border-radius: 12px; width: 350px; padding: 12px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.7); border: 1px solid var(--borda); display: none; z-index: 101; }
         .menu-flutuante.ativo { display: block; animation: fadeIn 0.2s; }
         .menu-item { padding: 16px 20px; display: flex; align-items: center; gap: 15px; color: var(--texto-principal); font-size: 16px; font-weight: 500; cursor: pointer; transition: 0.2s; }
         .menu-item:hover { background-color: rgba(255,255,255,0.05); } 
         .menu-item svg { fill: var(--texto-secundario); width: 22px; height: 22px; pointer-events: none; }
         .menu-divisor { height: 1px; background-color: var(--borda); margin: 10px 0; }
+
+        /* ========================================================
+           A MÁGICA DO PC: MENU HORIZONTAL DIRETO (1 CLIQUE)
+           ======================================================== */
+        @media (min-width: 769px) {
+            .menu-btn { display: none; /* Esconde os 3 pontinhos no PC */ }
+            .menu-flutuante {
+                position: static; 
+                display: flex !important; /* Força aparecer na barra */
+                flex-direction: row; 
+                gap: 15px;
+                background: transparent; 
+                box-shadow: none; 
+                border: none; 
+                padding: 0;
+                width: auto;
+            }
+            .menu-item { 
+                padding: 10px 20px; 
+                border-radius: 30px; 
+                border: 1px solid transparent; 
+                font-size: 15px;
+            }
+            .menu-item:hover { 
+                background-color: rgba(255,255,255,0.05); 
+                border-color: var(--borda); 
+            }
+            .menu-divisor { display: none; /* Tira as linhas divisórias */ }
+        }
 
         /* MÓDULO PRINCIPAL (O CORPO) */
         .main-container { width: 100%; max-width: 800px; padding: 20px; padding-bottom: 60px; display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 12vh; }
@@ -87,7 +118,6 @@
         /* MODAIS DE INFORMAÇÃO E DOSSIÊ */
         .modal-info, #painel-denuncia { position: relative; display: none; width: 100%; max-width: 650px; background-color: var(--bg-secundario); padding: 35px; border-radius: 20px; border: 1px solid var(--borda); margin-top: 30px; text-align: left; box-shadow: 0 10px 40px rgba(0,0,0,0.8); animation: fadeIn 0.3s; }
         
-        /* O ALINHAMENTO PERFEITO DOS ÍCONES E TÍTULOS */
         .modal-info h2, .dossie-title { font-size: 20px; margin-bottom: 20px; color: var(--ouro-brilho); display: flex; align-items: center; gap: 12px; padding-right: 40px; font-weight: 500; }
         .modal-info h2 svg, .dossie-title svg { fill: var(--ouro-puro); width: 24px; height: 24px; flex-shrink: 0; }
         
@@ -100,7 +130,6 @@
         .btn-padrao { background-color: var(--destaque-azul); color: #000; border: none; padding: 18px 25px; border-radius: 35px; font-weight: 600; cursor: pointer; font-size: 15px; transition: 0.2s; width: 100%; box-shadow: 0 4px 15px rgba(168, 199, 250, 0.3); }
         .btn-padrao:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(168, 199, 250, 0.4); }
         
-        /* BOTÃO FECHAR EM ALTA QUALIDADE */
         .btn-fechar { position: absolute; top: 25px; right: 25px; background: transparent; border: none; color: var(--texto-secundario); cursor: pointer; padding: 8px; border-radius: 50%; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
         .btn-fechar:hover { background-color: rgba(255,255,255,0.07); color: var(--vermelho-alerta); }
         .btn-fechar svg { width: 24px; height: 24px; fill: currentColor; }
@@ -151,7 +180,7 @@
             <div class="menu-divisor"></div>
             <div class="menu-item" onclick="abrirPainel('painel-sobre')">
                 <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-                Sobre a Central RailanTech
+                Sobre a Central
             </div>
             <div class="menu-divisor"></div>
             <div class="menu-item" onclick="abrirPainel('painel-ajuda')">
