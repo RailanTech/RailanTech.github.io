@@ -86,7 +86,11 @@
 
         /* MODAIS DE INFORMAÇÃO E DOSSIÊ */
         .modal-info, #painel-denuncia { position: relative; display: none; width: 100%; max-width: 650px; background-color: var(--bg-secundario); padding: 35px; border-radius: 20px; border: 1px solid var(--borda); margin-top: 30px; text-align: left; box-shadow: 0 10px 40px rgba(0,0,0,0.8); animation: fadeIn 0.3s; }
+        
+        /* O ALINHAMENTO PERFEITO DOS ÍCONES E TÍTULOS */
         .modal-info h2, .dossie-title { font-size: 20px; margin-bottom: 20px; color: var(--ouro-brilho); display: flex; align-items: center; gap: 12px; padding-right: 40px; font-weight: 500; }
+        .modal-info h2 svg, .dossie-title svg { fill: var(--ouro-puro); width: 24px; height: 24px; flex-shrink: 0; }
+        
         .modal-info p { font-size: 15px; color: var(--texto-secundario); line-height: 1.7; margin-bottom: 18px; }
         
         .input-padrao { width: 100%; background: var(--bg-principal); border: 1px solid var(--borda); color: var(--texto-principal); padding: 18px; border-radius: 12px; margin-bottom: 18px; font-size: 15px; outline: none; transition: 0.2s; text-overflow: ellipsis; }
@@ -95,8 +99,11 @@
         .btn-fantasma:hover { background: var(--bg-hover); color: var(--texto-principal); border-color: var(--texto-secundario); }
         .btn-padrao { background-color: var(--destaque-azul); color: #000; border: none; padding: 18px 25px; border-radius: 35px; font-weight: 600; cursor: pointer; font-size: 15px; transition: 0.2s; width: 100%; box-shadow: 0 4px 15px rgba(168, 199, 250, 0.3); }
         .btn-padrao:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(168, 199, 250, 0.4); }
+        
+        /* BOTÃO FECHAR EM ALTA QUALIDADE */
         .btn-fechar { position: absolute; top: 25px; right: 25px; background: transparent; border: none; color: var(--texto-secundario); cursor: pointer; padding: 8px; border-radius: 50%; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
         .btn-fechar:hover { background-color: rgba(255,255,255,0.07); color: var(--vermelho-alerta); }
+        .btn-fechar svg { width: 24px; height: 24px; fill: currentColor; }
 
         /* ADAPTAÇÃO CIRÚRGICA PARA CELULARES E TABLETS MENORES */
         @media (max-width: 768px) {
@@ -143,7 +150,7 @@
             </div>
             <div class="menu-divisor"></div>
             <div class="menu-item" onclick="abrirPainel('painel-sobre')">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
                 Sobre a Central RailanTech
             </div>
             <div class="menu-divisor"></div>
@@ -188,23 +195,38 @@
         </div>
 
         <div id="painel-sobre" class="modal-info">
-            <button class="btn-fechar" onclick="fecharPaineis()" title="Fechar">✖</button>
-            <h2>Sobre a Central RailanTech</h2>
+            <button class="btn-fechar" onclick="fecharPaineis()" title="Fechar">
+                <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </button>
+            <h2>
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                Sobre a Central RailanTech
+            </h2>
             <p>O <b>Terminal de Inteligência RailanTech</b> não é apenas um verificador de links, é uma muralha de segurança contra o crime digital. Desenvolvido com arquitetura de dados de alta precisão (OSINT Nível 1), nosso motor intercepta ameaças financeiras e golpes de Engenharia Social no exato momento da consulta.</p>
             <p>O nosso objetivo é implacável: <b>proteger o seu patrimônio antes que o clique destrua a sua conta.</b> Informação é poder.</p>
         </div>
 
         <div id="painel-ajuda" class="modal-info">
-            <button class="btn-fechar" onclick="fecharPaineis()" title="Fechar">✖</button>
-            <h2>Guia Tático de Proteção</h2>
+            <button class="btn-fechar" onclick="fecharPaineis()" title="Fechar">
+                <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </button>
+            <h2>
+                <svg viewBox="0 0 24 24"><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg>
+                Guia Tático de Proteção
+            </h2>
             <p><b>Passo 1: Intercepte a Ameaça.</b> Copie o link suspeito que você recebeu no celular ou tire um Print da tela da ligação falsa.</p>
             <p><b>Passo 2: Inicie o Raio-X.</b> Cole o link na barra de varredura ou anexe a foto no ícone de clipe de papel.</p>
             <p><b>Passo 3: O Veredito.</b> Em milissegundos, o motor de visão neural e a IA emitirão o laudo oficial para te proteger.</p>
         </div>
 
         <div id="painel-denuncia">
-            <button class="btn-fechar" onclick="fecharPaineis()" title="Fechar">✖</button>
-            <h2 class="dossie-title">Dossiê de Registro de Golpe</h2>
+            <button class="btn-fechar" onclick="fecharPaineis()" title="Fechar">
+                <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </button>
+            <h2 class="dossie-title">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                Dossiê de Registro de Golpe
+            </h2>
             <input type="text" id="agente-nome" class="input-padrao">
             <input type="text" id="agente-contato" class="input-padrao">
             
@@ -223,12 +245,10 @@
     </div>
 
     <script>
-        // O FIO INVISÍVEL (Nenhuma menção à hospedagem Cloudflare)
         const API_MATRIZ_OSINT = "https://motor-osint-privado.analise-seguranca.workers.dev";
         
         function fecharBoasVindas() { document.getElementById('overlay-boas-vindas').style.display = 'none'; }
         
-        // CONTROLE DE CLIQUES NO MENU
         const btnMenu = document.getElementById('btnMenu'); const menuFlutuante = document.getElementById('menuFlutuante');
         btnMenu.addEventListener('click', function(event) { event.stopPropagation(); menuFlutuante.classList.toggle('ativo'); });
         document.addEventListener('click', function(event) { if (!menuFlutuante.contains(event.target) && event.target !== btnMenu) { menuFlutuante.classList.remove('ativo'); } });
@@ -247,7 +267,7 @@
         }
 
         // =========================================================
-        // O MOTOR DE MOVIMENTO AUTOMÁTICO (SÓ PARA CELULARES)
+        // SENSOR GEOMÉTRICO (PC ESTÁTICO / MOBILE AUTOMÁTICO)
         // =========================================================
         const typewriterConfigs = [
             { id: 'input-link', texts: ["Cole aqui Link suspeito...", "Cole o SMS de Golpe...", "Ou envie o Print da ameaça..."], pIndex: 0, charIndex: 0, defaultTxt: "Cole aqui a ameaça..." },
@@ -256,14 +276,14 @@
         ];
 
         function startTypewriters() {
-            // A LÓGICA: SÓ RODA EM TELAS MENORES QUE 768px (Celular e Tablet pequeno)
             if (window.innerWidth <= 768) {
+                // MODO CELULAR: Movimento Automático (➡️➡️➡️)
                 document.getElementById('input-link').placeholder = ""; 
                 document.getElementById('agente-nome').placeholder = ""; 
                 document.getElementById('agente-contato').placeholder = "";
                 typewriterConfigs.forEach(config => { moverTexto(config); });
             } else {
-                // TELAS GRANDES (PC/MAC): Texto congelado, imponente e seguro.
+                // MODO PC: Congelado e Elegante
                 document.getElementById('input-link').placeholder = "Cole aqui Link, SMS de Golpe ou anexe um Print...";
                 document.getElementById('agente-nome').placeholder = "Nome completo da vítima ou registro";
                 document.getElementById('agente-contato').placeholder = "Seu E-mail ou WhatsApp de Contato";
@@ -286,9 +306,6 @@
         
         window.onload = function() { setTimeout(startTypewriters, 500); };
 
-        // =========================================================
-        // O CÉREBRO DAS CORES DOS LAUDOS
-        // =========================================================
         function aplicarCoresLaudo(msgBox, texto) {
             msgBox.className = "mensagem-ia"; 
             if (texto.includes("GOLPE") || texto.includes("CRÍTICA") || texto.includes("AMEAÇA") || texto.includes("PHISHING") || texto.includes("FRAUDE")) {
@@ -299,7 +316,7 @@
         }
 
         // =========================================================
-        // A ARMA 1: VARREDURA DE TEXTO E LINK
+        // ARMAS DE CAÇADA: TEXTO E IMAGEM
         // =========================================================
         async function iniciarVarredura() {
             const link = document.getElementById('input-link').value;
@@ -323,9 +340,6 @@
             }
         }
 
-        // =========================================================
-        // A ARMA 2: LEITURA DE PRINTS (VISÃO NEURAL TÁTICA)
-        // =========================================================
         async function processarImagem(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -365,9 +379,6 @@
             reader.readAsDataURL(file);
         }
 
-        // =========================================================
-        // A ARMA 3: O DOSSIÊ
-        // =========================================================
         async function enviarDossie() {
             const nome = document.getElementById('agente-nome').value; const contato = document.getElementById('agente-contato').value; const mensagem = document.getElementById('agente-mensagem').value;
             const resDiv = document.getElementById('resultado-denuncia'); const loadDiv = document.getElementById('loading-denuncia');
