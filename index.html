@@ -34,7 +34,7 @@
         .conteudo-central img { width: 220px; height: auto; margin-bottom: 20px; }
         .titulo-central { color: var(--ouro-puro); font-size: 48px; font-weight: 600; margin-bottom: 15px; letter-spacing: -0.5px; }
         
-        /* PLACAR ESTRATÉGICO (MARKETING) */
+        /* PLACAR ESTRATÉGICO */
         .placar-autoridade { background: rgba(212, 175, 55, 0.08); border: 1px solid var(--ouro-puro); border-radius: 30px; padding: 8px 25px; color: var(--ouro-brilho); font-weight: 600; font-size: 14px; margin-bottom: 30px; display: inline-flex; align-items: center; gap: 10px; }
         .placar-autoridade span { display: inline-block; width: 8px; height: 8px; background-color: var(--verde-seguro); border-radius: 50%; box-shadow: 0 0 10px var(--verde-seguro); animation: pulse 2s infinite; }
 
@@ -54,7 +54,7 @@
         .mensagem-ia.neutro { border-left: 4px solid var(--destaque-azul); }
         .preview-imagem { max-width: 100%; max-height: 250px; border-radius: 8px; margin-bottom: 15px; display: none; border: 1px solid var(--borda); }
 
-        /* ARQUITETURA MODAL GERAL (SEM ALERTS FALSOS) */
+        /* ARQUITETURA MODAL GERAL */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--fundo-modal); z-index: 999; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); animation: fadeIn 0.3s; }
         .modal-content { background-color: var(--bg-secundario); border-radius: 20px; width: 90%; max-width: 600px; padding: 40px; position: relative; max-height: 90vh; overflow-y: auto; border: 1px solid var(--borda); box-shadow: 0 15px 50px rgba(0,0,0,0.8); }
         .modal-title { font-size: 22px; margin-bottom: 25px; color: var(--ouro-brilho); display: flex; align-items: center; gap: 10px; font-weight: 600; padding-right: 30px; }
@@ -69,20 +69,35 @@
         .btn-opcao.selecionado { background: rgba(212, 175, 55, 0.1); border-color: var(--ouro-puro); color: var(--ouro-brilho); }
         .input-texto { width: 100%; background: var(--bg-principal); border: 1px solid var(--borda); color: var(--texto-principal); padding: 15px; border-radius: 12px; margin-bottom: 10px; outline: none; font-size: 15px; }
         .btn-fantasma { width: 100%; background: transparent; border: 1px dashed var(--borda); color: var(--texto-secundario); padding: 15px; border-radius: 12px; cursor: pointer; font-size: 15px; display: flex; justify-content: center; align-items: center; gap: 8px; }
-        .btn-enviar-dossie { background: linear-gradient(45deg, var(--ouro-puro), var(--ouro-brilho)); color: #000; border: none; padding: 18px; border-radius: 35px; font-weight: 700; width: 100%; cursor: pointer; font-size: 16px; margin-top: 10px; transition: 0.2s; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
+        
+        /* O BOTÃO TRANSMITIR (AGORA COM RESPIRO) */
+        .btn-enviar-dossie { 
+            background: linear-gradient(45deg, var(--ouro-puro), var(--ouro-brilho)); 
+            color: #000; border: none; padding: 18px; border-radius: 35px; 
+            font-weight: 700; width: 100%; cursor: pointer; font-size: 16px; 
+            margin-top: 25px; /* CIRURGIA 3: Respiro superior */
+            margin-bottom: 15px; /* CIRURGIA 2: Respiro inferior para o celular */
+            transition: 0.2s; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); 
+        }
         .btn-enviar-dossie:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5); }
         
         .protocolo-box { background: var(--bg-principal); border: 1px solid var(--ouro-puro); padding: 15px; border-radius: 10px; font-size: 22px; font-weight: bold; color: var(--ouro-brilho); margin: 20px 0; letter-spacing: 2px; text-align: center; }
 
-        /* RESPONSIVIDADE NÍVEL OURO (O CELULAR NÃO ESMAGA BOTÕES) */
+        /* RESPONSIVIDADE NÍVEL OURO (CIRURGIAS DO CELULAR) */
         @media (max-width: 768px) {
             .main-container { margin-top: 5vh; padding: 15px; }
             .titulo-central { font-size: 38px; }
             .conteudo-central img { width: 160px; }
             .prompt-box { padding: 6px 12px; }
             .prompt-box input[type="text"] { font-size: 15px; padding: 12px 5px; }
-            .modal-content { padding: 25px; margin-top: 10px; }
-            .botoes-grid { grid-template-columns: 1fr !important; } /* Botões empilhados inteligentemente */
+            
+            /* CIRURGIA 1: Menu Flutuante Centralizado no Celular */
+            .menu-flutuante { width: 90%; left: 5%; right: auto; top: 70px; }
+
+            /* CIRURGIA 2: Fundo do Modal com mais espaço (Padding Bottom) */
+            .modal-content { padding: 25px 25px 40px 25px; margin-top: 10px; }
+            
+            .botoes-grid { grid-template-columns: 1fr !important; }
             .btn-fechar { top: 12px; right: 12px; }
         }
         @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
@@ -195,7 +210,7 @@
     <script>
         const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
         
-        // MÁQUINA DE ESCREVER (INTELIGÊNCIA DE TELA: PC vs CELULAR)
+        // MÁQUINA DE ESCREVER
         const txtAmeacas = ["Cole aqui Link suspeito...", "Cole o SMS de Golpe...", "Ou envie a evidência..."];
         let pIndex = 0; let charIndex = 0;
         
@@ -223,7 +238,7 @@
 
         window.onload = function() { setTimeout(iniciarLetreiroInteligente, 500); };
 
-        // CONTROLE DOS MODAIS
+        // CONTROLE DOS MODAIS (FECHA O MENU AO CLICAR)
         function abrirModalOSINT(painelID) {
             document.getElementById('menuFlutuante').classList.remove('ativo');
             document.getElementById('form-dossie').style.display = 'none';
@@ -243,7 +258,15 @@
             document.getElementById('modalOSINT').style.display = 'flex';
         }
 
-        // REGRA VISUAL OURO (Verde bloqueia Vermelho)
+        // FECHAR MENU CLICANDO FORA
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('menuFlutuante');
+            const btnMenu = document.querySelector('.menu-btn');
+            if (!menu.contains(event.target) && !btnMenu.contains(event.target)) {
+                menu.classList.remove('ativo');
+            }
+        });
+
         function aplicarCoresLaudo(msgBox, texto) {
             msgBox.className = "mensagem-ia"; 
             const txt = texto.toUpperCase(); 
@@ -252,7 +275,6 @@
             else { msgBox.classList.add("neutro"); }
         }
 
-        // VARREDURA
         async function iniciarVarredura() {
             const inputDado = document.getElementById('input-link').value;
             if(!inputDado) return;
@@ -292,7 +314,6 @@
             msgBox.innerHTML = txt; aplicarCoresLaudo(msgBox, txt);
         }
 
-        // LÓGICA DO DOSSIÊ
         let dossieDados = { perfil: 'Cidadão', canal: 'WhatsApp', anexoBase64: null };
 
         function selecionarPerfil(tipo) {
