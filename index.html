@@ -70,20 +70,18 @@
         .input-texto { width: 100%; background: var(--bg-principal); border: 1px solid var(--borda); color: var(--texto-principal); padding: 15px; border-radius: 12px; margin-bottom: 10px; outline: none; font-size: 15px; }
         .btn-fantasma { width: 100%; background: transparent; border: 1px dashed var(--borda); color: var(--texto-secundario); padding: 15px; border-radius: 12px; cursor: pointer; font-size: 15px; display: flex; justify-content: center; align-items: center; gap: 8px; }
         
-        /* O BOTÃO TRANSMITIR (AGORA COM RESPIRO) */
         .btn-enviar-dossie { 
             background: linear-gradient(45deg, var(--ouro-puro), var(--ouro-brilho)); 
             color: #000; border: none; padding: 18px; border-radius: 35px; 
             font-weight: 700; width: 100%; cursor: pointer; font-size: 16px; 
-            margin-top: 25px; /* CIRURGIA 3: Respiro superior */
-            margin-bottom: 15px; /* CIRURGIA 2: Respiro inferior para o celular */
+            margin-top: 25px; margin-bottom: 15px;
             transition: 0.2s; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); 
         }
         .btn-enviar-dossie:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5); }
         
         .protocolo-box { background: var(--bg-principal); border: 1px solid var(--ouro-puro); padding: 15px; border-radius: 10px; font-size: 22px; font-weight: bold; color: var(--ouro-brilho); margin: 20px 0; letter-spacing: 2px; text-align: center; }
 
-        /* RESPONSIVIDADE NÍVEL OURO (CIRURGIAS DO CELULAR) */
+        /* RESPONSIVIDADE NÍVEL OURO */
         @media (max-width: 768px) {
             .main-container { margin-top: 5vh; padding: 15px; }
             .titulo-central { font-size: 38px; }
@@ -91,10 +89,7 @@
             .prompt-box { padding: 6px 12px; }
             .prompt-box input[type="text"] { font-size: 15px; padding: 12px 5px; }
             
-            /* CIRURGIA 1: Menu Flutuante Centralizado no Celular */
             .menu-flutuante { width: 90%; left: 5%; right: auto; top: 70px; }
-
-            /* CIRURGIA 2: Fundo do Modal com mais espaço (Padding Bottom) */
             .modal-content { padding: 25px 25px 40px 25px; margin-top: 10px; }
             
             .botoes-grid { grid-template-columns: 1fr !important; }
@@ -210,35 +205,54 @@
     <script>
         const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
         
-        // MÁQUINA DE ESCREVER
-        const txtAmeacas = ["Cole aqui Link suspeito...", "Cole o SMS de Golpe...", "Ou envie a evidência..."];
-        let pIndex = 0; let charIndex = 0;
-        
-        function iniciarLetreiroInteligente() {
+        // ==========================================
+        // MOTOR MÁQUINA DE ESCREVER (TYPEWRITER OURO)
+        // ==========================================
+        const frasesMobile = ["Cole o Link suspeito...", "Cole o texto do Golpe...", "Ou envie a Evidência..."];
+        let iFrase = 0; let iLetra = 0; let apagando = false;
+        const typingDelay = 80; const eraseDelay = 40; const newTextDelay = 2000;
+
+        function maquinaDeEscrever() {
             const input = document.getElementById('input-link');
-            if (window.innerWidth <= 768) {
-                input.placeholder = ""; moverTexto();
-            } else {
+            
+            // Regra 1: PC fica texto fixo.
+            if (window.innerWidth > 768) {
                 input.placeholder = "Cole aqui o link, texto de Golpe ou anexe uma Evidência...";
+                return;
+            }
+
+            // Regra 2: Pausa se o cidadão clicar na barra ou digitar.
+            if (document.activeElement === input || input.value !== "") {
+                input.placeholder = "Cole a ameaça aqui...";
+                setTimeout(maquinaDeEscrever, 1500);
+                return;
+            }
+
+            const fraseAtual = frasesMobile[iFrase];
+
+            if (!apagando) {
+                input.placeholder = fraseAtual.substring(0, iLetra + 1);
+                iLetra++;
+                if (iLetra === fraseAtual.length) {
+                    apagando = true;
+                    setTimeout(maquinaDeEscrever, newTextDelay);
+                } else { setTimeout(maquinaDeEscrever, typingDelay); }
+            } else {
+                input.placeholder = fraseAtual.substring(0, iLetra - 1);
+                iLetra--;
+                if (iLetra === 0) {
+                    apagando = false;
+                    iFrase = (iFrase + 1) % frasesMobile.length;
+                    setTimeout(maquinaDeEscrever, typingDelay);
+                } else { setTimeout(maquinaDeEscrever, eraseDelay); }
             }
         }
 
-        function moverTexto() {
-            const input = document.getElementById('input-link');
-            if(window.innerWidth > 768) { input.placeholder = "Cole aqui o link, texto de Golpe ou anexe uma Evidência..."; return; }
-            if(!input.value && document.activeElement !== input) {
-                const currentText = txtAmeacas[pIndex];
-                input.placeholder = currentText.substring(0, charIndex + 1);
-                charIndex++;
-                if (charIndex === currentText.length) {
-                    setTimeout(() => { charIndex = 0; pIndex = (pIndex + 1) % txtAmeacas.length; moverTexto(); }, 2000); 
-                } else { setTimeout(moverTexto, 60); }
-            } else { setTimeout(moverTexto, 1500); }
-        }
+        window.onload = function() { setTimeout(maquinaDeEscrever, 500); };
 
-        window.onload = function() { setTimeout(iniciarLetreiroInteligente, 500); };
-
-        // CONTROLE DOS MODAIS (FECHA O MENU AO CLICAR)
+        // ==========================================
+        // CONTROLES DE INTERFACE (MODAIS)
+        // ==========================================
         function abrirModalOSINT(painelID) {
             document.getElementById('menuFlutuante').classList.remove('ativo');
             document.getElementById('form-dossie').style.display = 'none';
@@ -267,6 +281,7 @@
             }
         });
 
+        // REGRA VISUAL OURO (Verde bloqueia Vermelho)
         function aplicarCoresLaudo(msgBox, texto) {
             msgBox.className = "mensagem-ia"; 
             const txt = texto.toUpperCase(); 
@@ -275,6 +290,9 @@
             else { msgBox.classList.add("neutro"); }
         }
 
+        // ==========================================
+        // SISTEMA DE VARREDURA
+        // ==========================================
         async function iniciarVarredura() {
             const inputDado = document.getElementById('input-link').value;
             if(!inputDado) return;
@@ -314,6 +332,9 @@
             msgBox.innerHTML = txt; aplicarCoresLaudo(msgBox, txt);
         }
 
+        // ==========================================
+        // LÓGICA DO DOSSIÊ OFICIAL
+        // ==========================================
         let dossieDados = { perfil: 'Cidadão', canal: 'WhatsApp', anexoBase64: null };
 
         function selecionarPerfil(tipo) {
