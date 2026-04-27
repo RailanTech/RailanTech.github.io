@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>RailanTech Protect - Central Anti-Fraude</title>
     <style>
         :root {
@@ -11,90 +11,124 @@
             --destaque-azul: #a8c7fa; --vermelho-alerta: #f28b82; --verde-seguro: #81c995;
             --ouro-puro: #d4af37; --ouro-brilho: #f3e5ab; --fundo-modal: rgba(0, 0, 0, 0.85);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-        body { background-color: var(--bg-principal); color: var(--texto-principal); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        
+        /* REGRA UNIVERSAL: Fontes nativas e proteção contra distorção de OS */
+        * { 
+            margin: 0; padding: 0; box-sizing: border-box; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* O USO DO DVH: Impede a barra do iPhone/Android de esmagar o site */
+        body { background-color: var(--bg-principal); color: var(--texto-principal); min-height: 100dvh; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
 
-        /* MENU SUPERIOR */
+        /* Proteção Apple (Impede botões redondos indesejados no iOS) */
+        input, button, textarea { -webkit-appearance: none; border: none; outline: none; }
+
+        /* =========================================
+           1. MENU ESTRATÉGICO
+           ========================================= */
         .top-bar { position: absolute; top: 0; width: 100%; padding: 20px 25px; display: flex; justify-content: flex-end; align-items: center; z-index: 100; }
-        .menu-btn { background: none; border: none; color: var(--texto-secundario); cursor: pointer; padding: 10px; border-radius: 50%; transition: 0.2s; }
+        .menu-btn { background: none; color: var(--texto-secundario); cursor: pointer; padding: 10px; border-radius: 50%; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
         .menu-flutuante { position: absolute; top: 70px; right: 25px; background-color: var(--bg-secundario); border-radius: 12px; width: 350px; padding: 12px 0; border: 1px solid var(--borda); display: none; z-index: 101; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
         .menu-flutuante.ativo { display: block; animation: fadeIn 0.2s; }
         .menu-item { padding: 16px 20px; display: flex; align-items: center; gap: 15px; color: var(--texto-principal); font-size: 16px; font-weight: 500; cursor: pointer; transition: 0.2s; }
         .menu-item:hover { background-color: rgba(255,255,255,0.05); } 
         
-        @media (min-width: 769px) {
+        @media (min-width: 1025px) {
             .menu-btn { display: none; }
             .menu-flutuante { position: static; display: flex !important; flex-direction: row; gap: 15px; background: transparent; border: none; padding: 0; width: auto; box-shadow: none; }
             .menu-item { padding: 10px 20px; border-radius: 30px; border: 1px solid var(--borda); background-color: rgba(255,255,255,0.02); font-size: 14px; }
             .menu-item:hover { background-color: rgba(255,255,255,0.08); border-color: var(--texto-secundario); }
         }
 
-        /* CONTEÚDO CENTRAL */
-        .main-container { width: 100%; max-width: 800px; padding: 20px; display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 12vh; }
+        /* =========================================
+           2. NÚCLEO CENTRAL (DASHBOARD)
+           ========================================= */
+        .main-container { width: 100%; max-width: 800px; padding: 20px; display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 15dvh; }
         .conteudo-central img { width: 220px; height: auto; margin-bottom: 20px; }
         .titulo-central { color: var(--ouro-puro); font-size: 48px; font-weight: 600; margin-bottom: 15px; letter-spacing: -0.5px; }
         
-        /* PLACAR ESTRATÉGICO */
         .placar-autoridade { background: rgba(212, 175, 55, 0.08); border: 1px solid var(--ouro-puro); border-radius: 30px; padding: 8px 25px; color: var(--ouro-brilho); font-weight: 600; font-size: 14px; margin-bottom: 30px; display: inline-flex; align-items: center; gap: 10px; }
         .placar-autoridade span { display: inline-block; width: 8px; height: 8px; background-color: var(--verde-seguro); border-radius: 50%; box-shadow: 0 0 10px var(--verde-seguro); animation: pulse 2s infinite; }
 
-        /* BARRA DE PESQUISA INTELIGENTE */
+        /* BARRA DE VARREDURA */
         .prompt-box { width: 100%; background-color: var(--bg-secundario); border-radius: 40px; display: flex; align-items: center; padding: 10px 20px; border: 1px solid var(--borda); margin-bottom: 30px; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         .prompt-box:focus-within { border-color: var(--texto-secundario); background-color: var(--bg-hover); box-shadow: 0 4px 20px rgba(0,0,0,0.7); }
-        .prompt-box input[type="text"] { flex: 1; background: transparent; border: none; color: var(--texto-principal); font-size: 16px; padding: 15px; outline: none; }
-        .btn-acao { background: transparent; border: none; cursor: pointer; padding: 12px; border-radius: 50%; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+        .prompt-box input[type="text"] { flex: 1; background: transparent; color: var(--texto-principal); font-size: 16px; padding: 15px; }
+        .prompt-box input[type="text"]::placeholder { color: var(--texto-secundario); opacity: 0.7; }
+        .btn-acao { background: transparent; cursor: pointer; padding: 12px; border-radius: 50%; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
         .btn-acao:hover { background-color: rgba(255,255,255,0.1); }
         .btn-acao svg { fill: var(--texto-secundario); width: 24px; height: 24px; }
 
-        /* RESULTADOS */
+        /* TELA DE LAUDO (RESPOSTA IA) */
         .resultado-box { width: 100%; display: none; flex-direction: column; text-align: left; margin-bottom: 40px; }
         .mensagem-ia { background-color: var(--bg-secundario); padding: 30px; border-radius: 16px; font-size: 16px; line-height: 1.7; border: 1px solid var(--borda); }
         .mensagem-ia.alerta { border-left: 4px solid var(--vermelho-alerta); }
         .mensagem-ia.seguro { border-left: 4px solid var(--verde-seguro); }
         .mensagem-ia.neutro { border-left: 4px solid var(--destaque-azul); }
-        .preview-imagem { max-width: 100%; max-height: 250px; border-radius: 8px; margin-bottom: 15px; display: none; border: 1px solid var(--borda); }
+        .preview-imagem { max-width: 100%; max-height: 250px; border-radius: 8px; margin-bottom: 15px; display: none; border: 1px solid var(--borda); object-fit: contain; }
 
-        /* ARQUITETURA MODAL GERAL */
+        /* =========================================
+           3. ARQUITETURA MODAL (O COFRE BLINDADO)
+           ========================================= */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--fundo-modal); z-index: 999; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); animation: fadeIn 0.3s; }
-        .modal-content { background-color: var(--bg-secundario); border-radius: 20px; width: 90%; max-width: 600px; padding: 40px; position: relative; max-height: 90vh; overflow-y: auto; border: 1px solid var(--borda); box-shadow: 0 15px 50px rgba(0,0,0,0.8); }
+        .modal-content { background-color: var(--bg-secundario); border-radius: 20px; width: 90%; max-width: 600px; padding: 40px; padding-bottom: 50px; position: relative; max-height: 85dvh; overflow-y: auto; border: 1px solid var(--borda); box-shadow: 0 15px 50px rgba(0,0,0,0.8); }
         .modal-title { font-size: 22px; margin-bottom: 25px; color: var(--ouro-brilho); display: flex; align-items: center; gap: 10px; font-weight: 600; padding-right: 30px; }
-        .btn-fechar { position: absolute; top: 20px; right: 20px; background: transparent; border: none; color: var(--texto-secundario); cursor: pointer; font-size: 22px; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .btn-fechar { position: absolute; top: 20px; right: 20px; background: transparent; color: var(--texto-secundario); cursor: pointer; font-size: 22px; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
         .btn-fechar:hover { background-color: rgba(255,255,255,0.08); color: var(--vermelho-alerta); }
 
-        /* DOSSIÊ E BOTÕES */
+        /* FORMULÁRIO INTERNO */
         .secao-dossie { margin-bottom: 25px; }
         .secao-dossie p { margin-bottom: 10px; font-weight: 600; color: var(--texto-principal); font-size: 15px; }
         .botoes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .btn-opcao { background: var(--bg-principal); border: 2px solid var(--borda); color: var(--texto-secundario); padding: 15px; border-radius: 12px; cursor: pointer; font-size: 15px; font-weight: 600; transition: 0.2s; }
         .btn-opcao.selecionado { background: rgba(212, 175, 55, 0.1); border-color: var(--ouro-puro); color: var(--ouro-brilho); }
-        .input-texto { width: 100%; background: var(--bg-principal); border: 1px solid var(--borda); color: var(--texto-principal); padding: 15px; border-radius: 12px; margin-bottom: 10px; outline: none; font-size: 15px; }
+        .input-texto { width: 100%; background: var(--bg-principal); border: 1px solid var(--borda); color: var(--texto-principal); padding: 15px; border-radius: 12px; margin-bottom: 10px; font-size: 15px; resize: vertical; }
+        .input-texto:focus { border-color: var(--ouro-puro); }
         .btn-fantasma { width: 100%; background: transparent; border: 1px dashed var(--borda); color: var(--texto-secundario); padding: 15px; border-radius: 12px; cursor: pointer; font-size: 15px; display: flex; justify-content: center; align-items: center; gap: 8px; }
         
+        /* O BOTÃO DOURADO (COM RESPIRO EXATO) */
         .btn-enviar-dossie { 
             background: linear-gradient(45deg, var(--ouro-puro), var(--ouro-brilho)); 
-            color: #000; border: none; padding: 18px; border-radius: 35px; 
+            color: #000; padding: 18px; border-radius: 35px; 
             font-weight: 700; width: 100%; cursor: pointer; font-size: 16px; 
-            margin-top: 25px; margin-bottom: 15px;
+            margin-top: 25px; margin-bottom: 10px;
             transition: 0.2s; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); 
         }
         .btn-enviar-dossie:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5); }
-        
         .protocolo-box { background: var(--bg-principal); border: 1px solid var(--ouro-puro); padding: 15px; border-radius: 10px; font-size: 22px; font-weight: bold; color: var(--ouro-brilho); margin: 20px 0; letter-spacing: 2px; text-align: center; }
 
-        /* RESPONSIVIDADE NÍVEL OURO */
+        /* =========================================
+           4. FLUIDEZ ESTRATÉGICA (TABLET E CELULAR)
+           ========================================= */
+        
+        /* MARCH 2: TABLETS (iPads, etc) */
+        @media (max-width: 1024px) {
+            .main-container { margin-top: 10dvh; width: 90%; }
+            .titulo-central { font-size: 42px; }
+        }
+
+        /* MARCH 3: CELULARES (A Quebra Ouro) */
         @media (max-width: 768px) {
-            .main-container { margin-top: 5vh; padding: 15px; }
-            .titulo-central { font-size: 38px; }
+            .main-container { margin-top: 5dvh; padding: 10px; width: 100%; }
+            .titulo-central { font-size: 36px; }
             .conteudo-central img { width: 160px; }
+            
             .prompt-box { padding: 6px 12px; }
             .prompt-box input[type="text"] { font-size: 15px; padding: 12px 5px; }
             
-            .menu-flutuante { width: 90%; left: 5%; right: auto; top: 70px; }
-            .modal-content { padding: 25px 25px 40px 25px; margin-top: 10px; }
+            /* Menu Flutuante blindado no meio da tela */
+            .menu-flutuante { width: 90%; left: 5%; right: 5%; top: 70px; }
             
+            /* Modal com proteção inferior contra barras de navegação */
+            .modal-content { padding: 25px 20px 45px 20px; width: 95%; max-height: 90dvh; }
+            
+            /* Fim do esmagamento: Botões empilhados (Coluna única) */
             .botoes-grid { grid-template-columns: 1fr !important; }
-            .btn-fechar { top: 12px; right: 12px; }
+            .btn-fechar { top: 15px; right: 15px; }
         }
+
         @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
@@ -206,39 +240,39 @@
         const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
         
         // ==========================================
-        // MOTOR MÁQUINA DE ESCREVER (TYPEWRITER OURO)
+        // MÁQUINA DE ESCREVER BLINDADA (CELULAR)
         // ==========================================
         const frasesMobile = ["Cole o Link suspeito...", "Cole o texto do Golpe...", "Ou envie a Evidência..."];
-        let iFrase = 0; let iLetra = 0; let apagando = false;
-        const typingDelay = 80; const eraseDelay = 40; const newTextDelay = 2000;
+        let iFrase = 0; let iLetra = 0; let apagando = false; let isTypingPaused = false;
+        const typingDelay = 70; const eraseDelay = 40; const newTextDelay = 2000;
+        const inputLink = document.getElementById('input-link');
+
+        // Pausa Inteligente: Se o usuário tocar ou focar na barra
+        inputLink.addEventListener('focus', () => { isTypingPaused = true; inputLink.placeholder = "Cole a ameaça aqui..."; });
+        inputLink.addEventListener('blur', () => { if(inputLink.value === "") { isTypingPaused = false; } });
 
         function maquinaDeEscrever() {
-            const input = document.getElementById('input-link');
-            
-            // Regra 1: PC fica texto fixo.
             if (window.innerWidth > 768) {
-                input.placeholder = "Cole aqui o link, texto de Golpe ou anexe uma Evidência...";
+                inputLink.placeholder = "Cole aqui o link, texto de Golpe ou anexe uma Evidência...";
                 return;
             }
 
-            // Regra 2: Pausa se o cidadão clicar na barra ou digitar.
-            if (document.activeElement === input || input.value !== "") {
-                input.placeholder = "Cole a ameaça aqui...";
-                setTimeout(maquinaDeEscrever, 1500);
+            if (isTypingPaused || inputLink.value !== "") {
+                setTimeout(maquinaDeEscrever, 1000);
                 return;
             }
 
             const fraseAtual = frasesMobile[iFrase];
 
             if (!apagando) {
-                input.placeholder = fraseAtual.substring(0, iLetra + 1);
+                inputLink.placeholder = fraseAtual.substring(0, iLetra + 1);
                 iLetra++;
                 if (iLetra === fraseAtual.length) {
                     apagando = true;
                     setTimeout(maquinaDeEscrever, newTextDelay);
                 } else { setTimeout(maquinaDeEscrever, typingDelay); }
             } else {
-                input.placeholder = fraseAtual.substring(0, iLetra - 1);
+                inputLink.placeholder = fraseAtual.substring(0, iLetra - 1);
                 iLetra--;
                 if (iLetra === 0) {
                     apagando = false;
@@ -247,11 +281,10 @@
                 } else { setTimeout(maquinaDeEscrever, eraseDelay); }
             }
         }
-
         window.onload = function() { setTimeout(maquinaDeEscrever, 500); };
 
         // ==========================================
-        // CONTROLES DE INTERFACE (MODAIS)
+        // LÓGICA DE INTERFACE
         // ==========================================
         function abrirModalOSINT(painelID) {
             document.getElementById('menuFlutuante').classList.remove('ativo');
@@ -272,7 +305,6 @@
             document.getElementById('modalOSINT').style.display = 'flex';
         }
 
-        // FECHAR MENU CLICANDO FORA
         document.addEventListener('click', function(event) {
             const menu = document.getElementById('menuFlutuante');
             const btnMenu = document.querySelector('.menu-btn');
@@ -281,7 +313,6 @@
             }
         });
 
-        // REGRA VISUAL OURO (Verde bloqueia Vermelho)
         function aplicarCoresLaudo(msgBox, texto) {
             msgBox.className = "mensagem-ia"; 
             const txt = texto.toUpperCase(); 
@@ -291,7 +322,7 @@
         }
 
         // ==========================================
-        // SISTEMA DE VARREDURA
+        // MOTOR DE VARREDURA
         // ==========================================
         async function iniciarVarredura() {
             const inputDado = document.getElementById('input-link').value;
@@ -328,12 +359,12 @@
             document.getElementById('loading-varredura').style.display = "none";
             const msgBox = document.getElementById('mensagem-resposta');
             document.getElementById('resultado-box').style.display = "flex";
-            let txt = textoOriginal ? textoOriginal.replace(/\n/g, '<br>') : "Erro.";
+            let txt = textoOriginal ? textoOriginal.replace(/\n/g, '<br>') : "Erro de sistema.";
             msgBox.innerHTML = txt; aplicarCoresLaudo(msgBox, txt);
         }
 
         // ==========================================
-        // LÓGICA DO DOSSIÊ OFICIAL
+        // DOSSIÊ DE INTELIGÊNCIA
         // ==========================================
         let dossieDados = { perfil: 'Cidadão', canal: 'WhatsApp', anexoBase64: null };
 
@@ -359,7 +390,7 @@
                 reader.onload = function(e) {
                     dossieDados.anexoBase64 = e.target.result;
                     const btnUi = document.getElementById('btn-ui-anexo');
-                    btnUi.innerHTML = '✅ Evidência Capturada (' + file.name.substring(0,10) + '...)';
+                    btnUi.innerHTML = '✅ Evidência Capturada (' + file.name.substring(0,12) + '...)';
                     btnUi.style.color = 'var(--verde-seguro)';
                 };
                 reader.readAsDataURL(file);
