@@ -12,17 +12,14 @@
             --ouro-puro: #d4af37; --ouro-brilho: #f3e5ab; --fundo-modal: rgba(0, 0, 0, 0.85);
         }
         
-        /* REGRA UNIVERSAL: Fontes nativas e proteção contra distorção de OS */
         * { 
             margin: 0; padding: 0; box-sizing: border-box; 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
             -webkit-tap-highlight-color: transparent;
         }
         
-        /* O USO DO DVH: Impede a barra do iPhone/Android de esmagar o site */
         body { background-color: var(--bg-principal); color: var(--texto-principal); min-height: 100dvh; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
 
-        /* Proteção Apple (Impede botões redondos indesejados no iOS) */
         input, button, textarea { -webkit-appearance: none; border: none; outline: none; }
 
         /* =========================================
@@ -52,7 +49,6 @@
         .placar-autoridade { background: rgba(212, 175, 55, 0.08); border: 1px solid var(--ouro-puro); border-radius: 30px; padding: 8px 25px; color: var(--ouro-brilho); font-weight: 600; font-size: 14px; margin-bottom: 30px; display: inline-flex; align-items: center; gap: 10px; }
         .placar-autoridade span { display: inline-block; width: 8px; height: 8px; background-color: var(--verde-seguro); border-radius: 50%; box-shadow: 0 0 10px var(--verde-seguro); animation: pulse 2s infinite; }
 
-        /* BARRA DE VARREDURA */
         .prompt-box { width: 100%; background-color: var(--bg-secundario); border-radius: 40px; display: flex; align-items: center; padding: 10px 20px; border: 1px solid var(--borda); margin-bottom: 30px; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         .prompt-box:focus-within { border-color: var(--texto-secundario); background-color: var(--bg-hover); box-shadow: 0 4px 20px rgba(0,0,0,0.7); }
         .prompt-box input[type="text"] { flex: 1; background: transparent; color: var(--texto-principal); font-size: 16px; padding: 15px; }
@@ -61,7 +57,6 @@
         .btn-acao:hover { background-color: rgba(255,255,255,0.1); }
         .btn-acao svg { fill: var(--texto-secundario); width: 24px; height: 24px; }
 
-        /* TELA DE LAUDO (RESPOSTA IA) */
         .resultado-box { width: 100%; display: none; flex-direction: column; text-align: left; margin-bottom: 40px; }
         .mensagem-ia { background-color: var(--bg-secundario); padding: 30px; border-radius: 16px; font-size: 16px; line-height: 1.7; border: 1px solid var(--borda); }
         .mensagem-ia.alerta { border-left: 4px solid var(--vermelho-alerta); }
@@ -78,38 +73,37 @@
         .btn-fechar { position: absolute; top: 20px; right: 20px; background: transparent; color: var(--texto-secundario); cursor: pointer; font-size: 22px; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
         .btn-fechar:hover { background-color: rgba(255,255,255,0.08); color: var(--vermelho-alerta); }
 
-        /* FORMULÁRIO INTERNO */
         .secao-dossie { margin-bottom: 25px; }
         .secao-dossie p { margin-bottom: 10px; font-weight: 600; color: var(--texto-principal); font-size: 15px; }
         .botoes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .btn-opcao { background: var(--bg-principal); border: 2px solid var(--borda); color: var(--texto-secundario); padding: 15px; border-radius: 12px; cursor: pointer; font-size: 15px; font-weight: 600; transition: 0.2s; }
         .btn-opcao.selecionado { background: rgba(212, 175, 55, 0.1); border-color: var(--ouro-puro); color: var(--ouro-brilho); }
-        .input-texto { width: 100%; background: var(--bg-principal); border: 1px solid var(--borda); color: var(--texto-principal); padding: 15px; border-radius: 12px; margin-bottom: 10px; font-size: 15px; resize: vertical; }
+        
+        .input-texto { width: 100%; background: var(--bg-principal); border: 1px solid var(--borda); color: var(--texto-principal); padding: 15px; border-radius: 12px; margin-bottom: 10px; font-size: 15px; }
+        textarea.input-texto { resize: vertical; } /* Apenas a caixa de texto grande permite redimensionar */
         .input-texto:focus { border-color: var(--ouro-puro); }
+        
         .btn-fantasma { width: 100%; background: transparent; border: 1px dashed var(--borda); color: var(--texto-secundario); padding: 15px; border-radius: 12px; cursor: pointer; font-size: 15px; display: flex; justify-content: center; align-items: center; gap: 8px; }
         
-        /* O BOTÃO DOURADO (COM RESPIRO EXATO) */
+        /* BOTÃO DOURADO: RESPIRO CORRIGIDO (Nem colado, nem solto) */
         .btn-enviar-dossie { 
             background: linear-gradient(45deg, var(--ouro-puro), var(--ouro-brilho)); 
             color: #000; padding: 18px; border-radius: 35px; 
             font-weight: 700; width: 100%; cursor: pointer; font-size: 16px; 
-            margin-top: 25px; margin-bottom: 10px;
+            margin-top: 15px; margin-bottom: 10px;
             transition: 0.2s; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); 
         }
         .btn-enviar-dossie:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5); }
         .protocolo-box { background: var(--bg-principal); border: 1px solid var(--ouro-puro); padding: 15px; border-radius: 10px; font-size: 22px; font-weight: bold; color: var(--ouro-brilho); margin: 20px 0; letter-spacing: 2px; text-align: center; }
 
         /* =========================================
-           4. FLUIDEZ ESTRATÉGICA (TABLET E CELULAR)
+           4. FLUIDEZ ESTRATÉGICA
            ========================================= */
-        
-        /* MARCH 2: TABLETS (iPads, etc) */
         @media (max-width: 1024px) {
             .main-container { margin-top: 10dvh; width: 90%; }
             .titulo-central { font-size: 42px; }
         }
 
-        /* MARCH 3: CELULARES (A Quebra Ouro) */
         @media (max-width: 768px) {
             .main-container { margin-top: 5dvh; padding: 10px; width: 100%; }
             .titulo-central { font-size: 36px; }
@@ -118,13 +112,9 @@
             .prompt-box { padding: 6px 12px; }
             .prompt-box input[type="text"] { font-size: 15px; padding: 12px 5px; }
             
-            /* Menu Flutuante blindado no meio da tela */
             .menu-flutuante { width: 90%; left: 5%; right: 5%; top: 70px; }
-            
-            /* Modal com proteção inferior contra barras de navegação */
             .modal-content { padding: 25px 20px 45px 20px; width: 95%; max-height: 90dvh; }
             
-            /* Fim do esmagamento: Botões empilhados (Coluna única) */
             .botoes-grid { grid-template-columns: 1fr !important; }
             .btn-fechar { top: 15px; right: 15px; }
         }
@@ -210,7 +200,7 @@
                     </button>
                 </div>
 
-                <input type="text" id="contato-opcional" class="input-texto" placeholder="Seu Contato/Email (Opcional - Pode deixar em branco)">
+                <input type="text" id="contato-opcional" class="input-texto" placeholder="Seu WhatsApp ou E-mail (Opcional)">
                 <button class="btn-enviar-dossie" onclick="transmitirDossieOficial()" id="btn-transmitir">Transmitir Dossiê para a Central</button>
             </div>
 
@@ -239,15 +229,11 @@
     <script>
         const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
         
-        // ==========================================
-        // MÁQUINA DE ESCREVER BLINDADA (CELULAR)
-        // ==========================================
         const frasesMobile = ["Cole o Link suspeito...", "Cole o texto do Golpe...", "Ou envie a Evidência..."];
         let iFrase = 0; let iLetra = 0; let apagando = false; let isTypingPaused = false;
         const typingDelay = 70; const eraseDelay = 40; const newTextDelay = 2000;
         const inputLink = document.getElementById('input-link');
 
-        // Pausa Inteligente: Se o usuário tocar ou focar na barra
         inputLink.addEventListener('focus', () => { isTypingPaused = true; inputLink.placeholder = "Cole a ameaça aqui..."; });
         inputLink.addEventListener('blur', () => { if(inputLink.value === "") { isTypingPaused = false; } });
 
@@ -256,14 +242,11 @@
                 inputLink.placeholder = "Cole aqui o link, texto de Golpe ou anexe uma Evidência...";
                 return;
             }
-
             if (isTypingPaused || inputLink.value !== "") {
                 setTimeout(maquinaDeEscrever, 1000);
                 return;
             }
-
             const fraseAtual = frasesMobile[iFrase];
-
             if (!apagando) {
                 inputLink.placeholder = fraseAtual.substring(0, iLetra + 1);
                 iLetra++;
@@ -283,9 +266,6 @@
         }
         window.onload = function() { setTimeout(maquinaDeEscrever, 500); };
 
-        // ==========================================
-        // LÓGICA DE INTERFACE
-        // ==========================================
         function abrirModalOSINT(painelID) {
             document.getElementById('menuFlutuante').classList.remove('ativo');
             document.getElementById('form-dossie').style.display = 'none';
@@ -321,9 +301,6 @@
             else { msgBox.classList.add("neutro"); }
         }
 
-        // ==========================================
-        // MOTOR DE VARREDURA
-        // ==========================================
         async function iniciarVarredura() {
             const inputDado = document.getElementById('input-link').value;
             if(!inputDado) return;
@@ -363,9 +340,6 @@
             msgBox.innerHTML = txt; aplicarCoresLaudo(msgBox, txt);
         }
 
-        // ==========================================
-        // DOSSIÊ DE INTELIGÊNCIA
-        // ==========================================
         let dossieDados = { perfil: 'Cidadão', canal: 'WhatsApp', anexoBase64: null };
 
         function selecionarPerfil(tipo) {
