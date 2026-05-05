@@ -15,19 +15,19 @@
 body { background-color: var(--bg-principal); color: var(--texto-principal); min-height: 100dvh; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
 input, button, textarea { -webkit-appearance: none; border: none; outline: none; }
 
-/* MENU DESKTOP (Aparece só no PC) */
+/* MENU DESKTOP */
 .top-bar { position: absolute; top: 0; width: 100%; padding: 20px 25px; display: flex; justify-content: flex-end; align-items: center; z-index: 100; }
 .menu-desktop { display: flex; gap: 15px; }
 .menu-item { padding: 10px 20px; border-radius: 30px; border: 1px solid var(--borda); background-color: rgba(255,255,255,0.02); font-size: 14px; cursor: pointer; transition: 0.2s; color: var(--texto-principal); }
 .menu-item:hover { background-color: rgba(255,255,255,0.08); border-color: var(--texto-secundario); }
 .menu-item.vip { color: var(--ouro-puro); font-weight: bold; border-color: var(--ouro-puro); }
 
-/* BARRA INFERIOR MOBILE (Ouro Puro da UX para Idosos/Povo) */
+/* BARRA INFERIOR MOBILE */
 .bottom-bar { display: none; }
 @media (max-width: 1024px) {
 .top-bar { justify-content: center; } 
-.menu-desktop { display: none; } /* Oculta menu de PC */
-.main-container { margin-top: 5dvh !important; padding-bottom: 90px !important; } /* Espaço para a barra */
+.menu-desktop { display: none; }
+.main-container { margin-top: 5dvh !important; padding-bottom: 90px !important; }
 .bottom-bar {
 display: flex; position: fixed; bottom: 0; left: 0; width: 100%;
 background-color: var(--bg-secundario); border-top: 1px solid var(--borda);
@@ -71,7 +71,7 @@ font-size: 11px; cursor: pointer;
 .btn-fechar:hover { background-color: rgba(255,255,255,0.08); color: var(--vermelho-alerta); }
 .secao-dossie { margin-bottom: 25px; }
 .secao-dossie p { margin-bottom: 10px; font-weight: 600; color: var(--texto-principal); font-size: 15px; }
-.botoes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.botoes-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
 .btn-opcao { background: var(--bg-principal); border: 2px solid var(--borda); color: var(--texto-secundario); padding: 15px; border-radius: 12px; cursor: pointer; font-size: 15px; font-weight: 600; transition: 0.2s; }
 .btn-opcao.selecionado { background: rgba(212, 175, 55, 0.1); border-color: var(--ouro-puro); color: var(--ouro-brilho); }
 .input-texto { width: 100%; background: var(--bg-principal); border: 1px solid var(--borda); color: var(--texto-principal); padding: 15px; border-radius: 12px; margin-bottom: 10px; font-size: 16px; }
@@ -101,7 +101,7 @@ textarea.input-texto { resize: vertical; }
 <div class="menu-desktop">
 <div class="menu-item" onclick="abrirModalOSINT('form-dossie')">🛡️ Denunciar Golpe</div>
 <div class="menu-item" onclick="abrirModalOSINT('painel-ajuda')">❓ Ajuda Tática</div>
-<div class="menu-item" onclick="abrirModalOSINT('painel-sobre')">ℹ️ Sobre a Central</div>
+<div class="menu-item" onclick="abrirModalOSINT('painel-sobre')">ℹ️ Bem-vindo</div>
 <div class="menu-item vip" onclick="abrirModalOSINT('painel-chat')">💬 Acesso VIP</div>
 </div>
 </div>
@@ -109,7 +109,7 @@ textarea.input-texto { resize: vertical; }
 <div class="bottom-bar">
 <button class="bottom-btn" onclick="abrirModalOSINT('form-dossie')"><span>🛡️</span>Denunciar</button>
 <button class="bottom-btn" onclick="abrirModalOSINT('painel-ajuda')"><span>❓</span>Ajuda</button>
-<button class="bottom-btn" onclick="abrirModalOSINT('painel-sobre')"><span>ℹ️</span>Sobre</button>
+<button class="bottom-btn" onclick="abrirModalOSINT('painel-sobre')"><span>ℹ️</span>Início</button>
 <button class="bottom-btn vip" onclick="abrirModalOSINT('painel-chat')"><span>💬</span>Acesso VIP</button>
 </div>
 
@@ -151,25 +151,56 @@ Recebeu uma mensagem estranha? Falsa taxa, falso Pix, boleto suspeito?<br>
 <div class="modal-content">
 <button class="btn-fechar" onclick="document.getElementById('modalOSINT').style.display='none'"> ✖ </button>
 
+<div id="painel-sobre" style="display:none;">
+<div class="modal-title"> 🛡️ Bem-vindo à RailanTech</div>
+<p style="color: var(--texto-secundario); font-size: 16px; margin-bottom: 15px; line-height: 1.6;">
+Você acaba de entrar no terminal de defesa antifraude mais avançado do Brasil. Nossa missão é blindar o seu celular e proteger o seu dinheiro contra criminosos digitais usando Inteligência Artificial e Perícia Tática.
+</p>
+<p style="color: var(--texto-secundario); font-size: 16px; margin-bottom: 25px; line-height: 1.6;">
+Se você não tem intimidade com informática ou não sabe por onde começar, fique tranquilo. O sistema foi desenhado para guiar você. <b>Escolha o seu caminho seguro abaixo:</b>
+</p>
+<button class="btn-opcao selecionado" style="width: 100%; margin-bottom: 12px; font-size: 16px; padding: 15px;" onclick="abrirModalOSINT('form-dossie')">
+  🛡️ Fazer uma Denúncia Agora
+</button>
+<button class="btn-opcao" style="width: 100%; margin-bottom: 12px; font-size: 16px; padding: 15px; border-color: var(--borda);" onclick="abrirModalOSINT('painel-ajuda')">
+  ❓ Ler a Ajuda Tática
+</button>
+<button class="btn-opcao" style="width: 100%; font-size: 16px; padding: 15px; border-color: var(--ouro-puro); color: var(--ouro-brilho);" onclick="abrirModalOSINT('painel-chat')">
+  💬 Tenho um Código VIP
+</button>
+</div>
+
 <div id="form-dossie" style="display:none;">
 <div class="modal-title"> 🛡️ Dossiê de Investigação</div>
 <p style="color: var(--texto-secundario); margin-bottom: 25px; font-size: 14px;">Suas informações ajudam a alimentar a nossa Lista Negra.</p>
 
 <div class="secao-dossie">
 <p>1. Quem foi o alvo da tentativa de golpe?</p>
-<div class="botoes-grid" style="margin-bottom: 15px;">
-<button class="btn-opcao selecionado" id="btn-cidadao" onclick="selecionarPerfil('Cidadão')"> 👤 Sou Cidadão (PF)</button>
-<button class="btn-opcao" id="btn-empresa" onclick="selecionarPerfil('Empresa')"> 🏢 Sou Empresa (CNPJ)</button>
-</div>
-<div class="botoes-grid">
-<button class="btn-opcao" id="btn-idoso" onclick="selecionarPerfil('Cidadão (Idoso)')"> 🧓 Sou Pessoa Idosa</button>
-<button class="btn-opcao" id="btn-pcd" onclick="selecionarPerfil('Cidadão (PCD)')"> ♿ Tenho Deficiência</button>
-</div>
+<details id="menu-sanfona-perfil" style="width: 100%; cursor: pointer;">
+  <summary id="texto-perfil-escolhido" class="btn-opcao selecionado" style="display: flex; justify-content: space-between; align-items: center; list-style: none;">
+    <span> 👤 Sou Cidadão (PF)</span> <span>▼</span>
+  </summary>
+  <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px; padding: 15px; background: rgba(0,0,0,0.3); border: 1px solid var(--borda); border-radius: 12px;">
+    <button class="btn-opcao" style="text-align: left; border: none; background: transparent; color: var(--texto-principal); padding: 10px;" onclick="mudarPerfilSanfona('Cidadão', '👤 Sou Cidadão (PF)')">
+      👤 Sou Cidadão (PF)
+    </button>
+    <button class="btn-opcao" style="text-align: left; border: none; background: transparent; color: var(--texto-principal); padding: 10px;" onclick="mudarPerfilSanfona('Cidadão (Idoso)', '🧓 Sou Pessoa Idosa (+60)')">
+      🧓 Sou Pessoa Idosa (+60)
+    </button>
+    <button class="btn-opcao" style="text-align: left; border: none; background: transparent; color: var(--texto-principal); padding: 10px;" onclick="mudarPerfilSanfona('Cidadão (PCD)', '♿ Tenho Deficiência')">
+      ♿ Tenho Deficiência
+    </button>
+    <button class="btn-opcao" style="text-align: left; border: none; background: transparent; color: var(--texto-principal); padding: 10px;" onclick="mudarPerfilSanfona('Empresa', '🏢 Sou Empresa (CNPJ)')">
+      🏢 Sou Empresa (CNPJ)
+    </button>
+  </div>
+</details>
+<style> summary::-webkit-details-marker { display: none; } </style>
 </div>
 
 <div class="secao-dossie">
 <p>2. Por onde o bandido tentou atacar?</p>
-<div class="botoes-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+<div class="botoes-grid">
 <button class="btn-opcao selecionado" onclick="selecionarCanal(this, 'WhatsApp')">WhatsApp</button>
 <button class="btn-opcao" onclick="selecionarCanal(this, 'E-mail')">E-mail</button>
 <button class="btn-opcao" onclick="selecionarCanal(this, 'SMS')">SMS/Outro</button>
@@ -181,7 +212,7 @@ Recebeu uma mensagem estranha? Falsa taxa, falso Pix, boleto suspeito?<br>
 <textarea id="texto-relato" class="input-texto" rows="4" placeholder="Escreva aqui o seu relato..."></textarea>
 <input type="file" id="input-anexo-dossie" accept="image/*,video/*,audio/*" style="display:none" onchange="prepararAnexoDossie(event)">
 <button class="btn-fantasma" id="btn-ui-anexo" onclick="document.getElementById('input-anexo-dossie').click()">
-📎 Anexar Evidência (Máx. 2 minutos / 10MB)
+  📎 Anexar Evidência
 </button>
 </div>
 <input type="text" id="contato-opcional" class="input-texto" placeholder="Seu WhatsApp para aviso (Opcional)">
@@ -196,15 +227,19 @@ Recebeu uma mensagem estranha? Falsa taxa, falso Pix, boleto suspeito?<br>
 </div>
 
 <div id="painel-ajuda" style="display:none;">
-<div class="modal-title"> ❓ Ajuda Tática</div>
-<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;"> 🚨 <b>1. Congele e Capture:</b> Não clique em nenhum link no escuro! Tire um Print da mensagem suspeita.</p>
-<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;"> 📥 <b>2. Acione o Radar:</b> Cole o texto do golpe na barra principal ou anexe a foto da conversa.</p>
-<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;"> ⚖️ <b>3. O Veredito Oficial:</b> Se acender a luz do <b style="color: var(--vermelho-alerta);">Alerta Vermelho</b>, é fraude. Se brilhar o <b style="color: var(--verde-seguro);">Selo Verde</b>, o acesso é seguro.</p>
-</div>
-
-<div id="painel-sobre" style="display:none;">
-<div class="modal-title"> ℹ️ Sobre a RailanTech</div>
-<p style="color: var(--texto-secundario); font-size: 15px; line-height: 1.6; margin-bottom: 20px;">O <b>Terminal de Inteligência RailanTech</b> é uma muralha de segurança contra o cibercrime. Desenvolvido com arquitetura de dados OSINT Nível 1 para proteção da população brasileira.</p>
+<div class="modal-title"> ❓ Manual de Sobrevivência</div>
+<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 20px; line-height: 1.6;">
+  🚨 <b>1. Congele e Capture:</b> O desespero é a maior arma do golpista. Ao receber uma ameaça, falsa taxa ou link estranho, não clique em nada no escuro. Respire fundo e tire um Print (foto da tela) ou copie o texto da mensagem suspeita.
+</p>
+<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 20px; line-height: 1.6;">
+  📥 <b>2. Acione o Radar Neural:</b> Traga a evidência para dentro da nossa base. Cole o texto na barra principal do site ou anexe a sua foto. A nossa Inteligência Artificial fará uma varredura cruzando dados de milhares de golpes em apenas alguns segundos.
+</p>
+<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 25px; line-height: 1.6;">
+  ⚖️ <b>3. O Veredito de Segurança:</b> Confie no sistema. Se acender a luz do <b style="color: var(--vermelho-alerta);">Alerta Vermelho</b>, bloqueie o contato imediatamente. Se a ameaça for muito complexa para a I.A., o sistema exigirá a abertura de um Dossiê para que o nosso Diretor de Operações emita um Laudo Humano definitivo.
+</p>
+<button class="btn-opcao selecionado" style="width: 100%; font-size: 16px; padding: 18px;" onclick="abrirModalOSINT('form-dossie')">
+  🛡️ Entendi. Quero Denunciar Agora.
+</button>
 </div>
 
 <div id="painel-chat" style="display:none;">
@@ -265,9 +300,9 @@ dossieDados.anexoBase64 = null;
 document.getElementById('texto-relato').value = '';
 document.getElementById('contato-opcional').value = '';
 const btnUi = document.getElementById('btn-ui-anexo');
-btnUi.innerHTML = '📎 Anexar Evidência (Máx. 2 minutos / 10MB)';
+btnUi.innerHTML = '📎 Anexar Evidência';
 btnUi.style.color = 'var(--texto-secundario)';
-selecionarPerfil('Cidadão');
+mudarPerfilSanfona('Cidadão', '👤 Sou Cidadão (PF)'); // Reseta a sanfona
 }
 
 if(painelID === 'painel-chat') {
@@ -350,17 +385,10 @@ aplicarCoresLaudo(msgBox, txt);
 
 let dossieDados = { perfil: 'Cidadão', canal: 'WhatsApp', anexoBase64: null };
 
-function selecionarPerfil(tipo) {
-dossieDados.perfil = tipo;
-document.getElementById('btn-cidadao').classList.remove('selecionado');
-document.getElementById('btn-empresa').classList.remove('selecionado');
-document.getElementById('btn-idoso').classList.remove('selecionado');
-document.getElementById('btn-pcd').classList.remove('selecionado');
-
-if(tipo === 'Cidadão') document.getElementById('btn-cidadao').classList.add('selecionado');
-if(tipo === 'Empresa') document.getElementById('btn-empresa').classList.add('selecionado');
-if(tipo === 'Cidadão (Idoso)') document.getElementById('btn-idoso').classList.add('selecionado');
-if(tipo === 'Cidadão (PCD)') document.getElementById('btn-pcd').classList.add('selecionado');
+function mudarPerfilSanfona(valor, textoLindo) {
+  dossieDados.perfil = valor;
+  document.getElementById('texto-perfil-escolhido').innerHTML = `<span>${textoLindo}</span> <span>▼</span>`;
+  document.getElementById('menu-sanfona-perfil').removeAttribute('open');
 }
 
 function selecionarCanal(elemento, tipo) {
@@ -373,7 +401,7 @@ elemento.classList.add('selecionado');
 function prepararAnexoDossie(event) {
 const file = event.target.files[0];
 if(file) {
-// 🛡️ TRAVA DE 10MB PARA PROTEGER O SATÉLITE
+// 🛡️ TRAVA DE 10MB (2 MINUTOS DE VÍDEO/ÁUDIO)
 const limiteTamanho = 10 * 1024 * 1024; 
 if (file.size > limiteTamanho) {
     alert("🚨 ARQUIVO MUITO PESADO. Para a sua segurança, o anexo de vídeo ou áudio deve ter no MÁXIMO 2 MINUTOS (10 MB).");
