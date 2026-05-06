@@ -211,6 +211,7 @@ Operamos com <b>Inteligência Artificial Militar</b> e Perícia Humana. Se você
 <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">    🚨     <b>1. Congele e Capture:</b> Não clique em nenhum link no escuro! Tire um Print (foto da tela) da mensagem suspeita.</p>
 <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">    📥     <b>2. Acione o Radar:</b> Cole o texto do golpe na barra principal ou anexe a foto da conversa.</p>
 <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">    ⚖️     <b>3. O Veredito Oficial:</b> Se acender a luz do <b style="color: var(--vermelho-alerta);">Alerta Vermelho</b>, é fraude: bloqueie o contato. Se brilhar o <b style="color: var(--verde-seguro);">Selo Verde</b>, o acesso é seguro.</p>
+<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">    📎     <b>4. Evidências (Print, Vídeo e Áudio):</b> O sistema analisa os 3 formatos. Para garantir a velocidade, mídias de vídeo e áudio devem ter no <b>máximo 2 minutos (10MB)</b>.</p>
 </div>
 
 <div id="painel-chat" style="display:none;">
@@ -257,7 +258,12 @@ if (iLetra === 0) { apagando = false; iFrase = (iFrase + 1) % frasesMobile.lengt
 else { setTimeout(maquinaDeEscrever, eraseDelay); }
 }
 }
-window.onload = function() { setTimeout(maquinaDeEscrever, 500); };
+
+// 🚨 GATILHO AUTOMÁTICO: ABRIR SOBRE A CENTRAL NO INÍCIO 🚨
+window.onload = function() { 
+  setTimeout(maquinaDeEscrever, 500); 
+  abrirModalOSINT('painel-sobre');
+};
 
 function abrirModalOSINT(painelID) {
 document.getElementById('menuFlutuante').classList.remove('ativo');
@@ -382,7 +388,7 @@ if(file) {
 // 🛡️ PROTEÇÃO: Limite de 10MB
 const limiteTamanho = 10 * 1024 * 1024; 
 if (file.size > limiteTamanho) {
-    alert("🚨 ARQUIVO MUITO PESADO. Máximo de 2 MINUTOS (10 MB).");
+    alert("🚨 ARQUIVO MUITO PESADO. Para a sua segurança, o anexo de vídeo ou áudio deve ter no MÁXIMO 2 MINUTOS (10 MB).");
     event.target.value = ''; 
     return;
 }
