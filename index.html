@@ -139,7 +139,7 @@ Recebeu uma mensagem estranha? Falsa taxa, falso Pix, boleto suspeito?<br>
 <div class="modal-content">
 <button class="btn-fechar" onclick="document.getElementById('modalOSINT').style.display='none'">  ✖  </button>
 
-<div id="painel-sobre" style="display:none;">
+<div id="painel-bem-vindo" style="display:none;">
 <div style="text-align: center; margin-bottom: 25px;">
   <h2 style="color: var(--ouro-puro); font-size: 26px;">Bem-vindo à RailanTech</h2>
 </div>
@@ -148,6 +148,21 @@ Você acaba de acessar a <b>Muralha de Defesa Antifraude mais avançada do Brasi
 </p>
 <p style="color: var(--texto-secundario); font-size: 15px; line-height: 1.6;">
 Operamos com <b>Inteligência Artificial Militar</b> e Perícia Humana. Se você não tem intimidade com tecnologia, não se preocupe: o sistema fará todo o trabalho de varredura por você com segurança absoluta. Utilize o menu superior para navegar nas opções.
+</p>
+</div>
+
+<div id="painel-sobre" style="display:none;">
+<div class="modal-title"> ℹ️ Sobre a Central</div>
+<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">
+  O <b>Terminal RailanTech</b> é uma ferramenta de utilidade pública focada em proteger cidadãos e empresas contra fraudes digitais, utilizando alta tecnologia.
+</p>
+<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">
+  🔍 <b>O que é OSINT?</b><br>
+  Significa <i>Inteligência de Fontes Abertas</i>. É uma técnica de investigação legal. Nós apenas cruzamos dados que já são públicos na internet para descobrir se um link ou mensagem pertence a um golpista. Não invadimos o celular de ninguém.
+</p>
+<p style="color: var(--texto-secundario); font-size: 15px; line-height: 1.6;">
+  🛡️ <b>Segurança e LGPD:</b><br>
+  A LGPD é a Lei que protege os seus dados no Brasil. O nosso sistema cumpre essa lei rigorosamente. Isso significa que o seu sigilo aqui é absoluto. Nós <b>não pedimos, não lemos e não guardamos</b> senhas, CPFs ou dados do seu banco. O nosso único trabalho é proteger você.
 </p>
 </div>
 
@@ -259,14 +274,15 @@ else { setTimeout(maquinaDeEscrever, eraseDelay); }
 }
 }
 
-// 🚨 GATILHO AUTOMÁTICO: ABRIR SOBRE A CENTRAL NO INÍCIO 🚨
+// 🚨 GATILHO AUTOMÁTICO: ABRIR O BEM-VINDO NO INÍCIO 🚨
 window.onload = function() { 
   setTimeout(maquinaDeEscrever, 500); 
-  abrirModalOSINT('painel-sobre');
+  abrirModalOSINT('painel-bem-vindo');
 };
 
 function abrirModalOSINT(painelID) {
 document.getElementById('menuFlutuante').classList.remove('ativo');
+document.getElementById('painel-bem-vindo').style.display = 'none'; // Esconde o bem-vindo
 document.getElementById('form-dossie').style.display = 'none';
 document.getElementById('tela-sucesso').style.display = 'none';
 document.getElementById('painel-ajuda').style.display = 'none';
@@ -385,7 +401,6 @@ elemento.classList.add('selecionado');
 function prepararAnexoDossie(event) {
 const file = event.target.files[0];
 if(file) {
-// 🛡️ PROTEÇÃO: Limite de 10MB
 const limiteTamanho = 10 * 1024 * 1024; 
 if (file.size > limiteTamanho) {
     alert("🚨 ARQUIVO MUITO PESADO. Para a sua segurança, o anexo de vídeo ou áudio deve ter no MÁXIMO 2 MINUTOS (10 MB).");
