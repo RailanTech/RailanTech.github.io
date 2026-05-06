@@ -15,7 +15,7 @@
 body { background-color: var(--bg-principal); color: var(--texto-principal); min-height: 100dvh; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
 input, button, textarea { -webkit-appearance: none; border: none; outline: none; }
 
-/* 1. MENU ORIGINAL (A Informática Limpa) */
+/* 1. MENU ORIGINAL INTACTO */
 .top-bar { position: absolute; top: 0; width: 100%; padding: 20px 25px; display: flex; justify-content: flex-end; align-items: center; z-index: 100; }
 .menu-btn { background: none; color: var(--texto-secundario); cursor: pointer; padding: 10px; border-radius: 50%; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
 .menu-flutuante { position: absolute; top: 70px; right: 25px; background-color: var(--bg-secundario); border-radius: 12px; width: 350px; padding: 12px 0; border: 1px solid var(--borda); display: none; z-index: 101; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
@@ -80,6 +80,8 @@ textarea.input-texto { resize: vertical; }
 @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
+summary::-webkit-details-marker { display: none; }
+
 /* RODAPÉ LEGAL */
 .rodape-lgpd { width: 100%; padding: 20px; border-top: 1px solid var(--borda); text-align: center; background-color: var(--bg-principal); margin-top: auto; }
 .rodape-lgpd p { color: var(--texto-secundario); font-size: 12px; line-height: 1.6; opacity: 0.7; max-width: 800px; margin: 0 auto; }
@@ -138,12 +140,14 @@ Recebeu uma mensagem estranha? Falsa taxa, falso Pix, boleto suspeito?<br>
 <button class="btn-fechar" onclick="document.getElementById('modalOSINT').style.display='none'">  ✖  </button>
 
 <div id="painel-sobre" style="display:none;">
-<div class="modal-title"> 🛡️ Bem-vindo à RailanTech</div>
+<div style="text-align: center; margin-bottom: 25px;">
+  <h2 style="color: var(--ouro-puro); font-size: 26px;">Bem-vindo à RailanTech</h2>
+</div>
 <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 15px; line-height: 1.6;">
 Você acaba de acessar a <b>Muralha de Defesa Antifraude mais avançada do Brasil</b>. Nossa missão é blindar o seu dispositivo e proteger o seu patrimônio contra engenharia social, falsas taxas e golpes digitais.
 </p>
 <p style="color: var(--texto-secundario); font-size: 15px; line-height: 1.6;">
-Operamos com <b>Inteligência Artificial Militar</b> e Perícia Humana. Se você não tem intimidade com tecnologia, não se preocupe: o sistema fará todo o trabalho de varredura por você com segurança absoluta.
+Operamos com <b>Inteligência Artificial Militar</b> e Perícia Humana. Se você não tem intimidade com tecnologia, não se preocupe: o sistema fará todo o trabalho de varredura por você com segurança absoluta. Utilize o menu superior para navegar nas opções.
 </p>
 </div>
 
@@ -172,7 +176,6 @@ Operamos com <b>Inteligência Artificial Militar</b> e Perícia Humana. Se você
     </button>
   </div>
 </details>
-<style> summary::-webkit-details-marker { display: none; } </style>
 </div>
 
 <div class="secao-dossie">
@@ -205,13 +208,9 @@ Operamos com <b>Inteligência Artificial Militar</b> e Perícia Humana. Se você
 
 <div id="painel-ajuda" style="display:none;">
 <div class="modal-title">  ❓   Ajuda Tática</div>
-<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">    🚨     <b>1.
-Congele e Capture:</b> Não clique em nenhum link no escuro! Tire um Print (foto da tela) da mensagem suspeita.</p>
-<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">    📥     <b>2.
-Acione o Radar:</b> Cole o texto do golpe na barra principal ou anexe a foto da conversa.</p>
-<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">    ⚖️     <b>3.
-O Veredito Oficial:</b> Se acender a luz do <b style="color: var(--vermelho-alerta);">Alerta Vermelho</b>, é fraude: bloqueie o contato.
-Se brilhar o <b style="color: var(--verde-seguro);">Selo Verde</b>, o acesso é seguro.</p>
+<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">    🚨     <b>1. Congele e Capture:</b> Não clique em nenhum link no escuro! Tire um Print (foto da tela) da mensagem suspeita.</p>
+<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">    📥     <b>2. Acione o Radar:</b> Cole o texto do golpe na barra principal ou anexe a foto da conversa.</p>
+<p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6;">    ⚖️     <b>3. O Veredito Oficial:</b> Se acender a luz do <b style="color: var(--vermelho-alerta);">Alerta Vermelho</b>, é fraude: bloqueie o contato. Se brilhar o <b style="color: var(--verde-seguro);">Selo Verde</b>, o acesso é seguro.</p>
 </div>
 
 <div id="painel-chat" style="display:none;">
@@ -258,12 +257,7 @@ if (iLetra === 0) { apagando = false; iFrase = (iFrase + 1) % frasesMobile.lengt
 else { setTimeout(maquinaDeEscrever, eraseDelay); }
 }
 }
-
-// 🚨 GATILHO AUTOMÁTICO: ABRIR SOBRE A CENTRAL NO INÍCIO 🚨
-window.onload = function() { 
-  setTimeout(maquinaDeEscrever, 500); 
-  abrirModalOSINT('painel-sobre');
-};
+window.onload = function() { setTimeout(maquinaDeEscrever, 500); };
 
 function abrirModalOSINT(painelID) {
 document.getElementById('menuFlutuante').classList.remove('ativo');
@@ -385,10 +379,10 @@ elemento.classList.add('selecionado');
 function prepararAnexoDossie(event) {
 const file = event.target.files[0];
 if(file) {
-// 🛡️ TRAVA DE 10MB PARA PROTEGER O SATÉLITE
+// 🛡️ PROTEÇÃO: Limite de 10MB
 const limiteTamanho = 10 * 1024 * 1024; 
 if (file.size > limiteTamanho) {
-    alert("🚨 ARQUIVO MUITO PESADO. Para a sua segurança, o anexo de vídeo ou áudio deve ter no MÁXIMO 2 MINUTOS (10 MB).");
+    alert("🚨 ARQUIVO MUITO PESADO. Máximo de 2 MINUTOS (10 MB).");
     event.target.value = ''; 
     return;
 }
