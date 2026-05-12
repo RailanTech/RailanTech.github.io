@@ -4,269 +4,230 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bunker Secreto - RailanTech</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
 :root {
---bg-base: #0a0a0a; --bg-painel: #1a1a1a; --bg-card: #242424;
---texto-principal: #e3e3e3; --texto-secundario: #a0a0a0;
+--bg-base: #050505; --bg-painel: #0a0a0a; --bg-card: #141414;
+--texto-principal: #e3e3e3; --texto-secundario: #888;
 --ouro-puro: #d4af37; --vermelho-alerta: #ff4d4d; --verde-seguro: #00e676;
---borda: #333;
+--borda: #1a1a1a; --sidebar-width: 280px;
 }
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Courier New', Courier, monospace; }
-body { background-color: var(--bg-base); color: var(--texto-principal); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Courier New', Courier, monospace; }
+body { background-color: var(--bg-base); color: var(--texto-principal); min-height: 100vh; overflow-x: hidden; }
 
 /* TELA DE BLOQUEIO */
-#tela-bloqueio { display: flex; flex-direction: column; align-items: center; text-align: center; }
-.icone-cadeado { font-size: 60px; margin-bottom: 20px; }
-.titulo-bunker { color: var(--ouro-puro); font-size: 32px; letter-spacing: 4px; margin-bottom: 10px; text-transform: uppercase; }
-.input-senha { background: #000; border: 2px solid var(--borda); color: var(--texto-principal); padding: 15px; font-size: 18px; text-align: center; letter-spacing: 2px; width: 300px; margin-bottom: 20px; outline: none; transition: 0.3s; }
-.input-senha:focus { border-color: var(--ouro-puro); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
-.btn-entrar { background: var(--ouro-puro); color: #000; font-weight: bold; font-size: 16px; padding: 15px 40px; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
-.btn-entrar:hover { background: #fff; box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
+#tela-bloqueio { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100vh; width: 100%; position: fixed; top: 0; left: 0; background: var(--bg-base); z-index: 9999; }
+.icone-cadeado { font-size: 80px; color: var(--ouro-puro); margin-bottom: 25px; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.2)); }
+.titulo-bunker { color: var(--ouro-puro); font-size: 28px; letter-spacing: 6px; margin-bottom: 10px; text-transform: uppercase; }
+.input-senha { background: #000; border: 1px solid var(--borda); color: var(--texto-principal); padding: 18px; font-size: 16px; text-align: center; letter-spacing: 4px; width: 320px; margin-bottom: 25px; outline: none; border-radius: 4px; transition: 0.3s; }
+.input-senha:focus { border-color: var(--ouro-puro); box-shadow: 0 0 20px rgba(212, 175, 55, 0.1); }
+.btn-entrar { background: var(--ouro-puro); color: #000; font-weight: bold; font-size: 14px; padding: 18px 50px; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 3px; border-radius: 4px; transition: 0.3s; }
+.btn-entrar:hover { background: #fff; box-shadow: 0 0 30px rgba(255, 255, 255, 0.2); }
+
+/* MENU LATERAL (GAVETA TÁTICA) */
+#sidebar { position: fixed; top: 0; left: calc(-1 * var(--sidebar-width)); width: var(--sidebar-width); height: 100vh; background: var(--bg-painel); border-right: 1px solid var(--borda); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; padding: 30px 20px; display: flex; flex-direction: column; }
+#sidebar.aberto { left: 0; box-shadow: 10px 0 30px rgba(0,0,0,0.5); }
+.sidebar-header { display: flex; align-items: center; gap: 15px; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid var(--borda); }
+.sidebar-header i { font-size: 24px; color: var(--ouro-puro); }
+.sidebar-item { padding: 15px; color: var(--texto-secundario); cursor: pointer; border-radius: 6px; margin-bottom: 8px; display: flex; align-items: center; gap: 15px; transition: 0.2s; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+.sidebar-item:hover { background: rgba(212, 175, 55, 0.05); color: #fff; }
+.sidebar-item.ativo { color: var(--ouro-puro); background: rgba(212, 175, 55, 0.1); }
+.sidebar-footer { margin-top: auto; font-size: 10px; color: #444; text-align: center; }
+
+/* HEADER SUPERIOR */
+.top-bar { width: 100%; height: 70px; background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--borda); display: flex; align-items: center; padding: 0 30px; position: sticky; top: 0; z-index: 900; }
+.btn-menu { font-size: 20px; color: var(--texto-secundario); cursor: pointer; transition: 0.3s; }
+.btn-menu:hover { color: var(--ouro-puro); }
+.top-title { flex-grow: 1; text-align: center; font-size: 14px; letter-spacing: 4px; color: var(--ouro-puro); text-transform: uppercase; }
 
 /* PAINEL PRINCIPAL */
-#painel-bunker { display: none; width: 100%; max-width: 1200px; padding: 40px 20px; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 100vh; }
-.cabecalho-painel { width: 100%; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--borda); padding-bottom: 20px; margin-bottom: 30px; }
-.status-satelite { color: var(--verde-seguro); font-weight: bold; display: flex; align-items: center; gap: 10px; }
-.status-satelite span { display: inline-block; width: 10px; height: 10px; background: var(--verde-seguro); border-radius: 50%; box-shadow: 0 0 10px var(--verde-seguro); animation: piscar 1.5s infinite; }
+#painel-bunker { display: none; width: 100%; max-width: 1200px; margin: 0 auto; padding: 40px 20px; flex-direction: column; }
+.status-satelite { color: var(--verde-seguro); font-weight: bold; font-size: 12px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; }
+.status-satelite span { display: inline-block; width: 8px; height: 8px; background: var(--verde-seguro); border-radius: 50%; box-shadow: 0 0 10px var(--verde-seguro); animation: piscar 1.5s infinite; }
 
-/* RADAR DO POVO (1% MONSTRO) */
-.radar-bunker { background: rgba(0, 0, 0, 0.4); border: 1px solid var(--borda); width: 100%; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
-.radar-topo { text-align: center; border-bottom: 1px solid var(--borda); padding-bottom: 15px; margin-bottom: 20px; }
-.radar-topo h3 { color: var(--ouro-puro); font-size: 20px; letter-spacing: 2px; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 10px; }
-.radar-topo span { color: var(--texto-secundario); font-size: 14px; font-weight: normal; letter-spacing: 0; }
-.radar-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 40px; align-items: center; }
+/* RADAR DO POVO */
+.radar-bunker { background: rgba(10, 10, 10, 0.5); border: 1px solid var(--borda); padding: 30px; border-radius: 8px; margin-bottom: 40px; }
+.radar-grid { display: grid; grid-template-columns: 1fr 180px 1fr; gap: 40px; align-items: center; }
+.mes-box { display: flex; justify-content: space-between; background: var(--bg-card); padding: 15px; margin-bottom: 10px; border-left: 3px solid var(--ouro-puro); border-radius: 4px; font-size: 14px; }
+.olho-tecnologico { width: 150px; height: 150px; border-radius: 50%; border: 1px solid rgba(212, 175, 55, 0.2); display: flex; justify-content: center; align-items: center; position: relative; background: radial-gradient(circle, #000 30%, #0a0a0a 100%); }
+.olho-iris { width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle, var(--vermelho-alerta) 5%, transparent 70%); animation: respirarOlho 3s infinite; }
+.semaforo-item { display: flex; align-items: center; gap: 15px; font-size: 12px; background: var(--bg-card); padding: 12px; margin-bottom: 8px; border-radius: 4px; }
+.luz { width: 12px; height: 12px; border-radius: 50%; }
 
-/* Linha do Tempo Militar */
-.coluna-radar h4 { color: var(--texto-secundario); margin-bottom: 15px; font-size: 14px; letter-spacing: 1px; border-bottom: 1px dashed var(--borda); padding-bottom: 5px; }
-.mes-box { display: flex; justify-content: space-between; background: var(--bg-card); padding: 12px 15px; margin-bottom: 10px; border-left: 3px solid var(--ouro-puro); border-radius: 4px; font-size: 14px; }
-.mes-box .valor { color: var(--texto-principal); font-weight: bold; background: #000; padding: 2px 8px; border-radius: 4px; border: 1px solid var(--borda); }
+/* MESA DE LAUDOS */
+.painel-emissao { background: rgba(212, 175, 55, 0.02); border: 1px solid var(--ouro-puro); padding: 30px; border-radius: 8px; margin-bottom: 40px; }
+.grid-dossies { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 25px; }
 
-/* Olho Tecnológico Central */
-.olho-wrapper { display: flex; justify-content: center; align-items: center; }
-.olho-tecnologico { width: 140px; height: 140px; border-radius: 50%; border: 2px solid rgba(212, 175, 55, 0.3); display: flex; justify-content: center; align-items: center; position: relative; background: radial-gradient(circle, rgba(0,0,0,1) 40%, rgba(26,26,26,1) 100%); box-shadow: 0 0 30px rgba(0, 0, 0, 0.8); }
-.olho-iris { width: 70px; height: 70px; border-radius: 50%; background: radial-gradient(circle, var(--vermelho-alerta) 10%, transparent 70%); animation: respirarOlho 3s infinite; display: flex; justify-content: center; align-items: center; }
-.olho-pupila { width: 20px; height: 20px; background: #000; border-radius: 50%; box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.2); }
+/* CARDS DOSSIÊ */
+.card-dossie { background: var(--bg-card); border: 1px solid var(--borda); padding: 25px; border-radius: 8px; border-top: 3px solid var(--ouro-puro); transition: 0.3s; }
+.card-dossie:hover { border-top-color: #fff; transform: translateY(-5px); }
+.card-dossie.hacker { border-top-color: var(--vermelho-alerta); background: rgba(255, 77, 77, 0.02); }
+.card-topo { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 11px; color: var(--texto-secundario); border-bottom: 1px solid #222; padding-bottom: 10px; }
+.card-id { color: var(--ouro-puro); font-weight: bold; cursor: pointer; font-size: 13px; }
 
-/* Semáforo Tático */
-.semaforo-item { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--texto-principal); background: var(--bg-card); padding: 12px 15px; margin-bottom: 10px; border-radius: 4px; font-weight: bold; }
-.luz { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
-.luz.verde { background: var(--verde-seguro); box-shadow: 0 0 10px var(--verde-seguro); }
-.luz.amarela { background: #ffeb3b; box-shadow: 0 0 10px #ffeb3b; }
-.luz.vermelha { background: var(--vermelho-alerta); box-shadow: 0 0 10px var(--vermelho-alerta); animation: piscar 1s infinite; }
-
-/* MESA DE EMISSÃO DE LAUDOS */
-.painel-emissao { background: rgba(212, 175, 55, 0.05); border: 1px solid var(--ouro-puro); width: 100%; padding: 20px; border-radius: 8px; margin-bottom: 30px; display: flex; flex-direction: column; gap: 15px; }
-.grid-dossies { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; width: 100%; }
-
-/* CARDS DE DOSSIÊ */
-.card-dossie { background: var(--bg-card); border: 1px solid var(--borda); padding: 20px; border-radius: 8px; border-left: 5px solid var(--ouro-puro); }
-.card-dossie.hacker { border-left-color: var(--vermelho-alerta); background: rgba(255, 77, 77, 0.05); }
-.card-topo { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 12px; color: var(--texto-secundario); border-bottom: 1px dashed var(--borda); padding-bottom: 10px; }
-.card-id { color: var(--ouro-puro); font-weight: bold; font-size: 14px; cursor: pointer; transition: 0.2s;}
-.card-id:hover { color: #fff; text-decoration: underline; }
-.card-dado { margin-bottom: 10px; font-size: 14px; line-height: 1.5; }
-.card-dado strong { color: var(--texto-secundario); }
-.alerta-hacker { color: var(--vermelho-alerta); font-weight: bold; font-size: 16px; margin-bottom: 10px; }
-
-@keyframes piscar { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
-@keyframes respirarOlho { 0% { transform: scale(0.95); opacity: 0.8; } 50% { transform: scale(1.05); opacity: 1; } 100% { transform: scale(0.95); opacity: 0.8; } }
+@keyframes piscar { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+@keyframes respirarOlho { 0%, 100% { transform: scale(0.9); opacity: 0.6; } 50% { transform: scale(1.1); opacity: 1; } }
 </style>
 </head>
 <body>
+
 <div id="tela-bloqueio">
-<div class="icone-cadeado"> ☠️ </div>
-<h1 class="titulo-bunker">Bunker de Comando</h1>
-<p style="color: var(--texto-secundario); margin-bottom: 30px;">Acesso restrito. Identifique-se.</p>
-<input type="password" id="senha-input" class="input-senha" placeholder="CHAVE MESTRA" onkeypress="if(event.key === 'Enter') acessarBunker()">
-<button class="btn-entrar" id="btn-login" onclick="acessarBunker()">Desbloquear Base</button>
-<p id="msg-erro" style="color: var(--vermelho-alerta); margin-top: 20px; font-weight: bold; display: none;"> 🚨 ACESSO NEGADO 🚨 </p>
+    <div class="icone-cadeado"><i class="fa-solid fa-user-shield"></i></div>
+    <h1 class="titulo-bunker">Bunker de Comando</h1>
+    <p style="color: var(--texto-secundario); margin-bottom: 30px; font-size: 12px; letter-spacing: 2px;">PROTOCOLO 1% MONSTRO ATIVADO</p>
+    <input type="password" id="senha-input" class="input-senha" placeholder="••••••••" onkeypress="if(event.key === 'Enter') acessarBunker()">
+    <button class="btn-entrar" id="btn-login" onclick="acessarBunker()">Desbloquear Base</button>
+    <p id="msg-erro" style="color: var(--vermelho-alerta); margin-top: 25px; font-size: 13px; font-weight: bold; display: none;">🚨 ACESSO NEGADO</p>
+</div>
+
+<nav id="sidebar">
+    <div class="sidebar-header">
+        <i class="fa-solid fa-microchip"></i>
+        <div style="line-height: 1.2;">
+            <p style="color:#fff; font-size: 14px; font-weight: bold;">RAILANTECH</p>
+            <p style="font-size: 10px; color: var(--ouro-puro);">DIRETOR PERICIAL</p>
+        </div>
+    </div>
+    <div class="sidebar-item ativo"><i class="fa-solid fa-terminal"></i> Terminal OSINT</div>
+    <div class="sidebar-item"><i class="fa-solid fa-satellite-dish"></i> Status Satélite</div>
+    <div class="sidebar-item"><i class="fa-solid fa-shield-virus"></i> Logs Ratoeira</div>
+    <div class="sidebar-item"><i class="fa-solid fa-gears"></i> Configurações</div>
+    <div class="sidebar-footer">Versão 3.0.1 | Criptografia Titânio</div>
+</nav>
+
+<div class="top-bar">
+    <div class="btn-menu" onclick="toggleSidebar()"><i class="fa-solid fa-bars-staggered"></i></div>
+    <div class="top-title">RailanTech Command Center</div>
+    <div class="status-satelite"><span></span> Online</div>
 </div>
 
 <div id="painel-bunker">
-<div class="cabecalho-painel">
-<div>
-<h2 style="color: var(--ouro-puro); text-transform: uppercase; letter-spacing: 2px;">Terminal OSINT Privado</h2>
-<p style="color: var(--texto-secundario); font-size: 12px; margin-top: 5px;">Classificação: 1% MONSTRO (OURO)</p>
-</div>
-<div class="status-satelite"><span></span> Satélite Cloudflare Online</div>
-</div>
-
-<div class="radar-bunker">
-    <div class="radar-topo">
-        <h3>👁️ Radar do Povo <span>| Monitoramento de Tráfego em Tempo Real</span></h3>
-        <p style="color: var(--texto-secundario); font-size: 13px; margin-top: 5px;">Hoje, <strong style="color: #fff;">5.000</strong> pessoas pisaram na Ratoeira Psicológica.</p>
-    </div>
-    
-    <div class="radar-grid">
-        <div class="coluna-radar">
-            <h4>📊 LINHA DO TEMPO (DOSSIÊS)</h4>
-            <div class="mes-box">Maio 2026 <span class="valor">100</span></div>
-            <div class="mes-box" style="border-left-color: var(--texto-secundario);">Junho 2026 <span class="valor">80</span></div>
-        </div>
-
-        <div class="olho-wrapper">
-            <div class="olho-tecnologico">
-                <div class="olho-iris">
-                    <div class="olho-pupila"></div>
-                </div>
+    <div class="radar-bunker">
+        <div class="radar-grid">
+            <div>
+                <h4 style="color: var(--texto-secundario); font-size: 11px; margin-bottom: 15px; letter-spacing: 1px;">LINHA DO TEMPO</h4>
+                <div class="mes-box">Maio 2026 <strong style="color: #fff;">100</strong></div>
+                <div class="mes-box" style="border-left-color: #444;">Junho 2026 <strong style="color: #fff;">80</strong></div>
+            </div>
+            <div class="olho-tecnologico"><div class="olho-iris"></div></div>
+            <div>
+                <h4 style="color: var(--texto-secundario); font-size: 11px; margin-bottom: 15px; letter-spacing: 1px;">SEMAFORO TÁTICO</h4>
+                <div class="semaforo-item"><span class="luz" style="background: var(--verde-seguro); box-shadow: 0 0 10px var(--verde-seguro);"></span> SEGURO</div>
+                <div class="semaforo-item"><span class="luz" style="background: #ffeb3b; box-shadow: 0 0 10px #ffeb3b;"></span> SUSPEITO</div>
+                <div class="semaforo-item"><span class="luz" style="background: var(--vermelho-alerta); box-shadow: 0 0 10px var(--vermelho-alerta); animation: piscar 1s infinite;"></span> PERIGO</div>
             </div>
         </div>
-
-        <div class="coluna-radar">
-            <h4>🚦 SEMÁFORO TÁTICO</h4>
-            <div class="semaforo-item"><span class="luz verde"></span> SEGURO / LIMPO</div>
-            <div class="semaforo-item"><span class="luz amarela"></span> SUSPEITO / ATENÇÃO</div>
-            <div class="semaforo-item" style="border: 1px solid rgba(255, 77, 77, 0.3);"><span class="luz vermelha"></span> GOLPE / PERIGO</div>
-        </div>
+        <p style="text-align: center; color: var(--texto-secundario); font-size: 11px; margin-top: 20px;">RADAR DO POVO: <strong style="color:#fff;">5.000</strong> VISITAS HOJE</p>
     </div>
-</div>
 
-<div class="painel-emissao">
-<h3 style="color: var(--ouro-puro); text-transform: uppercase;"> ⚖️ Mesa de Emissão de Laudos (Chat 2FA)</h3>
-<p style="color: var(--texto-secundario); font-size: 14px;">Digite o código exato do cidadão e escreva a resposta oficial que ele receberá no site.</p>
-<div style="display: flex; gap: 15px; flex-wrap: wrap;">
-<input type="text" id="input-codigo-laudo" class="input-senha" style="margin: 0; width: 250px; text-align: left;" placeholder="Código (Ex: RT-PF-...)">
-<textarea id="input-texto-laudo" class="input-senha" style="margin: 0; width: 100%; height: 50px; text-align: left; font-size: 14px;" placeholder="Digite o laudo final para o cidadão..."></textarea>
-<button class="btn-entrar" style="padding: 10px 20px;" onclick="transmitirLaudo()">Transmitir Laudo</button>
-</div>
-<p id="status-laudo" style="color: var(--verde-seguro); font-weight: bold; display: none;"> ✅ Laudo criptografado e salvo com sucesso no Satélite!</p>
-</div>
+    <div class="painel-emissao">
+        <h3 style="color: var(--ouro-puro); font-size: 16px; margin-bottom: 20px;"><i class="fa-solid fa-scale-balanced"></i> EMISSÃO DE LAUDOS VIP</h3>
+        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+            <input type="text" id="input-codigo-laudo" class="input-senha" style="width: 250px; text-align: left; margin: 0;" placeholder="CÓDIGO RT-PF-...">
+            <textarea id="input-texto-laudo" class="input-senha" style="width: 100%; height: 60px; text-align: left; font-size: 14px; margin: 0;" placeholder="ESCREVA O VEREDITO FINAL..."></textarea>
+            <button class="btn-entrar" style="padding: 12px 30px;" onclick="transmitirLaudo()">Transmitir Laudo</button>
+        </div>
+        <p id="status-laudo" style="color: var(--verde-seguro); font-size: 12px; font-weight: bold; margin-top: 15px; display: none;">✓ LAUDO TRANSMITIDO AO SATÉLITE COM SUCESSO</p>
+    </div>
 
-<div id="loading-dados" style="color: var(--texto-secundario); font-size: 18px; margin-top: 20px;"> 📡 Conectando ao satélite militar...</div>
-<div class="grid-dossies" id="grade-dados"></div>
+    <div id="loading-dados" style="color: var(--texto-secundario); text-align: center; font-size: 14px; margin-top: 50px;">
+        <i class="fa-solid fa-spinner fa-spin"></i> SINCRONIZANDO COM O SATÉLITE...
+    </div>
+    <div class="grid-dossies" id="grade-dados"></div>
 </div>
 
 <script>
-// 🚨 O CÓDIGO DA SENHA FOI ANIQUILADO DESTE ARQUIVO. SEGURANÇA MÁXIMA 1%.
 const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
 let senhaMestraGlobal = "";
 
-// FUNÇÃO DE ACESSO BLINDADA (TÁTICA FANTASMA)
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('aberto');
+}
+
 async function acessarBunker() {
     const senha = document.getElementById('senha-input').value.trim();
     if(!senha) return;
-
-    const btnLogin = document.getElementById('btn-login');
+    const btn = document.getElementById('btn-login');
     const msgErro = document.getElementById('msg-erro');
-    
-    // UI Feedback
     msgErro.style.display = "none";
-    btnLogin.innerText = "VERIFICANDO...";
-
-    // Manda a senha para o Satélite avaliar. O código HTML não sabe nada.
+    btn.innerText = "VERIFICANDO...";
     await buscarDossiesSecretos(senha);
 }
 
-// FUNÇÃO PARA LER OS DADOS DO BANCO E ABRIR O BUNKER
 async function buscarDossiesSecretos(chaveMestra) {
     try {
-        const req = await fetch(API_MATRIZ, {
-            method: "GET",
-            headers: { "Authorization": "Bearer " + chaveMestra }
-        });
-
-        // O SATÉLITE VERIFICA A SENHA. SE ESTIVER ERRADA, ELE BARRA AQUI.
-        if(req.status === 403) throw new Error("☠️ BLOQUEADO PELA RATOEIRA TÁTICA");
+        const req = await fetch(API_MATRIZ, { method: "GET", headers: { "Authorization": "Bearer " + chaveMestra } });
+        if(req.status === 403) throw new Error("BLOQUEADO PELA RATOEIRA");
         if(req.status === 401) throw new Error("SENHA INCORRETA");
-        if(!req.ok) throw new Error("FALHA DE COMUNICAÇÃO COM O SATÉLITE");
+        if(!req.ok) throw new Error("ERRO DE COMUNICAÇÃO");
 
-        // SE O SATÉLITE DEIXOU PASSAR, A SENHA É VERDADEIRA! ABRIR PORTAS!
         senhaMestraGlobal = chaveMestra;
         document.getElementById('tela-bloqueio').style.display = "none";
         document.getElementById('painel-bunker').style.display = "flex";
-        document.getElementById('btn-login').innerText = "Desbloquear Base";
         document.getElementById('loading-dados').style.display = "none";
 
         const dados = await req.json();
         const grade = document.getElementById('grade-dados');
         grade.innerHTML = "";
-
-        if(dados.length === 0 || (dados.length === 1 && dados[0].protocolo === "Aviso")) {
-            grade.innerHTML = "<p style='color: var(--texto-secundario);'>O cofre está vazio no momento.</p>";
-            return;
-        }
-
-        // RENDERIZA OS DADOS
-        dados.reverse().forEach(dossie => {
-            const isHacker = dossie.protocolo === "HACKER-CAPTURADO";
-            const classeCard = isHacker ? "card-dossie hacker" : "card-dossie";
-            const alertaVisual = isHacker ? "<div class='alerta-hacker'> 🚨 INVASOR CAPTURADO NA RATOEIRA</div>" : "";
-            const onclickCodigo = !isHacker ? `onclick="document.getElementById('input-codigo-laudo').value = '${dossie.protocolo}'; window.scrollTo({top: 0, behavior: 'smooth'});"` : "";
-
-            let htmlEvidencia = "";
-            if (dossie.anexo && dossie.anexo !== 'Nenhum') {
-                if (dossie.anexo.startsWith('data:image')) {
-                    htmlEvidencia = `<div class="card-dado"><strong style="color: var(--verde-seguro);"> 📎 Print / Imagem:</strong><br><img src="${dossie.anexo}" style="max-width: 100%; border-radius: 8px; margin-top: 10px; border: 1px solid var(--borda);"></div>`;
-                } else if (dossie.anexo.startsWith('data:video')) {
-                    htmlEvidencia = `<div class="card-dado"><strong style="color: var(--verde-seguro);"> 🎥 Vídeo:</strong><br><video controls style="max-width: 100%; border-radius: 8px; margin-top: 10px; border: 1px solid var(--borda);"><source src="${dossie.anexo}"></video></div>`;
-                } else if (dossie.anexo.startsWith('data:audio')) {
-                    htmlEvidencia = `<div class="card-dado"><strong style="color: var(--verde-seguro);"> 🎵 Áudio:</strong><br><audio controls src="${dossie.anexo}" style="width: 100%; margin-top: 10px;"></audio></div>`;
-                } else {
-                    htmlEvidencia = `<div class="card-dado"><strong style="color: var(--verde-seguro);"> 📎 Anexo Desconhecido</strong></div>`;
-                }
-            }
-
-            let htmlWhatsApp = "";
-            if (!isHacker && dossie.contato && dossie.contato !== 'Anônimo') {
-                let dddNum = dossie.contato.replace(/\D/g, '');
-                if (dddNum.startsWith('55') && dddNum.length > 11) { dddNum = dddNum.substring(2); }
-                if (dddNum.length >= 10) {
-                    const mensagemWpp = `Olá! Aqui é a equipe de proteção da RailanTech. 🛡️ \n\nRecebemos a sua evidência com sucesso. O nosso Diretor Pericial já analisou a ameaça com todo o cuidado.\n\nPara garantir o seu sigilo, o seu laudo foi criptografado e guardado no nosso site oficial.\n\nA sua senha de atendimento é:\n*${dossie.protocolo}*\n\n*Veja como é fácil ler a sua resposta:*\n1. Copie a senha logo acima.\n2. Acesse nosso sistema: https://railantech.github.io\n3. Clique no botão " 💬 Acesso VIP" e cole a sua senha.\n\nUm grande abraço de toda a equipe. Estamos aqui para blindar você!`;
-                    const linkWpp = `https://wa.me/55${dddNum}?text=${encodeURIComponent(mensagemWpp)}`;
-                    htmlWhatsApp = `<button onclick="window.open('${linkWpp}', '_blank')" style="background: #25D366; color: #000; border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 15px; font-family: sans-serif;"> 💬 Enviar Laudo VIP pelo WhatsApp</button>`;
-                }
-            }
-
-            const card = `
-            <div class="${classeCard}">
-            ${alertaVisual}
-            <div class="card-topo">
-            <span class="card-id" title="Clique para emitir laudo" ${onclickCodigo}>${dossie.protocolo}</span>
-            <span>${dossie.data || 'Data Desconhecida'}</span>
-            </div>
-            <div class="card-dado"><strong>Perfil:</strong> ${dossie.perfil}</div>
-            <div class="card-dado"><strong>Mensagem / Relato:</strong> <br> ${dossie.mensagem}</div>
-            ${htmlEvidencia}
-            ${!isHacker ? `<div class="card-dado"><strong>Contato do Alvo:</strong> ${dossie.contato}</div>` : ''}
-            ${htmlWhatsApp}
-            </div>
-            `;
-            grade.innerHTML += card;
-        });
-    } catch (erro) { 
-        // TRATAMENTO DE ERRO DE SENHA NA TELA DE BLOQUEIO
-        const msgErro = document.getElementById('msg-erro');
+        dados.reverse().forEach(dossie => renderCard(dossie, grade));
+    } catch (e) {
         document.getElementById('btn-login').innerText = "Desbloquear Base";
         document.getElementById('senha-input').value = "";
-        
-        if(erro.message === "SENHA INCORRETA") {
-            msgErro.innerText = "🚨 ACESSO NEGADO 🚨";
-        } else {
-            msgErro.innerText = "🚨 " + erro.message + " 🚨";
-        }
-        msgErro.style.display = "block";
+        document.getElementById('msg-erro').innerText = "🚨 " + e.message;
+        document.getElementById('msg-erro').style.display = "block";
     }
 }
 
-// FUNÇÃO PARA ENVIAR O LAUDO PARA O CIDADÃO
+function renderCard(dossie, grade) {
+    const isHacker = dossie.protocolo === "HACKER-CAPTURADO";
+    const card = document.createElement('div');
+    card.className = isHacker ? 'card-dossie hacker' : 'card-dossie';
+    
+    let anexoHtml = "";
+    if (dossie.anexo && dossie.anexo.startsWith('data:')) {
+        if (dossie.anexo.includes('image')) anexoHtml = `<img src="${dossie.anexo}" style="width:100%; border-radius:4px; margin:15px 0; border:1px solid #333;">`;
+        else if (dossie.anexo.includes('video')) anexoHtml = `<video controls style="width:100%; margin:15px 0;"><source src="${dossie.anexo}"></video>`;
+    }
+
+    card.innerHTML = `
+        <div class="card-topo">
+            <span class="card-id" onclick="prepararLaudo('${dossie.protocolo}')">${dossie.protocolo}</span>
+            <span>${dossie.data || '--'}</span>
+        </div>
+        <p style="font-size:13px; margin-bottom:10px;"><strong>PERFIL:</strong> ${dossie.perfil}</p>
+        <p style="font-size:13px; color:#aaa; margin-bottom:15px;">${dossie.mensagem}</p>
+        ${anexoHtml}
+        ${!isHacker ? `<button onclick="enviarWhatsApp('${dossie.contato}', '${dossie.protocolo}')" style="background:#25D366; color:#000; border:none; width:100%; padding:10px; border-radius:4px; font-weight:bold; cursor:pointer;"><i class="fa-brands fa-whatsapp"></i> ENVIAR LAUDO VIP</button>` : '<p style="color:var(--vermelho-alerta); font-weight:bold; font-size:11px;">⚠️ INVASOR IDENTIFICADO</p>'}
+    `;
+    grade.appendChild(card);
+}
+
+function prepararLaudo(id) {
+    document.getElementById('input-codigo-laudo').value = id;
+    window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
 async function transmitirLaudo() {
     const codigo = document.getElementById('input-codigo-laudo').value.trim();
     const texto = document.getElementById('input-texto-laudo').value.trim();
-    if(!codigo || !texto) { alert("Preencha o código e o laudo."); return; }
+    if(!codigo || !texto) return;
     try {
-        const req = await fetch(API_MATRIZ, {
+        await fetch(API_MATRIZ, {
             method: "POST",
             headers: { "Content-Type": "application/json", "Authorization": "Bearer " + senhaMestraGlobal },
-            body: JSON.stringify({ tipo: "emitir_laudo", codigo: codigo, texto: texto })
+            body: JSON.stringify({ tipo: "emitir_laudo", codigo, texto })
         });
-        const res = await req.json();
-        if(res.sucesso) {
-            document.getElementById('status-laudo').style.display = "block";
-            document.getElementById('input-codigo-laudo').value = "";
-            document.getElementById('input-texto-laudo').value = "";
-            setTimeout(() => document.getElementById('status-laudo').style.display = "none", 4000);
-        }
-    } catch(e) { alert(" 🚨 Falha ao transmitir o laudo."); }
+        document.getElementById('status-laudo').style.display = "block";
+        document.getElementById('input-codigo-laudo').value = "";
+        document.getElementById('input-texto-laudo').value = "";
+        setTimeout(() => document.getElementById('status-laudo').style.display = "none", 4000);
+    } catch(e) { alert("Erro ao transmitir."); }
+}
+
+function enviarWhatsApp(contato, protocolo) {
+    const num = contato.replace(/\D/g, '');
+    const msg = `Olá! Sua evidência foi analisada pelo nosso Diretor Pericial. 🛡️\nSeu laudo está pronto no site: https://railantech.github.io\nProtocolo: *${protocolo}*`;
+    window.open(`https://wa.me/55${num}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 </script>
 </body>
