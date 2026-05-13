@@ -121,7 +121,7 @@ body { background-color: var(--bg-base); color: var(--texto-principal); min-heig
     </div>
     <div class="sidebar-item ativo" id="menu-osint" onclick="mudarAba('osint')"><i class="fa-solid fa-terminal"></i> Terminal OSINT</div>
     <div class="sidebar-item" id="menu-cloudflare" onclick="mudarAba('cloudflare')"><i class="fa-solid fa-satellite-dish"></i> Status Satélite</div>
-    <div class="sidebar-footer">Versão 3.5.0 | Adaptação 1% Monstro</div>
+    <div class="sidebar-footer">Versão Final | Adaptação 1% Monstro</div>
 </nav>
 
 <div class="top-bar">
@@ -184,7 +184,7 @@ body { background-color: var(--bg-base); color: var(--texto-principal); min-heig
                 <i class="fa-solid fa-ghost cf-icon"></i>
                 <div class="cf-text">
                     <h4>Túnel de Sombra (IP)</h4>
-                    <p>Localização física da Base de Inteligência indetectável.</p>
+                    <p>Localização física da Base indetectável.</p>
                     <div class="cf-status"><div class="luz" style="background:var(--verde-seguro);"></div> MODO FANTASMA ATIVO</div>
                 </div>
             </div>
@@ -200,7 +200,7 @@ body { background-color: var(--bg-base); color: var(--texto-principal); min-heig
                 <i class="fa-solid fa-bolt cf-icon"></i>
                 <div class="cf-text">
                     <h4>Propulsor CDN</h4>
-                    <p>Distribuição global para carregamento em milissegundos.</p>
+                    <p>Carregamento em milissegundos.</p>
                     <div class="cf-status"><div class="luz" style="background:var(--verde-seguro);"></div> VELOCIDADE MÁXIMA</div>
                 </div>
             </div>
@@ -210,7 +210,6 @@ body { background-color: var(--bg-base); color: var(--texto-principal); min-heig
 </div>
 
 <script>
-// A MATRIZ DE COMUNICAÇÃO SE MANTÉM INTACTA
 const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
 let senhaMestraGlobal = "";
 
@@ -218,14 +217,13 @@ function toggleSidebar() {
     document.getElementById('sidebar').classList.toggle('aberto');
 }
 
-// SISTEMA DE ABAS (TRABALHAR INTELIGENTE)
 function mudarAba(aba) {
     document.querySelectorAll('.view-section').forEach(el => el.classList.remove('ativa'));
     document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('ativo'));
     
     document.getElementById(`view-${aba}`).classList.add('ativa');
     document.getElementById(`menu-${aba}`).classList.add('ativo');
-    toggleSidebar(); // Fecha o menu ao escolher
+    toggleSidebar(); 
     window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
@@ -263,9 +261,7 @@ async function buscarDossiesSecretos(chaveMestra) {
                 renderCard(dossie, grade);
             });
             
-            // DISPARO DO ALERTA SENSORIAL VISUAL
             document.body.classList.remove('alerta-visual-cidadao', 'alerta-visual-hacker');
-            // Força o reflow para reiniciar a animação
             void document.body.offsetWidth; 
             if (temHacker) {
                 document.body.classList.add('alerta-visual-hacker');
@@ -293,9 +289,9 @@ function renderCard(dossie, grade) {
         else if (dossie.anexo.includes('video')) anexoHtml = `<video controls style="width:100%; margin:15px 0;"><source src="${dossie.anexo}"></video>`;
     }
 
-    const mensagemLaudo = encodeURIComponent(`Olá! A equipe RailanTech analisou a sua situação. O seu laudo sigiloso está pronto.\n\nAcesse nosso portal VIP: https://railantech.github.io\n\nSua chave de acesso (Token 1 Minuto):\n*${dossie.protocolo}*`);
+    // AQUI ESTÁ A MÁGICA 1% MONSTRO ATUALIZADA COM O LINK DO PORTAL VIP!
+    const mensagemLaudo = encodeURIComponent(`Olá! A equipe RailanTech analisou a sua situação. O seu laudo sigiloso está pronto.\n\nAcesse nosso Portal VIP: https://railantech.github.io/portal-vip.html\n\nSua chave de acesso (Token 1 Minuto):\n*${dossie.protocolo}*`);
 
-    // LÓGICA DO "X" DE LIMPEZA E BOTÕES MULTICANAL
     card.innerHTML = `
         <div class="card-topo">
             <div>
