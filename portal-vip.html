@@ -1,3 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal VIP - Inteligência Pericial</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root {
+    --bg-base: #050505; --bg-card: #111;
+    --texto-principal: #e3e3e3; --texto-secundario: #888;
+    --ouro-puro: #d4af37; --vermelho-alerta: #ff4d4d; --verde-seguro: #00e676;
+    --borda: #222;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Courier New', monospace; }
+body { background-color: var(--bg-base); color: var(--texto-principal); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow-x: hidden; }
+
+/* TELA DE LOGIN VIP */
+#tela-login { display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; max-width: 400px; padding: 40px; background: var(--bg-card); border: 1px solid var(--borda); border-top: 4px solid var(--ouro-puro); border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+.logo-vip { font-size: 50px; color: var(--ouro-puro); margin-bottom: 20px; }
+.titulo-vip { font-size: 22px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; color: #fff; }
+.subtitulo-vip { font-size: 12px; color: var(--texto-secundario); margin-bottom: 30px; letter-spacing: 1px; }
+.input-vip { width: 100%; background: #000; border: 1px solid var(--borda); color: var(--ouro-puro); padding: 15px; font-size: 16px; text-align: center; letter-spacing: 2px; margin-bottom: 20px; outline: none; border-radius: 4px; transition: 0.3s; text-transform: uppercase; }
+.input-vip:focus { border-color: var(--ouro-puro); box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
+.btn-vip { width: 100%; background: var(--ouro-puro); color: #000; font-weight: bold; font-size: 14px; padding: 15px; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; border-radius: 4px; transition: 0.3s; }
+.btn-vip:hover { background: #fff; }
+#msg-erro { color: var(--vermelho-alerta); font-size: 12px; font-weight: bold; margin-top: 15px; display: none; }
+
+/* TELA DO LAUDO (SALA SEGURA) */
+#tela-laudo { display: none; width: 100%; max-width: 800px; padding: 20px; flex-direction: column; }
+.header-seguro { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--borda); padding-bottom: 20px; margin-bottom: 30px; }
+.status-criptografia { font-size: 12px; color: var(--verde-seguro); display: flex; align-items: center; gap: 8px; font-weight: bold; }
+
+/* CRONÔMETRO DE 1 MINUTO (AUTENTICADOR) */
+.box-cronometro { background: rgba(255, 77, 77, 0.05); border: 1px solid var(--vermelho-alerta); padding: 20px; border-radius: 4px; text-align: center; margin-bottom: 30px; position: relative; overflow: hidden; }
+.tempo-restante { font-size: 36px; font-weight: bold; color: var(--vermelho-alerta); letter-spacing: 5px; font-family: 'Courier New', monospace; }
+.aviso-tempo { font-size: 11px; color: var(--texto-secundario); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+.barra-energia { position: absolute; bottom: 0; left: 0; height: 4px; background: var(--vermelho-alerta); width: 100%; transition: width 1s linear; }
+
+/* CONTEÚDO DO LAUDO */
+.papel-laudo { background: #0a0a0a; border: 1px solid #333; padding: 40px; border-radius: 4px; position: relative; }
+.papel-laudo::before { content: 'CONFIDENCIAL'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); font-size: 80px; color: rgba(255,255,255,0.02); font-weight: bold; pointer-events: none; }
+.laudo-titulo { color: var(--ouro-puro); font-size: 18px; text-transform: uppercase; margin-bottom: 20px; border-bottom: 1px dashed #333; padding-bottom: 10px; }
+.laudo-texto { color: #ccc; font-size: 15px; line-height: 1.8; white-space: pre-wrap; }
+
+/* TELA DE SESSÃO EXPIRADA */
+#tela-expirada { display: none; flex-direction: column; align-items: center; text-align: center; }
+.icone-expirado { font-size: 60px; color: var(--vermelho-alerta); margin-bottom: 20px; }
+
+</style>
+</head>
+<body>
+
+<div id="tela-login">
+    <i class="fa-solid fa-fingerprint logo-vip"></i>
+    <h1 class="titulo-vip">Acesso VIP</h1>
+    <p class="subtitulo-vip">PORTAL DE LAUDOS SIGILOSOS</p>
+    
+    <input type="text" id="input-protocolo" class="input-vip" placeholder="EX: RT-PF-..." onkeypress="if(event.key === 'Enter') verificarProtocolo()">
+    <button class="btn-vip" onclick="verificarProtocolo()" id="btn-acesso">Descriptografar Laudo</button>
+    <p id="msg-erro"><i class="fa-solid fa-triangle-exclamation"></i> LAUDO NÃO ENCONTRADO OU EM ANÁLISE.</p>
+</div>
+
+<div id="tela-laudo">
+    <div class="header-seguro">
+        <div>
+            <h2 style="color:#fff; font-size: 16px;">RailanTech <span style="color:var(--ouro-puro);">| Inteligência Pericial</span></h2>
+        </div>
+        <div class="status-criptografia">
+            <i class="fa-solid fa-lock"></i> CONEXÃO BLINDADA E CRIPTOGRAFADA
+        </div>
+    </div>
+
+    <div class="box-cronometro">
+        <p class="aviso-tempo">Por segurança, este laudo se autodestruirá em:</p>
+        <div class="tempo-restante" id="relogio">01:00</div>
+        <div class="barra-energia" id="barra-tempo"></div>
+    </div>
+
+    <div class="papel-laudo">
+        <h3 class="laudo-titulo"><i class="fa-solid fa-file-shield"></i> Veredito Oficial - Diretor Pericial</h3>
+        <div class="laudo-texto" id="texto-do-laudo">
+            Aguardando descriptografia de dados...
+        </div>
+    </div>
+</div>
+
+<div id="tela-expirada">
+    <i class="fa-solid fa-user-lock icone-expirado"></i>
+    <h2 style="color:#fff; text-transform: uppercase; margin-bottom: 10px;">Sessão Expirada</h2>
+    <p style="color:var(--texto-secundario); font-size: 14px; max-width: 400px; margin-bottom: 30px;">O tempo de leitura do seu token expirou para garantir o seu sigilo. O laudo foi trancado com segurança.</p>
+    <button class="btn-vip" style="max-width: 300px;" onclick="location.reload()">Gerar Novo Token de Acesso</button>
+</div>
+
+<script>
+// MATRIZ DO MOTOR GEMINI (CONEXÃO REAL COM O SATÉLITE)
+const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
+let timerInterval;
+
 async function verificarProtocolo() {
     const protocolo = document.getElementById('input-protocolo').value.trim().toUpperCase();
     const btn = document.getElementById('btn-acesso');
@@ -6,23 +105,73 @@ async function verificarProtocolo() {
     if(!protocolo) return;
 
     msgErro.style.display = "none";
-    btn.innerText = "LOCALIZANDO...";
+    btn.innerText = "LOCALIZANDO NO SATÉLITE...";
 
     try {
-        // AGORA SIM: O Motor busca a informação real no Satélite Cloudflare
+        // Puxando o laudo REAL que o Diretor salvou
         const req = await fetch(API_MATRIZ + "?protocolo=" + protocolo);
         
         if (!req.ok) {
-            throw new Error("Protocolo não encontrado ou ainda em análise.");
+            throw new Error("Protocolo não encontrado");
         }
 
         const dados = await req.json();
         
-        // Abre a sala segura com o LAUDO REAL que você escreveu no Bunker
-        abrirSalaSegura(dados.laudo);
+        if (dados.laudo) {
+            abrirSalaSegura(dados.laudo);
+        } else {
+            throw new Error("Laudo vazio");
+        }
 
     } catch (e) {
         btn.innerText = "Descriptografar Laudo";
         msgErro.style.display = "block";
     }
 }
+
+function abrirSalaSegura(textoLaudo) {
+    document.getElementById('tela-login').style.display = "none";
+    document.getElementById('tela-laudo').style.display = "flex";
+    
+    // Injétando o texto oficial na tela
+    document.getElementById('texto-do-laudo').innerText = textoLaudo;
+    
+    iniciarCronometro(60); // 60 SEGUNDOS = 1 MINUTO TÁTICO
+}
+
+function iniciarCronometro(segundosTotais) {
+    let tempo = segundosTotais;
+    const relogio = document.getElementById('relogio');
+    const barra = document.getElementById('barra-tempo');
+
+    timerInterval = setInterval(() => {
+        tempo--;
+        
+        let minutos = Math.floor(tempo / 60);
+        let segundos = tempo % 60;
+        
+        minutos = minutos < 10 ? "0" + minutos : minutos;
+        segundos = segundos < 10 ? "0" + segundos : segundos;
+        
+        relogio.innerText = minutos + ":" + segundos;
+        
+        let porcentagem = (tempo / segundosTotais) * 100;
+        barra.style.width = porcentagem + "%";
+
+        // QUANDO O TEMPO ACABA: TRANCAR TUDO
+        if (tempo <= 0) {
+            clearInterval(timerInterval);
+            trancarSessao();
+        }
+    }, 1000); 
+}
+
+function trancarSessao() {
+    document.getElementById('tela-laudo').style.display = "none";
+    document.getElementById('tela-expirada').style.display = "flex";
+    // Apaga o laudo da memória por segurança
+    document.getElementById('texto-do-laudo').innerText = ""; 
+}
+</script>
+</body>
+</html>
