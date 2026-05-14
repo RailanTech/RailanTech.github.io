@@ -9,7 +9,7 @@
 :root {
 --bg-base: #050505; --bg-painel: #0a0a0a; --bg-card: #141414;
 --texto-principal: #e3e3e3; --texto-secundario: #888;
---ouro-puro: #d4af37; --vermelho-alerta: #ff4d4d; --verde-seguro: #00e676;
+--ouro-puro: #d4af37; --vermelho-alerta: #ff4d4d; --verde-seguro: #00e676; --amarelo-suspeito: #ffeb3b;
 --borda: #1a1a1a; --sidebar-width: 280px;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Courier New', Courier, monospace; }
@@ -31,16 +31,17 @@ body { background-color: var(--bg-base); color: var(--texto-principal); min-heig
 .btn-entrar:hover { background: #fff; box-shadow: 0 0 30px rgba(255, 255, 255, 0.2); }
 
 /* MENU LATERAL (GAVETA TÁTICA) */
-#sidebar { position: fixed; top: 0; left: calc(-1 * var(--sidebar-width)); width: var(--sidebar-width); height: 100vh; background: var(--bg-painel); border-right: 1px solid var(--borda); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; padding: 30px 20px; display: flex; flex-direction: column; }
+#sidebar { position: fixed; top: 0; left: calc(-1 * var(--sidebar-width)); width: var(--sidebar-width); height: 100vh; background: var(--bg-painel); border-right: 1px solid var(--borda); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; padding: 30px 20px; display: flex; flex-direction: column; overflow-y: auto;}
 #sidebar.aberto { left: 0; box-shadow: 10px 0 30px rgba(0,0,0,0.5); }
 .btn-fechar-menu { position: absolute; top: 20px; right: 20px; font-size: 24px; color: var(--texto-secundario); cursor: pointer; transition: 0.2s; }
 .btn-fechar-menu:hover { color: var(--vermelho-alerta); }
-.sidebar-header { display: flex; align-items: center; gap: 15px; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid var(--borda); margin-top: 20px; }
+.sidebar-header { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--borda); margin-top: 20px; }
 .sidebar-header i { font-size: 24px; color: var(--ouro-puro); }
-.sidebar-item { padding: 15px; color: var(--texto-secundario); cursor: pointer; border-radius: 6px; margin-bottom: 8px; display: flex; align-items: center; gap: 15px; transition: 0.2s; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+.sidebar-item { padding: 15px; color: var(--texto-secundario); cursor: pointer; border-radius: 6px; margin-bottom: 5px; display: flex; align-items: center; gap: 15px; transition: 0.2s; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
 .sidebar-item:hover { background: rgba(212, 175, 55, 0.05); color: #fff; }
-.sidebar-item.ativo { color: var(--ouro-puro); background: rgba(212, 175, 55, 0.1); }
-.sidebar-footer { margin-top: auto; font-size: 10px; color: #444; text-align: center; }
+.sidebar-item.ativo { color: var(--ouro-puro); background: rgba(212, 175, 55, 0.1); border-left: 3px solid var(--ouro-puro); }
+.divisor-menu { height: 1px; background: var(--borda); margin: 15px 0; }
+.sidebar-footer { margin-top: auto; padding-top: 20px; font-size: 10px; color: #444; text-align: center; }
 
 /* HEADER SUPERIOR */
 .top-bar { width: 100%; height: 70px; background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--borda); display: flex; align-items: center; padding: 0 30px; position: sticky; top: 0; z-index: 900; }
@@ -54,7 +55,7 @@ body { background-color: var(--bg-base); color: var(--texto-principal); min-heig
 .view-section.ativa { display: flex; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* ESTATÍSTICAS E COMPONENTES */
+/* ESTATÍSTICAS E COMPONENTES GERAIS */
 .status-satelite { color: var(--verde-seguro); font-weight: bold; font-size: 12px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; }
 .status-satelite span { display: inline-block; width: 8px; height: 8px; background: var(--verde-seguro); border-radius: 50%; box-shadow: 0 0 10px var(--verde-seguro); animation: piscar 1.5s infinite; }
 .radar-bunker { background: rgba(10, 10, 10, 0.5); border: 1px solid var(--borda); padding: 30px; border-radius: 8px; margin-bottom: 40px; }
@@ -69,7 +70,7 @@ body { background-color: var(--bg-base); color: var(--texto-principal); min-heig
 .painel-emissao { background: rgba(212, 175, 55, 0.02); border: 1px solid var(--ouro-puro); padding: 30px; border-radius: 8px; margin-bottom: 40px; }
 .grid-dossies { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 25px; }
 
-/* CARDS DOSSIÊ */
+/* CARDS DOSSIÊ (ORIGINAIS) */
 .card-dossie { background: var(--bg-card); border: 1px solid var(--borda); padding: 25px; border-radius: 8px; border-top: 3px solid var(--ouro-puro); transition: 0.3s; position: relative; }
 .card-dossie:hover { border-top-color: #fff; transform: translateY(-5px); }
 .card-dossie.hacker { border-top-color: var(--vermelho-alerta); background: rgba(255, 77, 77, 0.02); }
@@ -77,8 +78,6 @@ body { background-color: var(--bg-base); color: var(--texto-principal); min-heig
 .card-id { color: var(--ouro-puro); font-weight: bold; cursor: pointer; font-size: 13px; }
 .btn-limpar-card { color: var(--texto-secundario); cursor: pointer; font-size: 16px; transition: 0.2s; }
 .btn-limpar-card:hover { color: var(--vermelho-alerta); transform: scale(1.2); }
-
-/* BOTOES MULTICANAL */
 .botoes-contato { display: flex; gap: 10px; margin-top: 15px; }
 .btn-acao { flex: 1; padding: 12px; border: none; border-radius: 4px; font-weight: bold; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
 .btn-wpp { background: #25D366; color: #000; }
@@ -95,8 +94,47 @@ body { background-color: var(--bg-base); color: var(--texto-principal); min-heig
 .cf-text p { color: var(--texto-secundario); font-size: 13px; margin-bottom: 10px; }
 .cf-status { display: inline-flex; align-items: center; gap: 8px; background: #000; padding: 4px 10px; border-radius: 4px; border: 1px solid #333; font-size: 11px; color: var(--verde-seguro); font-weight: bold; }
 
+/* ========================================= */
+/* ESTRUTURA TÁTICA DA TRIAGEM (PROJETO NOVO) */
+/* ========================================= */
+.header-triagem { border-bottom: 2px solid var(--ouro-puro); padding-bottom: 15px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end;}
+.header-triagem h2 { color: var(--ouro-puro); text-transform: uppercase; font-size: 22px; margin-bottom: 5px; }
+
+.grid-triagem { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+.coluna-triagem { background: #0a0a0a; border: 1px solid #222; border-radius: 6px; overflow: hidden; }
+.titulo-coluna { padding: 15px; text-align: center; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; background: #111; border-bottom: 1px solid #222;}
+.coluna-oficial .titulo-coluna { color: var(--verde-seguro); border-bottom-color: rgba(0, 230, 118, 0.3); }
+.coluna-estranho .titulo-coluna { color: var(--amarelo-suspeito); border-bottom-color: rgba(255, 235, 59, 0.3); }
+.coluna-falso .titulo-coluna { color: var(--vermelho-alerta); border-bottom-color: rgba(255, 77, 77, 0.3); }
+
+/* DESIGN DO DOSSIÊ RETRÁTIL (CÓDIGO OCULTO) */
+.lista-numeros { padding: 15px; display: flex; flex-direction: column; gap: 10px; min-height: 400px; }
+.item-dossie { background: #1a1a1a; border-radius: 4px; overflow: hidden; border-left: 3px solid #333; transition: 0.3s; }
+.coluna-oficial .item-dossie { border-left-color: var(--verde-seguro); }
+.coluna-estranho .item-dossie { border-left-color: var(--amarelo-suspeito); }
+.coluna-falso .item-dossie { border-left-color: var(--vermelho-alerta); }
+
+.item-cabecalho { padding: 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: #141414; transition: 0.2s; }
+.item-cabecalho:hover { background: #222; }
+.codigo-rt { font-family: 'Courier New', monospace; font-size: 13px; font-weight: bold; color: #fff; letter-spacing: 1px; }
+
+/* BOTÕES DE AÇÃO DO DOSSIÊ RETRÁTIL */
+.botoes-acao { display: flex; gap: 10px; align-items: center; }
+.btn-copiar { color: var(--ouro-puro); background: transparent; border: none; cursor: pointer; font-size: 14px; transition: 0.2s; }
+.btn-copiar:hover { color: #fff; transform: scale(1.2); }
+.btn-mostrar { color: var(--texto-secundario); font-size: 14px; transition: 0.2s; }
+.item-cabecalho:hover .btn-mostrar { color: #fff; }
+
+/* DETALHES OCULTOS (NOME, NÚMERO, TEXTO) */
+.item-detalhes { padding: 15px; background: #0d0d0d; border-top: 1px dashed #333; display: none; font-size: 12px; color: #aaa; }
+.item-detalhes.aberto { display: block; animation: slideDown 0.3s ease-out; }
+.dado-linha { margin-bottom: 8px; }
+.dado-linha strong { color: #ddd; font-family: 'Inter', sans-serif; }
+.texto-denuncia { margin-top: 10px; padding: 10px; background: #000; border-radius: 4px; border: 1px solid #222; font-style: italic; }
+
 @keyframes piscar { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 @keyframes respirarOlho { 0%, 100% { transform: scale(0.9); opacity: 0.6; } 50% { transform: scale(1.1); opacity: 1; } }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 <body>
@@ -119,8 +157,16 @@ body { background-color: var(--bg-base); color: var(--texto-principal); min-heig
             <p style="font-size: 10px; color: var(--ouro-puro);">DIRETOR PERICIAL</p>
         </div>
     </div>
-    <div class="sidebar-item ativo" id="menu-osint" onclick="mudarAba('osint')"><i class="fa-solid fa-terminal"></i> Terminal OSINT</div>
+    <div class="sidebar-item ativo" id="menu-osint" onclick="mudarAba('osint')"><i class="fa-solid fa-terminal"></i> Terminal Geral</div>
     <div class="sidebar-item" id="menu-cloudflare" onclick="mudarAba('cloudflare')"><i class="fa-solid fa-satellite-dish"></i> Status Satélite</div>
+    
+    <div class="divisor-menu"></div>
+    <p style="color: #555; font-size: 10px; margin-bottom: 10px; padding-left: 15px; font-weight: bold; letter-spacing: 1px;">TRIAGEM DE AMEAÇAS</p>
+    
+    <div class="sidebar-item" id="menu-zap" onclick="mudarAba('zap')"><i class="fa-brands fa-whatsapp"></i> Análise ZAP</div>
+    <div class="sidebar-item" id="menu-email" onclick="mudarAba('email')"><i class="fa-solid fa-envelope"></i> Análise E-Mail</div>
+    <div class="sidebar-item" id="menu-sms" onclick="mudarAba('sms')"><i class="fa-solid fa-comment-sms"></i> Análise SMS / Outro</div>
+    
     <div class="sidebar-footer">Versão Final | Adaptação 1% Monstro</div>
 </nav>
 
@@ -131,7 +177,7 @@ body { background-color: var(--bg-base); color: var(--texto-principal); min-heig
 </div>
 
 <div id="painel-bunker">
-    
+
     <div id="view-osint" class="view-section ativa">
         <div class="radar-bunker">
             <div class="radar-grid">
@@ -150,7 +196,6 @@ body { background-color: var(--bg-base); color: var(--texto-principal); min-heig
             </div>
             <p style="text-align: center; color: var(--texto-secundario); font-size: 11px; margin-top: 20px;">RADAR DO POVO: <strong style="color:#fff;">5.000</strong> VISITAS HOJE</p>
         </div>
-
         <div class="painel-emissao">
             <h3 style="color: var(--ouro-puro); font-size: 16px; margin-bottom: 20px;"><i class="fa-solid fa-scale-balanced"></i> EMISSÃO DE LAUDOS VIP (TOKEN 1 MINUTO)</h3>
             <div style="display: flex; gap: 15px; flex-wrap: wrap;">
@@ -160,7 +205,6 @@ body { background-color: var(--bg-base); color: var(--texto-principal); min-heig
             </div>
             <p id="status-laudo" style="color: var(--verde-seguro); font-size: 12px; font-weight: bold; margin-top: 15px; display: none;">✓ LAUDO E TOKEN DE 1 MINUTO SALVOS NO SATÉLITE!</p>
         </div>
-
         <div id="loading-dados" style="color: var(--texto-secundario); text-align: center; font-size: 14px; margin-top: 50px;">
             <i class="fa-solid fa-spinner fa-spin"></i> SINCRONIZANDO COM O SATÉLITE...
         </div>
@@ -170,7 +214,6 @@ body { background-color: var(--bg-base); color: var(--texto-principal); min-heig
     <div id="view-cloudflare" class="view-section">
         <h2 class="cf-header" style="color: var(--ouro-puro); text-transform: uppercase; font-size: 24px;">Painel de Defesa Orbital</h2>
         <p style="color: var(--texto-secundario); margin-bottom: 40px; font-size: 14px;">Monitoramento em tempo real da infraestrutura satélite. 100% Oculto.</p>
-        
         <div class="cf-grid">
             <div class="cf-modulo">
                 <i class="fa-solid fa-shield-halved cf-icon"></i>
@@ -207,6 +250,102 @@ body { background-color: var(--bg-base); color: var(--texto-principal); min-heig
         </div>
     </div>
 
+    <div id="view-zap" class="view-section">
+        <div class="header-triagem">
+            <div>
+                <h2><i class="fa-brands fa-whatsapp"></i> Triagem: ZAP</h2>
+                <p style="color:var(--texto-secundario); font-size:13px;">Clique na lupa (🔎) para expandir os detalhes do dossiê.</p>
+            </div>
+            <div style="font-size: 12px; color: var(--ouro-puro); font-family: 'Courier New';">FORMATO: RT-PF-XXX-XXX</div>
+        </div>
+
+        <div class="grid-triagem">
+            <div class="coluna-triagem coluna-oficial">
+                <div class="titulo-coluna">✅ Oficial</div>
+                <div class="lista-numeros">
+                    <div class="item-dossie">
+                        <div class="item-cabecalho" onclick="abrirDossie(this)">
+                            <span class="codigo-rt">RT-PF-842-199</span>
+                            <div class="botoes-acao">
+                                <button class="btn-copiar" title="Copiar Código" onclick="copiarCodigo(event, 'RT-PF-842-199')"><i class="fa-regular fa-copy"></i></button>
+                                <i class="fa-solid fa-magnifying-glass btn-mostrar"></i>
+                            </div>
+                        </div>
+                        <div class="item-detalhes">
+                            <div class="dado-linha"><strong>NOME:</strong> João da Silva</div>
+                            <div class="dado-linha"><strong>NÚMERO:</strong> +55 11 9999-8888</div>
+                            <div class="texto-denuncia">"Eu recebi um contato dizendo que era do banco central aprovando meu limite."</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="coluna-triagem coluna-estranho">
+                <div class="titulo-coluna">⚠️ Estranho</div>
+                <div class="lista-numeros">
+                    <div class="item-dossie">
+                        <div class="item-cabecalho" onclick="abrirDossie(this)">
+                            <span class="codigo-rt">RT-PF-501-773</span>
+                            <div class="botoes-acao">
+                                <button class="btn-copiar" title="Copiar Código" onclick="copiarCodigo(event, 'RT-PF-501-773')"><i class="fa-regular fa-copy"></i></button>
+                                <i class="fa-solid fa-magnifying-glass btn-mostrar"></i>
+                            </div>
+                        </div>
+                        <div class="item-detalhes">
+                            <div class="dado-linha"><strong>NOME:</strong> Maria Oliveira</div>
+                            <div class="dado-linha"><strong>NÚMERO:</strong> +55 21 8888-7777</div>
+                            <div class="texto-denuncia">"Mensagem estranha de emprego pagando 500 reais por dia no Telegram/WhatsApp."</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="coluna-triagem coluna-falso">
+                <div class="titulo-coluna">🛑 Falso</div>
+                <div class="lista-numeros">
+                    <div class="item-dossie">
+                        <div class="item-cabecalho" onclick="abrirDossie(this)">
+                            <span class="codigo-rt">RT-PF-911-666</span>
+                            <div class="botoes-acao">
+                                <button class="btn-copiar" title="Copiar Código" onclick="copiarCodigo(event, 'RT-PF-911-666')"><i class="fa-regular fa-copy"></i></button>
+                                <i class="fa-solid fa-magnifying-glass btn-mostrar"></i>
+                            </div>
+                        </div>
+                        <div class="item-detalhes">
+                            <div class="dado-linha"><strong>NOME:</strong> Rato Capturado</div>
+                            <div class="dado-linha"><strong>NÚMERO:</strong> +55 85 1234-5678</div>
+                            <div class="texto-denuncia">"Tigrinho VIP. Deposite 10 e ganhe 5000 agora mesmo com o bug da plataforma."</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-email" class="view-section">
+        <div class="header-triagem">
+            <h2><i class="fa-solid fa-envelope"></i> Triagem: E-Mail</h2>
+            <p style="color:var(--texto-secundario); font-size:13px;">Classificação de inteligência de remetentes de e-mail.</p>
+        </div>
+        <div class="grid-triagem">
+            <div class="coluna-triagem coluna-oficial"><div class="titulo-coluna">✅ Oficial</div><div class="lista-numeros"><div style="text-align:center; color:#555; font-size:11px; margin-top:20px;">Limpo</div></div></div>
+            <div class="coluna-triagem coluna-estranho"><div class="titulo-coluna">⚠️ Estranho</div><div class="lista-numeros"><div style="text-align:center; color:#555; font-size:11px; margin-top:20px;">Limpo</div></div></div>
+            <div class="coluna-triagem coluna-falso"><div class="titulo-coluna">🛑 Falso</div><div class="lista-numeros"><div style="text-align:center; color:#555; font-size:11px; margin-top:20px;">Limpo</div></div></div>
+        </div>
+    </div>
+
+    <div id="view-sms" class="view-section">
+        <div class="header-triagem">
+            <h2><i class="fa-solid fa-comment-sms"></i> Triagem: SMS / Outro</h2>
+            <p style="color:var(--texto-secundario); font-size:13px;">Classificação de inteligência de SMS e links maliciosos.</p>
+        </div>
+        <div class="grid-triagem">
+            <div class="coluna-triagem coluna-oficial"><div class="titulo-coluna">✅ Oficial</div><div class="lista-numeros"><div style="text-align:center; color:#555; font-size:11px; margin-top:20px;">Limpo</div></div></div>
+            <div class="coluna-triagem coluna-estranho"><div class="titulo-coluna">⚠️ Estranho</div><div class="lista-numeros"><div style="text-align:center; color:#555; font-size:11px; margin-top:20px;">Limpo</div></div></div>
+            <div class="coluna-triagem coluna-falso"><div class="titulo-coluna">🛑 Falso</div><div class="lista-numeros"><div style="text-align:center; color:#555; font-size:11px; margin-top:20px;">Limpo</div></div></div>
+        </div>
+    </div>
+
 </div>
 
 <script>
@@ -223,10 +362,28 @@ function mudarAba(aba) {
     
     document.getElementById(`view-${aba}`).classList.add('ativa');
     document.getElementById(`menu-${aba}`).classList.add('ativo');
-    toggleSidebar(); 
+    if(window.innerWidth < 768) { toggleSidebar(); }
     window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
+// ==========================================
+// FUNÇÕES DA NOVA TRIAGEM RETRÁTIL
+// ==========================================
+function abrirDossie(elemento) {
+    const detalhes = elemento.nextElementSibling;
+    detalhes.classList.toggle('aberto');
+}
+
+function copiarCodigo(event, codigo) {
+    event.stopPropagation(); // Impede que a aba abra quando clica no botão copiar
+    navigator.clipboard.writeText(codigo).then(() => {
+        alert("CHAVE COPIADA PARA A ÁREA DE TRANSFERÊNCIA: " + codigo);
+    });
+}
+
+// ==========================================
+// FUNÇÕES ORIGINAIS DO MOTOR SATÉLITE
+// ==========================================
 async function acessarBunker() {
     const senha = document.getElementById('senha-input').value.trim();
     if(!senha) return;
@@ -254,7 +411,6 @@ async function buscarDossiesSecretos(chaveMestra) {
         grade.innerHTML = "";
         
         let temHacker = false;
-        
         if (dados.length > 0) {
             dados.reverse().forEach(dossie => {
                 if (dossie.protocolo === "HACKER-CAPTURADO") temHacker = true;
@@ -262,14 +418,10 @@ async function buscarDossiesSecretos(chaveMestra) {
             });
             
             document.body.classList.remove('alerta-visual-cidadao', 'alerta-visual-hacker');
-            void document.body.offsetWidth; 
-            if (temHacker) {
-                document.body.classList.add('alerta-visual-hacker');
-            } else {
-                document.body.classList.add('alerta-visual-cidadao');
-            }
+            void document.body.offsetWidth;
+            if (temHacker) { document.body.classList.add('alerta-visual-hacker'); } 
+            else { document.body.classList.add('alerta-visual-cidadao'); }
         }
-
     } catch (e) {
         document.getElementById('btn-login').innerText = "Desbloquear Base";
         document.getElementById('senha-input').value = "";
@@ -282,16 +434,13 @@ function renderCard(dossie, grade) {
     const isHacker = dossie.protocolo === "HACKER-CAPTURADO";
     const card = document.createElement('div');
     card.className = isHacker ? 'card-dossie hacker' : 'card-dossie';
-    
+
     let anexoHtml = "";
     if (dossie.anexo && dossie.anexo.startsWith('data:')) {
         if (dossie.anexo.includes('image')) anexoHtml = `<img src="${dossie.anexo}" style="width:100%; border-radius:4px; margin:15px 0; border:1px solid #333;">`;
         else if (dossie.anexo.includes('video')) anexoHtml = `<video controls style="width:100%; margin:15px 0;"><source src="${dossie.anexo}"></video>`;
     }
-
-    // AQUI ESTÁ A MÁGICA 1% MONSTRO ATUALIZADA COM O LINK DO PORTAL VIP!
     const mensagemLaudo = encodeURIComponent(`Olá! A equipe RailanTech analisou a sua situação. O seu laudo sigiloso está pronto.\n\nAcesse nosso Portal VIP: https://railantech.github.io/portal-vip.html\n\nSua chave de acesso (Token 1 Minuto):\n*${dossie.protocolo}*`);
-
     card.innerHTML = `
         <div class="card-topo">
             <div>
