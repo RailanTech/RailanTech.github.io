@@ -3,174 +3,179 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portal VIP - Inteligência Pericial</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<title>Portal VIP - RailanTech Protect</title>
 <style>
 :root {
-    --bg-base: #050505; --bg-card: #111;
-    --texto-principal: #e3e3e3; --texto-secundario: #888;
-    --ouro-puro: #d4af37; --vermelho-alerta: #ff4d4d; --verde-seguro: #00e676;
-    --borda: #222;
+--bg-principal: #131314; --bg-secundario: #1e1f20; --bg-hover: #333538;
+--texto-principal: #e3e3e3; --texto-secundario: #c4c7c5; --borda: #444746;
+--destaque-azul: #a8c7fa; --vermelho-alerta: #f28b82; --verde-seguro: #81c995;
+--ouro-puro: #d4af37; --ouro-brilho: #f3e5ab;
 }
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Courier New', monospace; }
-body { background-color: var(--bg-base); color: var(--texto-principal); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow-x: hidden; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+body { background-color: var(--bg-principal); color: var(--texto-principal); min-height: 100dvh; display: flex; flex-direction: column; align-items: center; }
 
-/* TELA DE LOGIN VIP */
-#tela-login { display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; max-width: 400px; padding: 40px; background: var(--bg-card); border: 1px solid var(--borda); border-top: 4px solid var(--ouro-puro); border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-.logo-vip { font-size: 50px; color: var(--ouro-puro); margin-bottom: 20px; }
-.titulo-vip { font-size: 22px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; color: #fff; }
-.subtitulo-vip { font-size: 12px; color: var(--texto-secundario); margin-bottom: 30px; letter-spacing: 1px; }
-.input-vip { width: 100%; background: #000; border: 1px solid var(--borda); color: var(--ouro-puro); padding: 15px; font-size: 16px; text-align: center; letter-spacing: 2px; margin-bottom: 20px; outline: none; border-radius: 4px; transition: 0.3s; text-transform: uppercase; }
-.input-vip:focus { border-color: var(--ouro-puro); box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
-.btn-vip { width: 100%; background: var(--ouro-puro); color: #000; font-weight: bold; font-size: 14px; padding: 15px; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; border-radius: 4px; transition: 0.3s; }
-.btn-vip:hover { background: #fff; }
-#msg-erro { color: var(--vermelho-alerta); font-size: 12px; font-weight: bold; margin-top: 15px; display: none; }
+/* BARRA SUPERIOR E VOLTAR */
+.top-bar { width: 100%; padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--borda); background: rgba(0,0,0,0.5); }
+.btn-voltar { color: var(--texto-secundario); text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 8px; font-weight: bold; transition: 0.2s; }
+.btn-voltar:hover { color: var(--ouro-puro); }
+.top-title { color: var(--ouro-puro); font-weight: bold; letter-spacing: 2px; font-size: 14px; text-transform: uppercase; }
 
-/* TELA DO LAUDO (SALA SEGURA) */
-#tela-laudo { display: none; width: 100%; max-width: 800px; padding: 20px; flex-direction: column; }
-.header-seguro { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--borda); padding-bottom: 20px; margin-bottom: 30px; }
-.status-criptografia { font-size: 12px; color: var(--verde-seguro); display: flex; align-items: center; gap: 8px; font-weight: bold; }
+/* NÚCLEO DO COFRE */
+.main-container { width: 100%; max-width: 600px; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 5dvh; flex: 1; }
+.icone-cofre { font-size: 60px; margin-bottom: 20px; }
+.titulo-central { color: #fff; font-size: 32px; font-weight: 600; margin-bottom: 10px; }
+.subtitulo { color: var(--texto-secundario); font-size: 15px; margin-bottom: 40px; line-height: 1.6; }
 
-/* CRONÔMETRO DE 1 MINUTO (AUTENTICADOR) */
-.box-cronometro { background: rgba(255, 77, 77, 0.05); border: 1px solid var(--vermelho-alerta); padding: 20px; border-radius: 4px; text-align: center; margin-bottom: 30px; position: relative; overflow: hidden; }
-.tempo-restante { font-size: 36px; font-weight: bold; color: var(--vermelho-alerta); letter-spacing: 5px; font-family: 'Courier New', monospace; }
-.aviso-tempo { font-size: 11px; color: var(--texto-secundario); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-.barra-energia { position: absolute; bottom: 0; left: 0; height: 4px; background: var(--vermelho-alerta); width: 100%; transition: width 1s linear; }
+/* CAIXA DE LOGIN */
+.login-box { background: var(--bg-secundario); border: 1px solid var(--borda); border-radius: 20px; padding: 40px 30px; width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.input-chave { width: 100%; background: var(--bg-principal); border: 2px solid var(--borda); color: var(--ouro-brilho); padding: 20px; border-radius: 12px; margin-bottom: 20px; font-size: 22px; text-align: center; letter-spacing: 3px; font-family: monospace; font-weight: bold; outline: none; transition: 0.3s; text-transform: uppercase;}
+.input-chave:focus { border-color: var(--ouro-puro); box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
+.input-chave::placeholder { color: var(--texto-secundario); opacity: 0.5; font-size: 16px; letter-spacing: 1px; font-family: sans-serif; font-weight: normal;}
 
-/* CONTEÚDO DO LAUDO */
-.papel-laudo { background: #0a0a0a; border: 1px solid #333; padding: 40px; border-radius: 4px; position: relative; }
-.papel-laudo::before { content: 'CONFIDENCIAL'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); font-size: 80px; color: rgba(255,255,255,0.02); font-weight: bold; pointer-events: none; }
-.laudo-titulo { color: var(--ouro-puro); font-size: 18px; text-transform: uppercase; margin-bottom: 20px; border-bottom: 1px dashed #333; padding-bottom: 10px; }
-.laudo-texto { color: #ccc; font-size: 15px; line-height: 1.8; white-space: pre-wrap; }
+.btn-desbloquear { background: linear-gradient(45deg, var(--ouro-puro), var(--ouro-brilho)); color: #000; padding: 20px; border-radius: 12px; font-weight: 700; width: 100%; cursor: pointer; font-size: 16px; border: none; transition: 0.2s; text-transform: uppercase; letter-spacing: 1px; }
+.btn-desbloquear:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4); }
+.btn-desbloquear:disabled { background: var(--borda); color: var(--texto-secundario); cursor: not-allowed; transform: none; box-shadow: none; }
 
-/* TELA DE SESSÃO EXPIRADA */
-#tela-expirada { display: none; flex-direction: column; align-items: center; text-align: center; }
-.icone-expirado { font-size: 60px; color: var(--vermelho-alerta); margin-bottom: 20px; }
+/* ÁREA DO LAUDO (RESULTADO) */
+#area-resultado { width: 100%; margin-top: 30px; display: none; text-align: left; animation: fadeIn 0.4s ease-out; }
+.laudo-oficial { background: #000; border: 1px solid var(--borda); border-radius: 16px; padding: 30px; line-height: 1.8; font-size: 15px; color: #ddd; position: relative; overflow: hidden; }
+.laudo-oficial::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--ouro-puro); }
+.laudo-oficial.seguro::before { background: var(--verde-seguro); }
+.laudo-oficial.alerta::before { background: var(--vermelho-alerta); }
+.carimbo { margin-top: 20px; padding-top: 20px; border-top: 1px dashed var(--borda); font-family: monospace; font-size: 12px; color: var(--ouro-puro); text-align: center; opacity: 0.8; }
 
+#mensagem-status { margin-top: 20px; font-size: 14px; font-weight: bold; display: none; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* RODAPÉ LEGAL */
+.rodape-lgpd { width: 100%; padding: 20px; border-top: 1px solid var(--borda); text-align: center; background-color: var(--bg-principal); margin-top: auto; }
+.rodape-lgpd p { color: var(--texto-secundario); font-size: 12px; line-height: 1.6; opacity: 0.7; max-width: 800px; margin: 0 auto; }
 </style>
 </head>
 <body>
 
-<div id="tela-login">
-    <i class="fa-solid fa-fingerprint logo-vip"></i>
-    <h1 class="titulo-vip">Acesso VIP</h1>
-    <p class="subtitulo-vip">PORTAL DE LAUDOS SIGILOSOS</p>
-    
-    <input type="text" id="input-protocolo" class="input-vip" placeholder="EX: RT-PF-..." onkeypress="if(event.key === 'Enter') verificarProtocolo()">
-    <button class="btn-vip" onclick="verificarProtocolo()" id="btn-acesso">Descriptografar Laudo</button>
-    <p id="msg-erro"><i class="fa-solid fa-triangle-exclamation"></i> LAUDO NÃO ENCONTRADO OU EM ANÁLISE.</p>
+<div class="top-bar">
+    <a href="index.html" class="btn-voltar">◀ Voltar ao Radar</a>
+    <div class="top-title">Muralha RailanTech</div>
 </div>
 
-<div id="tela-laudo">
-    <div class="header-seguro">
-        <div>
-            <h2 style="color:#fff; font-size: 16px;">RailanTech <span style="color:var(--ouro-puro);">| Inteligência Pericial</span></h2>
-        </div>
-        <div class="status-criptografia">
-            <i class="fa-solid fa-lock"></i> CONEXÃO BLINDADA E CRIPTOGRAFADA
-        </div>
+<div class="main-container">
+    <div class="icone-cofre">🔐</div>
+    <h1 class="titulo-central">Portal VIP</h1>
+    <p class="subtitulo">Acesso restrito e criptografado aos laudos da Perícia Digital. <br>Insira a sua Chave de Acesso Oficial.</p>
+
+    <div class="login-box">
+        <input type="text" id="input-chave" class="input-chave" placeholder="EX: RT-PF-842-199" onkeypress="if(event.key === 'Enter') buscarLaudo()">
+        <button id="btn-buscar" class="btn-desbloquear" onclick="buscarLaudo()">Descriptografar Laudo</button>
+        <div id="mensagem-status"></div>
     </div>
 
-    <div class="box-cronometro">
-        <p class="aviso-tempo">Por segurança, este laudo se autodestruirá em:</p>
-        <div class="tempo-restante" id="relogio">01:00</div>
-        <div class="barra-energia" id="barra-tempo"></div>
-    </div>
-
-    <div class="papel-laudo">
-        <h3 class="laudo-titulo"><i class="fa-solid fa-file-shield"></i> Veredito Oficial - Diretor Pericial</h3>
-        <div class="laudo-texto" id="texto-do-laudo">
-            Aguardando descriptografia de dados...
+    <div id="area-resultado">
+        <div id="caixa-laudo" class="laudo-oficial">
+            <h3 style="color: var(--ouro-brilho); margin-bottom: 15px; font-size: 18px;">📄 LAUDO PERICIAL OFICIAL</h3>
+            <div id="texto-laudo"></div>
+            <div class="carimbo" id="texto-carimbo">CERTIFICADO DIGITAL DE AUTENTICIDADE</div>
         </div>
     </div>
 </div>
 
-<div id="tela-expirada">
-    <i class="fa-solid fa-user-lock icone-expirado"></i>
-    <h2 style="color:#fff; text-transform: uppercase; margin-bottom: 10px;">Sessão Expirada</h2>
-    <p style="color:var(--texto-secundario); font-size: 14px; max-width: 400px; margin-bottom: 30px;">O tempo de leitura do seu token expirou para garantir o seu sigilo. O laudo foi trancado com segurança.</p>
-    <button class="btn-vip" style="max-width: 300px;" onclick="location.reload()">Gerar Novo Token de Acesso</button>
+<div class="rodape-lgpd">
+    <p>
+        <b>🔒 Conexão Segura:</b> O laudo apresentado é sigiloso e de uso exclusivo do portador da chave.<br>
+        A RailanTech atua apenas na emissão de pareceres preventivos de segurança cibernética.
+    </p>
 </div>
 
 <script>
-// MATRIZ DO MOTOR GEMINI (CONEXÃO REAL COM O SATÉLITE)
+// ATENÇÃO COMANDANTE: INSIRA AQUI O LINK REAL DO SEU CLOUDFLARE WORKER
 const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
-let timerInterval;
 
-async function verificarProtocolo() {
-    const protocolo = document.getElementById('input-protocolo').value.trim().toUpperCase();
-    const btn = document.getElementById('btn-acesso');
-    const msgErro = document.getElementById('msg-erro');
+function formatarChave(chave) {
+    // Tira os espaços em branco e garante que o cidadão digitou maiúsculo
+    let limpa = chave.trim().toUpperCase();
+    // Se a pessoa digitou só o número (ex: 842-199), a gente ajuda completando
+    if (!limpa.startsWith("RT-PF-") && limpa.length > 3) {
+        if (limpa.startsWith("RT-PF")) limpa = limpa.replace("RT-PF", "RT-PF-");
+        else limpa = "RT-PF-" + limpa;
+    }
+    return limpa;
+}
+
+function aplicarCores(texto) {
+    const caixa = document.getElementById('caixa-laudo');
+    caixa.className = "laudo-oficial"; // Reseta
     
-    if(!protocolo) return;
-
-    msgErro.style.display = "none";
-    btn.innerText = "LOCALIZANDO NO SATÉLITE...";
-
-    try {
-        // Puxando o laudo REAL que o Diretor salvou
-        const req = await fetch(API_MATRIZ + "?protocolo=" + protocolo);
-        
-        if (!req.ok) {
-            throw new Error("Protocolo não encontrado");
-        }
-
-        const dados = await req.json();
-        
-        if (dados.laudo) {
-            abrirSalaSegura(dados.laudo);
-        } else {
-            throw new Error("Laudo vazio");
-        }
-
-    } catch (e) {
-        btn.innerText = "Descriptografar Laudo";
-        msgErro.style.display = "block";
+    const txtUpp = texto.toUpperCase();
+    if (txtUpp.includes("[ SEGURO") || txtUpp.includes("[SEGURO")) {
+        caixa.classList.add("seguro");
+    } else if (txtUpp.includes("[ GOLPE") || txtUpp.includes("[GOLPE") || txtUpp.includes("[ SUSPEITO") || txtUpp.includes("[ ALERTA")) {
+        caixa.classList.add("alerta");
     }
 }
 
-function abrirSalaSegura(textoLaudo) {
-    document.getElementById('tela-login').style.display = "none";
-    document.getElementById('tela-laudo').style.display = "flex";
+async function buscarLaudo() {
+    let chaveOriginal = document.getElementById('input-chave').value;
+    if (!chaveOriginal) return;
     
-    // Injétando o texto oficial na tela
-    document.getElementById('texto-do-laudo').innerText = textoLaudo;
+    const chave = formatarChave(chaveOriginal);
+    document.getElementById('input-chave').value = chave; // Atualiza na tela pro formato bonito
     
-    iniciarCronometro(60); // 60 SEGUNDOS = 1 MINUTO TÁTICO
-}
-
-function iniciarCronometro(segundosTotais) {
-    let tempo = segundosTotais;
-    const relogio = document.getElementById('relogio');
-    const barra = document.getElementById('barra-tempo');
-
-    timerInterval = setInterval(() => {
-        tempo--;
+    const btn = document.getElementById('btn-buscar');
+    const status = document.getElementById('mensagem-status');
+    const areaResultado = document.getElementById('area-resultado');
+    const textoLaudo = document.getElementById('texto-laudo');
+    const textoCarimbo = document.getElementById('texto-carimbo');
+    
+    // Preparando a tela
+    areaResultado.style.display = "none";
+    status.style.display = "block";
+    status.style.color = "var(--texto-secundario)";
+    status.innerText = "📡 Conectando ao Cofre Seguro...";
+    btn.disabled = true;
+    
+    try {
+        // Envia o pedido GET pro Satélite procurando a chave
+        const req = await fetch(`${API_MATRIZ}?protocolo=${chave}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        });
         
-        let minutos = Math.floor(tempo / 60);
-        let segundos = tempo % 60;
+        const data = await req.json();
         
-        minutos = minutos < 10 ? "0" + minutos : minutos;
-        segundos = segundos < 10 ? "0" + segundos : segundos;
-        
-        relogio.innerText = minutos + ":" + segundos;
-        
-        let porcentagem = (tempo / segundosTotais) * 100;
-        barra.style.width = porcentagem + "%";
-
-        // QUANDO O TEMPO ACABA: TRANCAR TUDO
-        if (tempo <= 0) {
-            clearInterval(timerInterval);
-            trancarSessao();
+        if (req.ok && data.laudo) {
+            // SUCESSO: O Laudo foi encontrado!
+            status.style.display = "none";
+            
+            // Troca as quebras de linha normais por <br> pro HTML entender
+            let formatado = data.laudo.replace(/\n/g, '<br>');
+            // Deixa negrito as palavras entre **
+            formatado = formatado.replace(/\*\*(.*?)\*\*/g, '<strong style="color: #ffffff;">$1</strong>');
+            
+            textoLaudo.innerHTML = formatado;
+            aplicarCores(data.laudo);
+            
+            const dataHora = new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
+            textoCarimbo.innerHTML = `🔐 CONSULTA REGISTRADA<br>CHAVE: ${chave}<br>DATA: ${dataHora}`;
+            
+            areaResultado.style.display = "block";
+            
+        } else {
+            // NÃO ENCONTRADO OU EM ANÁLISE
+            status.style.color = "var(--vermelho-alerta)";
+            if (data.erro) {
+                status.innerText = `⚠️ ${data.erro}`;
+            } else {
+                status.innerText = "⚠️ Chave não encontrada. Verifique o código digitado.";
+            }
         }
-    }, 1000); 
-}
-
-function trancarSessao() {
-    document.getElementById('tela-laudo').style.display = "none";
-    document.getElementById('tela-expirada').style.display = "flex";
-    // Apaga o laudo da memória por segurança
-    document.getElementById('texto-do-laudo').innerText = ""; 
+    } catch (e) {
+        status.style.color = "var(--vermelho-alerta)";
+        status.innerText = "🚨 Erro de conexão com a base de dados. Tente novamente.";
+    } finally {
+        btn.disabled = false;
+        btn.innerText = "Descriptografar Laudo";
+    }
 }
 </script>
 </body>
