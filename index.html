@@ -63,10 +63,10 @@ input, button, textarea { -webkit-appearance: none; border: none; outline: none;
 .input-texto { width: 100%; background: var(--bg-principal); border: 1px solid var(--borda); color: var(--texto-principal); padding: 15px; border-radius: 12px; margin-bottom: 10px; font-size: 16px; }
 textarea.input-texto { resize: vertical; }
 .input-texto:focus { border-color: var(--ouro-puro); }
-.btn-fantasma { width: 100%; background: transparent; border: 1px dashed var(--borda); color: var(--texto-secundario); padding: 15px; border-radius: 12px; cursor: pointer; font-size: 15px; display: flex; justify-content: center; align-items: center; gap: 8px; }
+.btn-fantasma { width: 100%; background: transparent; border: 1px dashed var(--borda); color: var(--texto-secundario); padding: 15px; border-radius: 12px; cursor: pointer; font-size: 15px; display: flex; justify-content: center; align-items: center; gap: 8px; transition: 0.2s; }
 .btn-enviar-dossie { background: linear-gradient(45deg, var(--ouro-puro), var(--ouro-brilho)); color: #000; padding: 18px; border-radius: 35px; font-weight: 700; width: 100%; cursor: pointer; font-size: 16px; margin-top: 15px; margin-bottom: 10px; transition: 0.2s; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
 .btn-enviar-dossie:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5); }
-.protocolo-box { background: var(--bg-principal); border: 1px solid var(--ouro-puro); padding: 15px; border-radius: 10px; font-size: 22px; font-weight: bold; color: var(--ouro-brilho); margin: 20px 0; letter-spacing: 2px; text-align: center; }
+.protocolo-box { background: var(--bg-principal); border: 1px solid var(--ouro-puro); padding: 15px; border-radius: 10px; font-size: 22px; font-weight: bold; color: var(--ouro-brilho); margin: 20px 0 10px 0; letter-spacing: 2px; text-align: center; }
 
 @media (max-width: 1024px) { .titulo-central { font-size: 42px; } }
 @media (max-width: 768px) {
@@ -218,6 +218,10 @@ summary::-webkit-details-marker { display: none; }
             <p style="color: var(--texto-secundario); font-size: 15px;">A Inteligência RailanTech assumiu o caso. Guarde a sua Chave de Acesso Oficial (Token):</p>
             
             <div class="protocolo-box" id="num-protocolo">RT-PF-...</div>
+
+            <button class="btn-fantasma" id="btn-copiar-chave" onclick="copiarChaveGerada()" style="margin-bottom: 25px; color: var(--ouro-puro); border-color: var(--ouro-puro);">
+                📋 Copiar Chave Oficial
+            </button>
 
             <p style="color: var(--ouro-puro); font-size: 14px; margin-bottom: 25px; font-weight: bold; padding: 15px; background: rgba(212, 175, 55, 0.1); border-radius: 8px;">
                 ⚠️ Retorne ao nosso <span style="color: #fff;">Portal VIP</span> em 24 horas e utilize esta chave para descriptografar e ler o seu Laudo Pericial definitivo.
@@ -427,6 +431,22 @@ async function transmitirDossieOficial() {
     } catch(e) { alert("Falha de conexão. O arquivo pode ser muito pesado."); }
     finally { btnTx.innerText = "Transmitir Dossiê Oculto para a Central"; btnTx.disabled = false; }
 }
+
+function copiarChaveGerada() {
+    const chave = document.getElementById('num-protocolo').innerText;
+    navigator.clipboard.writeText(chave).then(() => {
+        const btn = document.getElementById('btn-copiar-chave');
+        btn.innerHTML = '✅ Chave Copiada com Sucesso!';
+        btn.style.color = 'var(--verde-seguro)';
+        btn.style.borderColor = 'var(--verde-seguro)';
+        setTimeout(() => {
+            btn.innerHTML = '📋 Copiar Chave Oficial';
+            btn.style.color = 'var(--ouro-puro)';
+            btn.style.borderColor = 'var(--ouro-puro)';
+        }, 3000);
+    });
+}
 </script>
-</body>
+
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "1e6b4568443c4148ba4b3211f8a83bce"}'></script></body>
 </html>
