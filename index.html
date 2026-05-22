@@ -319,11 +319,25 @@ async function iniciarVarredura() {
     document.getElementById('resultado-box').style.display = "none";
     document.getElementById('preview-imagem-radar').style.display = "none";
     document.getElementById('loading-varredura').style.display = "block";
+
+    // ⏱️ Cronômetro Tático (8 Segundos para o Radar Rápido)
+    const controlador = new AbortController();
+    const tempoLimite = setTimeout(() => controlador.abort(), 8000); 
+
     try {
-        const req = await fetch(API_MATRIZ, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ tipo: "link", dado: inputDado }) });
+        const req = await fetch(API_MATRIZ, { 
+            method: "POST", 
+            headers: { "Content-Type": "application/json" }, 
+            body: JSON.stringify({ tipo: "link", dado: inputDado }),
+            signal: controlador.signal 
+        });
+        clearTimeout(tempoLimite);
         const data = await req.json();
         exibirResposta(data.analise);
-    } catch (e) { exibirResposta("ERRO CRÍTICO: O Satélite pode estar em manutenção. Tente enviar como Dossiê."); }
+    } catch (e) { 
+        clearTimeout(tempoLimite);
+        exibirResposta("ERRO CRÍTICO: O Satélite pode estar em manutenção ou sem sinal. Tente enviar como Dossiê Oficial no botão de Denunciar."); 
+    }
 }
 
 async function processarImagemNeural(event) {
@@ -335,11 +349,25 @@ async function processarImagemNeural(event) {
         const base64 = e.target.result;
         document.getElementById('preview-imagem-radar').src = base64;
         document.getElementById('preview-imagem-radar').style.display = "block";
+
+        // ⏱️ Cronômetro Tático (15 Segundos para Imagens Pesadas)
+        const controlador = new AbortController();
+        const tempoLimite = setTimeout(() => controlador.abort(), 15000);
+
         try {
-            const req = await fetch(API_MATRIZ, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ tipo: "imagem", dado: base64 }) });
+            const req = await fetch(API_MATRIZ, { 
+                method: "POST", 
+                headers: { "Content-Type": "application/json" }, 
+                body: JSON.stringify({ tipo: "imagem", dado: base64 }),
+                signal: controlador.signal 
+            });
+            clearTimeout(tempoLimite);
             const data = await req.json();
             exibirResposta(data.analise);
-        } catch (err) { exibirResposta("ERRO CRÍTICO: O Satélite pode estar em manutenção. Tente enviar como Dossiê."); }
+        } catch (err) { 
+            clearTimeout(tempoLimite);
+            exibirResposta("ERRO CRÍTICO: O Satélite pode estar em manutenção ou sem sinal. Tente enviar como Dossiê Oficial no botão de Denunciar."); 
+        }
     };
     reader.readAsDataURL(file);
 }
@@ -424,8 +452,19 @@ async function transmitirDossieOficial() {
         anexo: dossieDados.anexoBase64 
     };
     
+    // ⏱️ CRONÔMETRO TÁTICO: Corta a espera em 5 Segundos exatos
+    const controlador = new AbortController();
+    const tempoLimite = setTimeout(() => controlador.abort(), 5000); 
+
     try {
-        const req = await fetch(API_MATRIZ, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+        const req = await fetch(API_MATRIZ, { 
+            method: "POST", 
+            headers: { "Content-Type": "application/json" }, 
+            body: JSON.stringify(payload),
+            signal: controlador.signal // Liga o cronômetro no envio
+        });
+        
+        clearTimeout(tempoLimite); // Se deu certo rápido, desliga o cronômetro
         if(!req.ok) throw new Error("Satélite Offline");
         const data = await req.json();
         
@@ -438,14 +477,16 @@ async function transmitirDossieOficial() {
         document.getElementById('tela-sucesso').style.display = 'block';
 
     } catch(e) { 
-        // 🛡️ CAIXA PRETA ATIVADA (SE O CLOUDFLARE CAIR)
+        clearTimeout(tempoLimite); // Desliga o cronômetro pelo erro/corte
+        
+        // 🛡️ CAIXA PRETA ATIVADA (Se demorar mais de 5 seg ou estiver sem internet)
         let filaCaixaPreta = JSON.parse(localStorage.getItem('railantech_fila_offline') || '[]');
         filaCaixaPreta.push(payload);
         localStorage.setItem('railantech_fila_offline', JSON.stringify(filaCaixaPreta));
 
         document.getElementById('form-dossie').style.display = 'none';
         document.getElementById('titulo-sucesso').innerHTML = "   🛡️    Salvo na Caixa Preta!";
-        document.getElementById('texto-sucesso').innerHTML = "O Satélite está em manutenção, mas <b>sua denúncia está 100% segura no seu celular.</b> Ela será enviada automaticamente e em silêncio assim que a conexão voltar.";
+        document.getElementById('texto-sucesso').innerHTML = "A rede está instável, mas <b>sua denúncia está 100% segura no seu celular.</b> Ela será enviada automaticamente e em silêncio assim que a conexão voltar.";
         document.getElementById('num-protocolo').innerText = "RT-EM-ESPERA";
         document.getElementById('btn-copiar-chave').style.display = "none";
         document.getElementById('tela-sucesso').style.display = 'block';
