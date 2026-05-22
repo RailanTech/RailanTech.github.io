@@ -214,8 +214,8 @@ summary::-webkit-details-marker { display: none; }
         </div>
 
         <div id="tela-sucesso" style="display:none; text-align: center; padding: 20px 0;">
-            <h3 style="color: var(--verde-seguro); font-size: 24px; margin-bottom: 15px;">   ✅    Denúncia e Dossiê Blindado!</h3>
-            <p style="color: var(--texto-secundario); font-size: 15px;">A Inteligência RailanTech assumiu o caso. Guarde a sua Chave de Acesso Oficial (Token):</p>
+            <h3 style="color: var(--verde-seguro); font-size: 24px; margin-bottom: 15px;" id="titulo-sucesso">   ✅    Denúncia e Dossiê Blindado!</h3>
+            <p style="color: var(--texto-secundario); font-size: 15px;" id="texto-sucesso">A Inteligência RailanTech assumiu o caso. Guarde a sua Chave de Acesso Oficial (Token):</p>
             
             <div class="protocolo-box" id="num-protocolo">RT-PF-...</div>
 
@@ -275,6 +275,7 @@ function maquinaDeEscrever() {
 window.onload = function() {
     setTimeout(maquinaDeEscrever, 500);
     abrirModalPainel('painel-bem-vindo');
+    verificarCaixaPreta(); // Dispara o motor de redundância ao abrir o site
 };
 
 function abrirModalPainel(painelID) {
@@ -322,7 +323,7 @@ async function iniciarVarredura() {
         const req = await fetch(API_MATRIZ, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ tipo: "link", dado: inputDado }) });
         const data = await req.json();
         exibirResposta(data.analise);
-    } catch (e) { exibirResposta("ERRO CRÍTICO"); }
+    } catch (e) { exibirResposta("ERRO CRÍTICO: O Satélite pode estar em manutenção. Tente enviar como Dossiê."); }
 }
 
 async function processarImagemNeural(event) {
@@ -338,7 +339,7 @@ async function processarImagemNeural(event) {
             const req = await fetch(API_MATRIZ, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ tipo: "imagem", dado: base64 }) });
             const data = await req.json();
             exibirResposta(data.analise);
-        } catch (err) { exibirResposta("ERRO CRÍTICO"); }
+        } catch (err) { exibirResposta("ERRO CRÍTICO: O Satélite pode estar em manutenção. Tente enviar como Dossiê."); }
     };
     reader.readAsDataURL(file);
 }
@@ -404,6 +405,9 @@ function prepararAnexoDossie(event) {
     }
 }
 
+// =========================================================
+// ✈️ MOTOR DE ENVIO + REDUNDÂNCIA CAIXA PRETA (OURO PURO)
+// =========================================================
 async function transmitirDossieOficial() {
     const relato = document.getElementById('texto-relato').value;
     if(!relato && !dossieDados.anexoBase64) { alert("Descreva o que aconteceu ou anexe um arquivo."); return; }
@@ -411,7 +415,6 @@ async function transmitirDossieOficial() {
     const btnTx = document.getElementById('btn-transmitir');
     btnTx.innerText = "Criptografando nas Sombras..."; btnTx.disabled = true;
     
-    // ROTA 3: ENVIO BLINDADO, SEM E-MAIL NEM ZAP DA VÍTIMA
     const payload = { 
         alerta: true, 
         perfil: dossieDados.perfil, 
@@ -423,13 +426,54 @@ async function transmitirDossieOficial() {
     
     try {
         const req = await fetch(API_MATRIZ, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+        if(!req.ok) throw new Error("Satélite Offline");
         const data = await req.json();
-        document.getElementById('form-dossie').style.display = 'none';
         
+        // SUCESSO NORMAL
+        document.getElementById('form-dossie').style.display = 'none';
+        document.getElementById('titulo-sucesso').innerHTML = "   ✅    Denúncia e Dossiê Blindado!";
+        document.getElementById('texto-sucesso').innerText = "A Inteligência RailanTech assumiu o caso. Guarde a sua Chave de Acesso Oficial (Token):";
         document.getElementById('num-protocolo').innerText = data.protocolo || "RT-BR-SUCESSO";
+        document.getElementById('btn-copiar-chave').style.display = "inline-block";
         document.getElementById('tela-sucesso').style.display = 'block';
-    } catch(e) { alert("Falha de conexão. O arquivo pode ser muito pesado."); }
-    finally { btnTx.innerText = "Transmitir Dossiê Oculto para a Central"; btnTx.disabled = false; }
+
+    } catch(e) { 
+        // 🛡️ CAIXA PRETA ATIVADA (SE O CLOUDFLARE CAIR)
+        let filaCaixaPreta = JSON.parse(localStorage.getItem('railantech_fila_offline') || '[]');
+        filaCaixaPreta.push(payload);
+        localStorage.setItem('railantech_fila_offline', JSON.stringify(filaCaixaPreta));
+
+        document.getElementById('form-dossie').style.display = 'none';
+        document.getElementById('titulo-sucesso').innerHTML = "   🛡️    Salvo na Caixa Preta!";
+        document.getElementById('texto-sucesso').innerHTML = "O Satélite está em manutenção, mas <b>sua denúncia está 100% segura no seu celular.</b> Ela será enviada automaticamente e em silêncio assim que a conexão voltar.";
+        document.getElementById('num-protocolo').innerText = "RT-EM-ESPERA";
+        document.getElementById('btn-copiar-chave').style.display = "none";
+        document.getElementById('tela-sucesso').style.display = 'block';
+    } finally { 
+        btnTx.innerText = "Transmitir Dossiê para a Central"; 
+        btnTx.disabled = false; 
+    }
+}
+
+// 🧠 O ROBÔ FANTASMA DA CAIXA PRETA (Tenta enviar sozinho por trás das cortinas)
+function verificarCaixaPreta() {
+    setInterval(async () => {
+        let filaCaixaPreta = JSON.parse(localStorage.getItem('railantech_fila_offline') || '[]');
+        if (filaCaixaPreta.length > 0) {
+            console.log("Tentando esvaziar a Caixa Preta...");
+            try {
+                // Tenta enviar o primeiro da fila
+                const req = await fetch(API_MATRIZ, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(filaCaixaPreta[0]) });
+                if (req.ok) {
+                    filaCaixaPreta.shift(); // Se enviou com sucesso, apaga do celular da vítima
+                    localStorage.setItem('railantech_fila_offline', JSON.stringify(filaCaixaPreta));
+                    console.log("Dossiê da Caixa Preta entregue ao Bunker!");
+                }
+            } catch(e) { 
+                // Continua tentando em silêncio no próximo ciclo
+            }
+        }
+    }, 30000); // Tenta a cada 30 segundos se houver algo preso
 }
 
 function copiarChaveGerada() {
