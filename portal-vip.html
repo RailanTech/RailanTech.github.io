@@ -43,9 +43,7 @@ body { background-color: var(--bg-principal); color: var(--texto-principal); min
 .laudo-oficial.seguro::before { background: var(--verde-seguro); }
 .laudo-oficial.alerta::before { background: var(--vermelho-alerta); }
 .carimbo { margin-top: 20px; padding-top: 20px; border-top: 1px dashed var(--borda); font-family: monospace; font-size: 12px; color: var(--ouro-puro); text-align: center; opacity: 0.8; }
-
 #mensagem-status { margin-top: 20px; font-size: 14px; font-weight: bold; display: none; }
-
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 /* RODAPÉ LEGAL */
@@ -56,12 +54,12 @@ body { background-color: var(--bg-principal); color: var(--texto-principal); min
 <body>
 
 <div class="top-bar">
-    <a href="index.html" class="btn-voltar">◀ Voltar ao Radar</a>
+    <a href="index.html" class="btn-voltar"> ◀ Voltar ao Radar</a>
     <div class="top-title">Muralha RailanTech</div>
 </div>
 
 <div class="main-container">
-    <div class="icone-cofre">🔐</div>
+    <div class="icone-cofre"> 🔐 </div>
     <h1 class="titulo-central">Portal VIP</h1>
     <p class="subtitulo">Acesso restrito e criptografado aos laudos da Perícia Digital. <br>Insira a sua Chave de Acesso Oficial.</p>
 
@@ -73,7 +71,7 @@ body { background-color: var(--bg-principal); color: var(--texto-principal); min
 
     <div id="area-resultado">
         <div id="caixa-laudo" class="laudo-oficial">
-            <h3 style="color: var(--ouro-brilho); margin-bottom: 15px; font-size: 18px;">📄 LAUDO PERICIAL OFICIAL</h3>
+            <h3 style="color: var(--ouro-brilho); margin-bottom: 15px; font-size: 18px;"> 📄 LAUDO PERICIAL OFICIAL</h3>
             <div id="texto-laudo"></div>
             <div class="carimbo" id="texto-carimbo">CERTIFICADO DIGITAL DE AUTENTICIDADE</div>
         </div>
@@ -82,7 +80,7 @@ body { background-color: var(--bg-principal); color: var(--texto-principal); min
 
 <div class="rodape-lgpd">
     <p>
-        <b>🔒 Conexão Segura:</b> O laudo apresentado é sigiloso e de uso exclusivo do portador da chave.<br>
+        <b> 🔒 Conexão Segura:</b> O laudo apresentado é sigiloso e de uso exclusivo do portador da chave.<br>
         A RailanTech atua apenas na emissão de pareceres preventivos de segurança cibernética.
     </p>
 </div>
@@ -92,9 +90,7 @@ body { background-color: var(--bg-principal); color: var(--texto-principal); min
 const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
 
 function formatarChave(chave) {
-    // Tira os espaços em branco e garante que o cidadão digitou maiúsculo
     let limpa = chave.trim().toUpperCase();
-    // Se a pessoa digitou só o número (ex: 842-199), a gente ajuda completando
     if (!limpa.startsWith("RT-PF-") && limpa.length > 3) {
         if (limpa.startsWith("RT-PF")) limpa = limpa.replace("RT-PF", "RT-PF-");
         else limpa = "RT-PF-" + limpa;
@@ -104,8 +100,8 @@ function formatarChave(chave) {
 
 function aplicarCores(texto) {
     const caixa = document.getElementById('caixa-laudo');
-    caixa.className = "laudo-oficial"; // Reseta
-    
+    caixa.className = "laudo-oficial"; 
+
     const txtUpp = texto.toUpperCase();
     if (txtUpp.includes("[ SEGURO") || txtUpp.includes("[SEGURO")) {
         caixa.classList.add("seguro");
@@ -117,66 +113,61 @@ function aplicarCores(texto) {
 async function buscarLaudo() {
     let chaveOriginal = document.getElementById('input-chave').value;
     if (!chaveOriginal) return;
-    
+
     const chave = formatarChave(chaveOriginal);
-    document.getElementById('input-chave').value = chave; // Atualiza na tela pro formato bonito
-    
+    document.getElementById('input-chave').value = chave; 
+
     const btn = document.getElementById('btn-buscar');
     const status = document.getElementById('mensagem-status');
     const areaResultado = document.getElementById('area-resultado');
     const textoLaudo = document.getElementById('texto-laudo');
     const textoCarimbo = document.getElementById('texto-carimbo');
-    
-    // Preparando a tela
+
     areaResultado.style.display = "none";
     status.style.display = "block";
     status.style.color = "var(--texto-secundario)";
-    status.innerText = "📡 Conectando ao Cofre Seguro...";
+    status.innerText = " 📡 Conectando ao Cofre Seguro...";
     btn.disabled = true;
-    
+
     try {
-        // Envia o pedido GET pro Satélite procurando a chave
         const req = await fetch(`${API_MATRIZ}?protocolo=${chave}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" }
         });
-        
+
         const data = await req.json();
-        
+
         if (req.ok && data.laudo) {
-            // SUCESSO: O Laudo foi encontrado!
             status.style.display = "none";
-            
-            // Troca as quebras de linha normais por <br> pro HTML entender
+
             let formatado = data.laudo.replace(/\n/g, '<br>');
-            // Deixa negrito as palavras entre **
             formatado = formatado.replace(/\*\*(.*?)\*\*/g, '<strong style="color: #ffffff;">$1</strong>');
-            
+
             textoLaudo.innerHTML = formatado;
             aplicarCores(data.laudo);
-            
+
             const dataHora = new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
-            textoCarimbo.innerHTML = `🔐 CONSULTA REGISTRADA<br>CHAVE: ${chave}<br>DATA: ${dataHora}`;
-            
+            textoCarimbo.innerHTML = ` 🔐 CONSULTA REGISTRADA<br>CHAVE: ${chave}<br>DATA: ${dataHora}`;
+
             areaResultado.style.display = "block";
-            
+
         } else {
-            // NÃO ENCONTRADO OU EM ANÁLISE
             status.style.color = "var(--vermelho-alerta)";
             if (data.erro) {
-                status.innerText = `⚠️ ${data.erro}`;
+                status.innerText = ` ⚠️ ${data.erro}`;
             } else {
-                status.innerText = "⚠️ Chave não encontrada. Verifique o código digitado.";
+                status.innerText = " ⚠️ Chave não encontrada. Verifique o código digitado.";
             }
         }
     } catch (e) {
         status.style.color = "var(--vermelho-alerta)";
-        status.innerText = "🚨 Erro de conexão com a base de dados. Tente novamente.";
+        status.innerText = " 🚨 Erro de conexão com a base de dados. Tente novamente.";
     } finally {
         btn.disabled = false;
         btn.innerText = "Descriptografar Laudo";
     }
 }
 </script>
-</body>
+
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "1e6b4568443c4148ba4b3211f8a83bce"}'></script></body>
 </html>
