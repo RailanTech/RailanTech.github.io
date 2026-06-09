@@ -411,4 +411,38 @@ item.innerHTML = `
 gaveta.appendChild(item);
 }
 async function transmitirLaudo() {
-const codigo =
+const codigo = document.getElementById('input-codigo-laudo').value.trim();
+const texto = document.getElementById('input-texto-laudo').value.trim();
+if(!codigo || !texto) return;
+try {
+await fetch(API_MATRIZ, {
+method: "POST",
+headers: { "Content-Type": "application/json", "Authorization": "Bearer " + senhaMestraGlobal },
+body: JSON.stringify({ tipo: "emitir_laudo", codigo, texto })
+});
+document.getElementById('status-laudo').style.display = "block";
+document.getElementById('input-codigo-laudo').value = "";
+document.getElementById('input-texto-laudo').value = "";
+setTimeout(() => document.getElementById('status-laudo').style.display = "none", 4000);
+} catch(e) { alert("Erro de transmissão."); }
+}
+// ==========================================
+//   🧠   LÓGICA OURO PURO: NÚMEROS AUTOMÁTICOS
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+const dataAtual = new Date();
+const mesAtual = meses[dataAtual.getMonth()] + " " + dataAtual.getFullYear();
+let mesPassadoIndex = dataAtual.getMonth() - 1;
+let anoPassado = dataAtual.getFullYear();
+if(mesPassadoIndex < 0) { mesPassadoIndex = 11; anoPassado--; }
+if(document.getElementById('nome-mes-atual')) {
+document.getElementById('nome-mes-atual').innerText = mesAtual;
+document.getElementById('nome-mes-passado').innerText = meses[mesPassadoIndex] + " " + anoPassado;
+// O Radar começa em 0 e aguarda a resposta do Satélite Invisível
+document.getElementById('contador-visitas').innerText = "0";
+}
+});
+</script>
+</body>
+</html>
