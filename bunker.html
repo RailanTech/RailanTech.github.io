@@ -257,191 +257,229 @@ body { background-color: var(--bg-base); color: var(--texto-principal); min-heig
 // ATENÇÃO COMANDANTE: INSIRA AQUI O LINK REAL DO SEU CLOUDFLARE WORKER
 const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
 let senhaMestraGlobal = "";
+let loopRadar = null; // ENGRENAGEM DO RADAR CONTÍNUO
+let ultimoHashDados = ""; // TRAVA DE INTELIGÊNCIA: Impede a tela de piscar à toa
+
 function toggleSidebar() {
-document.getElementById('sidebar').classList.toggle('aberto');
+    document.getElementById('sidebar').classList.toggle('aberto');
 }
+
 function mudarAba(aba) {
-document.querySelectorAll('.view-section').forEach(el => el.classList.remove('ativa'));
-document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('ativo'));
-document.getElementById(`view-${aba}`).classList.add('ativa');
-document.getElementById(`menu-${aba}`).classList.add('ativo');
-if(window.innerWidth < 768) { toggleSidebar(); }
-window.scrollTo({top: 0, behavior: 'smooth'});
+    document.querySelectorAll('.view-section').forEach(el => el.classList.remove('ativa'));
+    document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('ativo'));
+    document.getElementById(`view-${aba}`).classList.add('ativa');
+    document.getElementById(`menu-${aba}`).classList.add('ativo');
+    if(window.innerWidth < 768) { toggleSidebar(); }
+    window.scrollTo({top: 0, behavior: 'smooth'});
 }
+
 // ==========================================
 // FUNÇÕES DA NOVA TRIAGEM RETRÁTIL E CARRASCO
 // ==========================================
 function abrirDossie(elemento) {
-const detalhes = elemento.nextElementSibling;
-detalhes.classList.toggle('aberto');
+    const detalhes = elemento.nextElementSibling;
+    detalhes.classList.toggle('aberto');
 }
+
 function copiarCodigo(event, codigo) {
-event.stopPropagation();
-navigator.clipboard.writeText(codigo).then(() => {
-alert("CHAVE COPIADA PARA A ÁREA DE TRANSFERÊNCIA: " + codigo);
-});
+    event.stopPropagation();
+    navigator.clipboard.writeText(codigo).then(() => {
+        alert("CHAVE COPIADA PARA A ÁREA DE TRANSFERÊNCIA: " + codigo);
+    });
 }
+
 //   🪓   ARMA DO CARRASCO (DELETAR DOSSIÊ)
 async function deletarDossie(protocolo, event) {
-event.stopPropagation(); // Não deixa a gaveta abrir quando clica no X
-if(!confirm("   ⚠️   DIRETOR: Deseja DESTRUIR este dossiê para sempre?")) return;
-event.target.closest('.item-dossie').style.display = 'none';
-try {
-await fetch(API_MATRIZ, {
-method: "DELETE",
-headers: { "Content-Type": "application/json", "Authorization": "Bearer " + senhaMestraGlobal },
-body: JSON.stringify({ protocolo: protocolo })
-});
-} catch(e) {
-console.log("Falha ao comunicar exclusão.");
+    event.stopPropagation();
+    if(!confirm("   ⚠️   DIRETOR: Deseja DESTRUIR este dossiê para sempre?")) return;
+    event.target.closest('.item-dossie').style.display = 'none';
+    try {
+        await fetch(API_MATRIZ, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json", "Authorization": "Bearer " + senhaMestraGlobal },
+            body: JSON.stringify({ protocolo: protocolo })
+        });
+        // Força atualização imediata ao deletar
+        ultimoHashDados = ""; // Quebra a trava para forçar o redesenho
+        buscarDossiesSecretos(senhaMestraGlobal);
+    } catch(e) {
+        console.log("Falha ao comunicar exclusão.");
+    }
 }
-}
+
 // ==========================================
 // MOTOR DE BUSCA E RADAR SATÉLITE
 // ==========================================
 async function acessarBunker() {
-const senha = document.getElementById('senha-input').value.trim();
-if(!senha) return;
-const btn = document.getElementById('btn-login');
-const msgErro = document.getElementById('msg-erro');
-msgErro.style.display = "none";
-btn.innerText = "VERIFICANDO...";
-await buscarDossiesSecretos(senha);
+    const senha = document.getElementById('senha-input').value.trim();
+    if(!senha) return;
+    const btn = document.getElementById('btn-login');
+    const msgErro = document.getElementById('msg-erro');
+    msgErro.style.display = "none";
+    btn.innerText = "VERIFICANDO...";
+    await buscarDossiesSecretos(senha);
 }
+
 async function buscarDossiesSecretos(chaveMestra) {
-try {
-const req = await fetch(API_MATRIZ, { method: "GET", headers: { "Authorization": "Bearer " + chaveMestra } });
-if(req.status === 403) throw new Error("BLOQUEADO PELA RATOEIRA");
-if(req.status === 401) throw new Error("CHAVE MESTRA INCORRETA");
-if(!req.ok) throw new Error("ERRO DE COMUNICAÇÃO ORBITAL");
-senhaMestraGlobal = chaveMestra;
-document.getElementById('tela-bloqueio').style.display = "none";
-document.getElementById('painel-bunker').style.display = "block";
-const dados = await req.json();
-// ZERANDO AS GAVETAS ANTES DE ATUALIZAR
-const gradeHackers = document.getElementById('grade-hackers');
-const gavetaZapEstranho = document.getElementById('lista-zap-estranho');
-gradeHackers.innerHTML = "";
-gavetaZapEstranho.innerHTML = "";
-let temHacker = false;
-//   🧠   OURO PURO: Atualiza a contagem dos números reais no painel
-if(document.getElementById('qtd-mes-atual')) {
-document.getElementById('qtd-mes-atual').innerText = dados.length;
-document.getElementById('qtd-mes-passado').innerText = Math.floor(dados.length * 0.7);
+    try {
+        const req = await fetch(API_MATRIZ, { method: "GET", headers: { "Authorization": "Bearer " + chaveMestra } });
+        if(req.status === 403) throw new Error("BLOQUEADO PELA RATOEIRA");
+        if(req.status === 401) throw new Error("CHAVE MESTRA INCORRETA");
+        if(!req.ok) throw new Error("ERRO DE COMUNICAÇÃO ORBITAL");
+        
+        senhaMestraGlobal = chaveMestra;
+        document.getElementById('tela-bloqueio').style.display = "none";
+        document.getElementById('painel-bunker').style.display = "block";
+        
+        const dados = await req.json();
+        const dadosString = JSON.stringify(dados);
+
+        // A INTELIGÊNCIA: Só apaga a tela e desenha de novo se chegou denúncia NOVA.
+        if (dadosString !== ultimoHashDados) {
+            ultimoHashDados = dadosString; // Atualiza a memória
+            
+            const gradeHackers = document.getElementById('grade-hackers');
+            const gavetaZapEstranho = document.getElementById('lista-zap-estranho');
+            gradeHackers.innerHTML = "";
+            gavetaZapEstranho.innerHTML = "";
+            let temHacker = false;
+
+            if(document.getElementById('qtd-mes-atual')) {
+                document.getElementById('qtd-mes-atual').innerText = dados.length;
+                document.getElementById('qtd-mes-passado').innerText = Math.floor(dados.length * 0.7);
+            }
+
+            if (dados.length > 0) {
+                dados.reverse().forEach(dossie => {
+                    if (dossie.protocolo === "HACKER-CAPTURADO") {
+                        temHacker = true;
+                        renderCardHacker(dossie, gradeHackers);
+                    } else if (dossie.protocolo !== "Aviso") {
+                        renderCardRetratil(dossie, gavetaZapEstranho);
+                    }
+                });
+                document.body.classList.remove('alerta-visual-cidadao', 'alerta-visual-hacker');
+                void document.body.offsetWidth;
+                if (temHacker) { document.body.classList.add('alerta-visual-hacker'); }
+                else { document.body.classList.add('alerta-visual-cidadao'); }
+            }
+        }
+
+        //  🛰️  O RADAR DO SATÉLITE (Visitas e Semáforo) ATUALIZA SEMPRE, EM SILÊNCIO
+        try {
+            const reqRadar = await fetch(API_MATRIZ + "?comando=radar", { method: "GET", headers: { "Authorization": "Bearer " + chaveMestra } });
+            if (reqRadar.ok) {
+                const radar = await reqRadar.json();
+                if(radar.visitas !== undefined) { document.getElementById('contador-visitas').innerText = radar.visitas; }
+                
+                // LIGANDO O SEMÁFORO PELO SINAL DO SATÉLITE
+                if(radar.semaforo) {
+                    document.getElementById('status-seguro').classList.add('desligado');
+                    document.getElementById('status-suspeito').classList.add('desligado');
+                    document.getElementById('status-perigo').classList.add('desligado');
+                    
+                    if (radar.semaforo === "SEGURO") document.getElementById('status-seguro').classList.remove('desligado');
+                    if (radar.semaforo === "SUSPEITO") document.getElementById('status-suspeito').classList.remove('desligado');
+                    if (radar.semaforo === "PERIGO") document.getElementById('status-perigo').classList.remove('desligado');
+                }
+            }
+        } catch(e) {
+            console.log("Satélite Radar Oculto - Sem resposta imediata.");
+        }
+
+        // 🧠 O FIM DO CTRL+F5: LIGA O MOTOR AUTOMÁTICO
+        if (!loopRadar) {
+            loopRadar = setInterval(() => {
+                buscarDossiesSecretos(senhaMestraGlobal);
+            }, 10000); 
+        }
+
+    } catch (e) {
+        document.getElementById('btn-login').innerText = "Desbloquear Base";
+        document.getElementById('senha-input').value = "";
+        document.getElementById('msg-erro').innerText = "   🚨   " + e.message;
+        document.getElementById('msg-erro').style.display = "block";
+        
+        // Se a senha estiver errada, desliga o radar
+        if(loopRadar) { clearInterval(loopRadar); loopRadar = null; }
+    }
 }
-if (dados.length > 0) {
-dados.reverse().forEach(dossie => {
-if (dossie.protocolo === "HACKER-CAPTURADO") {
-temHacker = true;
-renderCardHacker(dossie, gradeHackers);
-} else if (dossie.protocolo !== "Aviso") {
-renderCardRetratil(dossie, gavetaZapEstranho);
-}
-});
-document.body.classList.remove('alerta-visual-cidadao', 'alerta-visual-hacker');
-void document.body.offsetWidth;
-if (temHacker) { document.body.classList.add('alerta-visual-hacker'); }
-else { document.body.classList.add('alerta-visual-cidadao'); }
-}
-//  🛰️  CONEXÃO INVISÍVEL COM O RADAR DO CLOUDFLARE
-try {
-const reqRadar = await fetch(API_MATRIZ + "?comando=radar", { method: "GET", headers: { "Authorization": "Bearer " + chaveMestra } });
-if (reqRadar.ok) {
-const radar = await reqRadar.json();
-if(radar.visitas !== undefined) { document.getElementById('contador-visitas').innerText = radar.visitas; }
-// 🧠 LIGANDO O SEMÁFORO AUTOMATICAMENTE PELO SINAL DO SATÉLITE
-if(radar.semaforo) {
-// Apaga todas as luzes primeiro (Paz do Arquiteto)
-document.getElementById('status-seguro').classList.add('desligado');
-document.getElementById('status-suspeito').classList.add('desligado');
-document.getElementById('status-perigo').classList.add('desligado');
-// Acende apenas a luz que o Cloudflare mandou
-if (radar.semaforo === "SEGURO") document.getElementById('status-seguro').classList.remove('desligado');
-if (radar.semaforo === "SUSPEITO") document.getElementById('status-suspeito').classList.remove('desligado');
-if (radar.semaforo === "PERIGO") document.getElementById('status-perigo').classList.remove('desligado');
-}
-}
-} catch(e) {
-console.log("Satélite Radar Oculto - Sem resposta imediata.");
-}
-} catch (e) {
-document.getElementById('btn-login').innerText = "Desbloquear Base";
-document.getElementById('senha-input').value = "";
-document.getElementById('msg-erro').innerText = "   🚨   " + e.message;
-document.getElementById('msg-erro').style.display = "block";
-}
-}
+
 // GERA O CARD VERMELHO APENAS NO STATUS SATÉLITE
 function renderCardHacker(dossie, grade) {
-const card = document.createElement('div');
-card.className = 'card-dossie hacker';
-card.innerHTML = `
-<div class="card-topo">
-<div><span class="card-id">${dossie.protocolo}</span><span style="margin-left:10px;">${dossie.data || '--'}</span></div>
-<i class="fa-solid fa-xmark btn-limpar-card" onclick="this.closest('.card-dossie').remove()"></i>
-</div>
-<p style="font-size:13px; margin-bottom:10px;"><strong>PERFIL:</strong> ${dossie.perfil}</p>
-<p style="font-size:13px; color:#aaa; margin-bottom:15px;">${dossie.mensagem}</p>
-<p style="color:var(--vermelho-alerta); font-weight:bold; font-size:11px; margin-top:15px;">   ⚠️   INVASOR IDENTIFICADO PELO MOTOR</p>
-`;
-grade.appendChild(card);
+    const card = document.createElement('div');
+    card.className = 'card-dossie hacker';
+    card.innerHTML = `
+    <div class="card-topo">
+    <div><span class="card-id">${dossie.protocolo}</span><span style="margin-left:10px;">${dossie.data || '--'}</span></div>
+    <i class="fa-solid fa-xmark btn-limpar-card" onclick="this.closest('.card-dossie').remove()"></i>
+    </div>
+    <p style="font-size:13px; margin-bottom:10px;"><strong>PERFIL:</strong> ${dossie.perfil}</p>
+    <p style="font-size:13px; color:#aaa; margin-bottom:15px;">${dossie.mensagem}</p>
+    <p style="color:var(--vermelho-alerta); font-weight:bold; font-size:11px; margin-top:15px;">   ⚠️   INVASOR IDENTIFICADO PELO MOTOR</p>
+    `;
+    grade.appendChild(card);
 }
+
 // GERA A GAVETA RETRÁTIL INTELIGENTE E O BOTÃO DO CARRASCO
 function renderCardRetratil(dossie, gaveta) {
-const item = document.createElement('div');
-item.className = 'item-dossie';
-item.innerHTML = `
-<div class="item-cabecalho" onclick="abrirDossie(this)">
-<span class="codigo-rt">${dossie.protocolo}</span>
-<div class="botoes-acao">
-<button class="btn-copiar" title="Copiar Código" onclick="copiarCodigo(event, '${dossie.protocolo}')"><i class="fa-regular fa-copy"></i></button>
-<i class="fa-solid fa-magnifying-glass btn-mostrar"></i>
-<i class="fa-solid fa-xmark btn-limpar-card" style="margin-left: 15px; color: var(--vermelho-alerta); cursor: pointer; font-size: 16px;" onclick="deletarDossie('${dossie.protocolo}', event)" title="Destruir Dossiê"></i>
-</div>
-</div>
-<div class="item-detalhes">
-<div class="dado-linha"><strong>NOME/PERFIL:</strong> ${dossie.perfil}</div>
-<div class="dado-linha"><strong>CANAL DE ATAQUE:</strong> ${dossie.canal || 'Não informado'}</div>
-<div class="texto-denuncia">"${dossie.mensagem}"</div>
-<div style="margin-top: 15px; padding: 10px; background: rgba(0, 230, 118, 0.1); border: 1px solid var(--verde-seguro); border-radius: 4px; color: var(--verde-seguro); font-size: 11px; font-weight: bold; text-align: center;">
-<i class="fa-solid fa-robot"></i> LAUDO AUTOMÁTICO ENVIADO AO COFRE
-</div>
-</div>
-`;
-gaveta.appendChild(item);
+    const item = document.createElement('div');
+    item.className = 'item-dossie';
+    item.innerHTML = `
+    <div class="item-cabecalho" onclick="abrirDossie(this)">
+    <span class="codigo-rt">${dossie.protocolo}</span>
+    <div class="botoes-acao">
+    <button class="btn-copiar" title="Copiar Código" onclick="copiarCodigo(event, '${dossie.protocolo}')"><i class="fa-regular fa-copy"></i></button>
+    <i class="fa-solid fa-magnifying-glass btn-mostrar"></i>
+    <i class="fa-solid fa-xmark btn-limpar-card" style="margin-left: 15px; color: var(--vermelho-alerta); cursor: pointer; font-size: 16px;" onclick="deletarDossie('${dossie.protocolo}', event)" title="Destruir Dossiê"></i>
+    </div>
+    </div>
+    <div class="item-detalhes">
+    <div class="dado-linha"><strong>NOME/PERFIL:</strong> ${dossie.perfil}</div>
+    <div class="dado-linha"><strong>CANAL DE ATAQUE:</strong> ${dossie.canal || 'Não informado'}</div>
+    <div class="texto-denuncia">"${dossie.mensagem}"</div>
+    <div style="margin-top: 15px; padding: 10px; background: rgba(0, 230, 118, 0.1); border: 1px solid var(--verde-seguro); border-radius: 4px; color: var(--verde-seguro); font-size: 11px; font-weight: bold; text-align: center;">
+    <i class="fa-solid fa-robot"></i> LAUDO AUTOMÁTICO ENVIADO AO COFRE
+    </div>
+    </div>
+    `;
+    gaveta.appendChild(item);
 }
+
 async function transmitirLaudo() {
-const codigo = document.getElementById('input-codigo-laudo').value.trim();
-const texto = document.getElementById('input-texto-laudo').value.trim();
-if(!codigo || !texto) return;
-try {
-await fetch(API_MATRIZ, {
-method: "POST",
-headers: { "Content-Type": "application/json", "Authorization": "Bearer " + senhaMestraGlobal },
-body: JSON.stringify({ tipo: "emitir_laudo", codigo, texto })
-});
-document.getElementById('status-laudo').style.display = "block";
-document.getElementById('input-codigo-laudo').value = "";
-document.getElementById('input-texto-laudo').value = "";
-setTimeout(() => document.getElementById('status-laudo').style.display = "none", 4000);
-} catch(e) { alert("Erro de transmissão."); }
+    const codigo = document.getElementById('input-codigo-laudo').value.trim();
+    const texto = document.getElementById('input-texto-laudo').value.trim();
+    if(!codigo || !texto) return;
+    try {
+        await fetch(API_MATRIZ, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "Authorization": "Bearer " + senhaMestraGlobal },
+            body: JSON.stringify({ tipo: "emitir_laudo", codigo, texto })
+        });
+        document.getElementById('status-laudo').style.display = "block";
+        document.getElementById('input-codigo-laudo').value = "";
+        document.getElementById('input-texto-laudo').value = "";
+        setTimeout(() => document.getElementById('status-laudo').style.display = "none", 4000);
+        ultimoHashDados = ""; // Quebra a trava para atualizar imediato
+        buscarDossiesSecretos(senhaMestraGlobal); 
+    } catch(e) { alert("Erro de transmissão."); }
 }
+
 // ==========================================
 //   🧠   LÓGICA OURO PURO: NÚMEROS AUTOMÁTICOS
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
-const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
-const dataAtual = new Date();
-const mesAtual = meses[dataAtual.getMonth()] + " " + dataAtual.getFullYear();
-let mesPassadoIndex = dataAtual.getMonth() - 1;
-let anoPassado = dataAtual.getFullYear();
-if(mesPassadoIndex < 0) { mesPassadoIndex = 11; anoPassado--; }
-if(document.getElementById('nome-mes-atual')) {
-document.getElementById('nome-mes-atual').innerText = mesAtual;
-document.getElementById('nome-mes-passado').innerText = meses[mesPassadoIndex] + " " + anoPassado;
-// O Radar começa em 0 e aguarda a resposta do Satélite Invisível
-document.getElementById('contador-visitas').innerText = "0";
-}
+    const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+    const dataAtual = new Date();
+    const mesAtual = meses[dataAtual.getMonth()] + " " + dataAtual.getFullYear();
+    let mesPassadoIndex = dataAtual.getMonth() - 1;
+    let anoPassado = dataAtual.getFullYear();
+    if(mesPassadoIndex < 0) { mesPassadoIndex = 11; anoPassado--; }
+    if(document.getElementById('nome-mes-atual')) {
+        document.getElementById('nome-mes-atual').innerText = mesAtual;
+        document.getElementById('nome-mes-passado').innerText = meses[mesPassadoIndex] + " " + anoPassado;
+        document.getElementById('contador-visitas').innerText = "0";
+    }
 });
 </script>
 </body>
