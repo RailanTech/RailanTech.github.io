@@ -68,8 +68,15 @@ animation: piscar 1.5s infinite; }
 .olho-tecnologico { width: 150px; height: 150px; border-radius: 50%; border: 1px solid rgba(212, 175, 55, 0.2); display: flex; justify-content: center;
 align-items: center; position: relative; background: radial-gradient(circle, #000 30%, #0a0a0a 100%); }
 .olho-iris { width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle, var(--vermelho-alerta) 5%, transparent 70%); animation: respirarOlho 3s infinite; }
-.semaforo-item { display: flex; align-items: center; gap: 15px; font-size: 12px; background: var(--bg-card); padding: 12px; margin-bottom: 8px; border-radius: 4px; }
-.luz { width: 12px; height: 12px; border-radius: 50%; }
+
+/* NEURO-SEMÁFORO TÁTICO */
+.semaforo-item { display: flex; align-items: center; gap: 15px; font-size: 13px; background: #111111; padding: 15px 20px; margin-bottom: 10px; border-radius: 6px; font-weight: bold; letter-spacing: 1px; transition: 0.3s; }
+.semaforo-item.desligado { opacity: 0.3; }
+.luz-neuro { width: 14px; height: 14px; border-radius: 50%; }
+.luz-verde { background: #00e676; box-shadow: 0 0 15px 4px rgba(0, 230, 118, 0.2); }
+.luz-amarela { background: #ffeb3b; box-shadow: 0 0 15px 4px rgba(255, 235, 59, 0.2); }
+.luz-vermelha { background: #ff4d4d; box-shadow: 0 0 15px 4px rgba(255, 77, 77, 0.2); }
+
 /* MESA DE LAUDOS */
 .painel-emissao { background: rgba(212, 175, 55, 0.02); border: 1px solid var(--ouro-puro); padding: 30px; border-radius: 8px; margin-bottom: 40px; }
 /* CARDS DOSSIÊ */
@@ -135,7 +142,7 @@ font-size: 11px; color: var(--verde-seguro); font-weight: bold; }
 <p style="color: var(--texto-secundario); margin-bottom: 30px; font-size: 12px; letter-spacing: 2px;">PROTOCOLO 1% MONSTRO ATIVADO</p>
 <input type="password" id="senha-input" class="input-senha" placeholder="CHAVE MESTRA" onkeypress="if(event.key === 'Enter') acessarBunker()">
 <button class="btn-entrar" id="btn-login" onclick="acessarBunker()">Desbloquear Base</button>
-<p id="msg-erro" style="color: var(--vermelho-alerta); margin-top: 25px; font-size: 13px; font-weight: bold; display: none;">  🚨  ACESSO NEGADO</p>
+<p id="msg-erro" style="color: var(--vermelho-alerta); margin-top: 25px; font-size: 13px; font-weight: bold; display: none;">   🚨   ACESSO NEGADO</p>
 </div>
 <nav id="sidebar">
 <i class="fa-solid fa-xmark btn-fechar-menu" onclick="toggleSidebar()" title="Fechar Gaveta"></i>
@@ -172,9 +179,9 @@ font-size: 11px; color: var(--verde-seguro); font-weight: bold; }
 <div class="olho-tecnologico"><div class="olho-iris"></div></div>
 <div>
 <h4 style="color: var(--texto-secundario); font-size: 11px; margin-bottom: 15px; letter-spacing: 1px;">SEMÁFORO TÁTICO</h4>
-<div class="semaforo-item"><span class="luz" style="background: var(--verde-seguro); box-shadow: 0 0 10px var(--verde-seguro);"></span> SEGURO</div>
-<div class="semaforo-item"><span class="luz" style="background: #ffeb3b; box-shadow: 0 0 10px #ffeb3b;"></span> SUSPEITO</div>
-<div class="semaforo-item"><span class="luz" style="background: var(--vermelho-alerta); box-shadow: 0 0 10px var(--vermelho-alerta); animation: piscar 1s infinite;"></span> PERIGO</div>
+<div class="semaforo-item"><span class="luz-neuro luz-verde"></span> SEGURO</div>
+<div class="semaforo-item desligado"><span class="luz-neuro luz-amarela"></span> SUSPEITO</div>
+<div class="semaforo-item desligado"><span class="luz-neuro luz-vermelha"></span> PERIGO</div>
 </div>
 </div>
 <p style="text-align: center; color: var(--texto-secundario); font-size: 11px; margin-top: 20px;">RADAR DO POVO: <strong style="color:#fff;" id="contador-visitas">0</strong> VISITAS HOJE</p>
@@ -187,9 +194,8 @@ font-size: 11px; color: var(--verde-seguro); font-weight: bold; }
 <textarea id="input-texto-laudo" class="input-senha" style="width: 100%; height: 60px; text-align: left; font-size: 14px; margin: 0;" placeholder="ESCREVA O VEREDITO OFICIAL DO DIRETOR..."></textarea>
 <button class="btn-entrar" style="padding: 12px 30px;" onclick="transmitirLaudo()">Transmitir Laudo Blindado</button>
 </div>
-<p id="status-laudo" style="color: var(--verde-seguro); font-size: 12px; font-weight: bold; margin-top: 15px; display: none;">  ✓  LAUDO ATUALIZADO E SALVO NO SATÉLITE!</p>
+<p id="status-laudo" style="color: var(--verde-seguro); font-size: 12px; font-weight: bold; margin-top: 15px; display: none;">   ✓   LAUDO ATUALIZADO E SALVO NO SATÉLITE!</p>
 </div>
-
 <div id="loading-dados" style="color: var(--texto-secundario); text-align: center; font-size: 14px; margin-top: 10px; display: none;">
 <i class="fa-solid fa-spinner fa-spin"></i> ATUALIZANDO GAVETAS COM O SATÉLITE...
 </div>
@@ -203,7 +209,7 @@ font-size: 11px; color: var(--verde-seguro); font-weight: bold; }
 <div class="cf-text">
 <h4>Escudo Anti-DDoS</h4>
 <p>Filtro de Ratos ativado.</p>
-<div class="cf-status"><div class="luz" style="background:var(--verde-seguro);"></div> INTEGRIDADE 100%</div>
+<div class="cf-status"><div class="luz-neuro luz-verde"></div> INTEGRIDADE 100%</div>
 </div>
 </div>
 <div class="cf-modulo">
@@ -211,7 +217,7 @@ font-size: 11px; color: var(--verde-seguro); font-weight: bold; }
 <div class="cf-text">
 <h4>Túnel de Sombra (IP)</h4>
 <p>Localização indetectável.</p>
-<div class="cf-status"><div class="luz" style="background:var(--verde-seguro);"></div> FANTASMA ATIVO</div>
+<div class="cf-status"><div class="luz-neuro luz-verde"></div> FANTASMA ATIVO</div>
 </div>
 </div>
 </div>
@@ -222,21 +228,21 @@ font-size: 11px; color: var(--verde-seguro); font-weight: bold; }
 <div class="header-triagem">
 <div>
 <h2><i class="fa-brands fa-whatsapp"></i> Triagem: ZAP</h2>
-<p style="color:var(--texto-secundario); font-size:13px;">Clique na lupa (  🔎  ) para expandir os detalhes do dossiê.</p>
+<p style="color:var(--texto-secundario); font-size:13px;">Clique na lupa (   🔎   ) para expandir os detalhes do dossiê.</p>
 </div>
 <div style="font-size: 12px; color: var(--ouro-puro); font-family: 'Courier New';">FORMATO: RT-PF-XXX-XXX</div>
 </div>
 <div class="grid-triagem">
 <div class="coluna-triagem coluna-oficial">
-<div class="titulo-coluna">  ✅  Oficial</div>
+<div class="titulo-coluna">   ✅   Oficial</div>
 <div class="lista-numeros" id="lista-zap-oficial"></div>
 </div>
 <div class="coluna-triagem coluna-estranho">
-<div class="titulo-coluna">  ⚠️  Estranho (Caixa de Entrada)</div>
+<div class="titulo-coluna">   ⚠️   Estranho (Caixa de Entrada)</div>
 <div class="lista-numeros" id="lista-zap-estranho"></div>
 </div>
 <div class="coluna-triagem coluna-falso">
-<div class="titulo-coluna">  🛑  Falso</div>
+<div class="titulo-coluna">   🛑   Falso</div>
 <div class="lista-numeros" id="lista-zap-falso"></div>
 </div>
 </div>
@@ -246,9 +252,9 @@ font-size: 11px; color: var(--verde-seguro); font-weight: bold; }
 <h2><i class="fa-solid fa-envelope"></i> Triagem: E-Mail</h2>
 </div>
 <div class="grid-triagem">
-<div class="coluna-triagem coluna-oficial"><div class="titulo-coluna">  ✅  Oficial</div><div class="lista-numeros"></div></div>
-<div class="coluna-triagem coluna-estranho"><div class="titulo-coluna">  ⚠️  Estranho</div><div class="lista-numeros"></div></div>
-<div class="coluna-triagem coluna-falso"><div class="titulo-coluna">  🛑  Falso</div><div class="lista-numeros"></div></div>
+<div class="coluna-triagem coluna-oficial"><div class="titulo-coluna">   ✅   Oficial</div><div class="lista-numeros"></div></div>
+<div class="coluna-triagem coluna-estranho"><div class="titulo-coluna">   ⚠️   Estranho</div><div class="lista-numeros"></div></div>
+<div class="coluna-triagem coluna-falso"><div class="titulo-coluna">   🛑   Falso</div><div class="lista-numeros"></div></div>
 </div>
 </div>
 <div id="view-sms" class="view-section">
@@ -256,9 +262,9 @@ font-size: 11px; color: var(--verde-seguro); font-weight: bold; }
 <h2><i class="fa-solid fa-comment-sms"></i> Triagem: SMS / Outro</h2>
 </div>
 <div class="grid-triagem">
-<div class="coluna-triagem coluna-oficial"><div class="titulo-coluna">  ✅  Oficial</div><div class="lista-numeros"></div></div>
-<div class="coluna-triagem coluna-estranho"><div class="titulo-coluna">  ⚠️  Estranho</div><div class="lista-numeros"></div></div>
-<div class="coluna-triagem coluna-falso"><div class="titulo-coluna">  🛑  Falso</div><div class="lista-numeros"></div></div>
+<div class="coluna-triagem coluna-oficial"><div class="titulo-coluna">   ✅   Oficial</div><div class="lista-numeros"></div></div>
+<div class="coluna-triagem coluna-estranho"><div class="titulo-coluna">   ⚠️   Estranho</div><div class="lista-numeros"></div></div>
+<div class="coluna-triagem coluna-falso"><div class="titulo-coluna">   🛑   Falso</div><div class="lista-numeros"></div></div>
 </div>
 </div>
 </div>
@@ -290,10 +296,10 @@ navigator.clipboard.writeText(codigo).then(() => {
 alert("CHAVE COPIADA PARA A ÁREA DE TRANSFERÊNCIA: " + codigo);
 });
 }
-//  🪓  ARMA DO CARRASCO (DELETAR DOSSIÊ)
+//   🪓   ARMA DO CARRASCO (DELETAR DOSSIÊ)
 async function deletarDossie(protocolo, event) {
 event.stopPropagation(); // Não deixa a gaveta abrir quando clica no X
-if(!confirm("  ⚠️  DIRETOR: Deseja DESTRUIR este dossiê para sempre?")) return;
+if(!confirm("   ⚠️   DIRETOR: Deseja DESTRUIR este dossiê para sempre?")) return;
 event.target.closest('.item-dossie').style.display = 'none';
 try {
 await fetch(API_MATRIZ, {
@@ -317,33 +323,27 @@ msgErro.style.display = "none";
 btn.innerText = "VERIFICANDO...";
 await buscarDossiesSecretos(senha);
 }
-
 async function buscarDossiesSecretos(chaveMestra) {
 try {
 const req = await fetch(API_MATRIZ, { method: "GET", headers: { "Authorization": "Bearer " + chaveMestra } });
 if(req.status === 403) throw new Error("BLOQUEADO PELA RATOEIRA");
 if(req.status === 401) throw new Error("CHAVE MESTRA INCORRETA");
 if(!req.ok) throw new Error("ERRO DE COMUNICAÇÃO ORBITAL");
-
 senhaMestraGlobal = chaveMestra;
 document.getElementById('tela-bloqueio').style.display = "none";
 document.getElementById('painel-bunker').style.display = "block";
-
 const dados = await req.json();
-
 // ZERANDO AS GAVETAS ANTES DE ATUALIZAR
 const gradeHackers = document.getElementById('grade-hackers');
 const gavetaZapEstranho = document.getElementById('lista-zap-estranho');
 gradeHackers.innerHTML = "";
 gavetaZapEstranho.innerHTML = "";
 let temHacker = false;
-
-//  🧠  OURO PURO: Atualiza a contagem dos números reais no painel
+//   🧠   OURO PURO: Atualiza a contagem dos números reais no painel
 if(document.getElementById('qtd-mes-atual')) {
 document.getElementById('qtd-mes-atual').innerText = dados.length;
 document.getElementById('qtd-mes-passado').innerText = Math.floor(dados.length * 0.7);
 }
-
 if (dados.length > 0) {
 dados.reverse().forEach(dossie => {
 if (dossie.protocolo === "HACKER-CAPTURADO") {
@@ -353,33 +353,30 @@ renderCardHacker(dossie, gradeHackers);
 renderCardRetratil(dossie, gavetaZapEstranho);
 }
 });
-
 document.body.classList.remove('alerta-visual-cidadao', 'alerta-visual-hacker');
 void document.body.offsetWidth;
 if (temHacker) { document.body.classList.add('alerta-visual-hacker'); }
 else { document.body.classList.add('alerta-visual-cidadao'); }
 }
-
-// 🛰️ CONEXÃO INVISÍVEL COM O RADAR DO CLOUDFLARE
+//  🛰️  CONEXÃO INVISÍVEL COM O RADAR DO CLOUDFLARE
 try {
-  const reqRadar = await fetch(API_MATRIZ + "?comando=radar", {
-    method: "GET",
-    headers: { "Authorization": "Bearer " + chaveMestra }
-  });
-  if (reqRadar.ok) {
-    const radar = await reqRadar.json();
-    if(radar.visitas !== undefined) {
-      document.getElementById('contador-visitas').innerText = radar.visitas;
-    }
-  }
-} catch(e) {
-  console.log("Satélite Radar Oculto - Sem resposta imediata.");
+const reqRadar = await fetch(API_MATRIZ + "?comando=radar", {
+method: "GET",
+headers: { "Authorization": "Bearer " + chaveMestra }
+});
+if (reqRadar.ok) {
+const radar = await reqRadar.json();
+if(radar.visitas !== undefined) {
+document.getElementById('contador-visitas').innerText = radar.visitas;
 }
-
+}
+} catch(e) {
+console.log("Satélite Radar Oculto - Sem resposta imediata.");
+}
 } catch (e) {
 document.getElementById('btn-login').innerText = "Desbloquear Base";
 document.getElementById('senha-input').value = "";
-document.getElementById('msg-erro').innerText = "  🚨  " + e.message;
+document.getElementById('msg-erro').innerText = "   🚨   " + e.message;
 document.getElementById('msg-erro').style.display = "block";
 }
 }
@@ -394,7 +391,7 @@ card.innerHTML = `
 </div>
 <p style="font-size:13px; margin-bottom:10px;"><strong>PERFIL:</strong> ${dossie.perfil}</p>
 <p style="font-size:13px; color:#aaa; margin-bottom:15px;">${dossie.mensagem}</p>
-<p style="color:var(--vermelho-alerta); font-weight:bold; font-size:11px; margin-top:15px;">  ⚠️  INVASOR IDENTIFICADO PELO MOTOR</p>
+<p style="color:var(--vermelho-alerta); font-weight:bold; font-size:11px; margin-top:15px;">   ⚠️   INVASOR IDENTIFICADO PELO MOTOR</p>
 `;
 grade.appendChild(card);
 }
@@ -439,7 +436,7 @@ setTimeout(() => document.getElementById('status-laudo').style.display = "none",
 } catch(e) { alert("Erro de transmissão."); }
 }
 // ==========================================
-//  🧠  LÓGICA OURO PURO: NÚMEROS AUTOMÁTICOS
+//   🧠   LÓGICA OURO PURO: NÚMEROS AUTOMÁTICOS
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
 const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
@@ -448,11 +445,9 @@ const mesAtual = meses[dataAtual.getMonth()] + " " + dataAtual.getFullYear();
 let mesPassadoIndex = dataAtual.getMonth() - 1;
 let anoPassado = dataAtual.getFullYear();
 if(mesPassadoIndex < 0) { mesPassadoIndex = 11; anoPassado--; }
-
 if(document.getElementById('nome-mes-atual')) {
 document.getElementById('nome-mes-atual').innerText = mesAtual;
 document.getElementById('nome-mes-passado').innerText = meses[mesPassadoIndex] + " " + anoPassado;
-
 // O Radar começa em 0 e aguarda a resposta do Satélite Invisível
 document.getElementById('contador-visitas').innerText = "0";
 }
