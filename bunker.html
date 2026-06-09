@@ -345,14 +345,20 @@ else { document.body.classList.add('alerta-visual-cidadao'); }
 }
 //  🛰️  CONEXÃO INVISÍVEL COM O RADAR DO CLOUDFLARE
 try {
-const reqRadar = await fetch(API_MATRIZ + "?comando=radar", {
-method: "GET",
-headers: { "Authorization": "Bearer " + chaveMestra }
-});
+const reqRadar = await fetch(API_MATRIZ + "?comando=radar", { method: "GET", headers: { "Authorization": "Bearer " + chaveMestra } });
 if (reqRadar.ok) {
 const radar = await reqRadar.json();
-if(radar.visitas !== undefined) {
-document.getElementById('contador-visitas').innerText = radar.visitas;
+if(radar.visitas !== undefined) { document.getElementById('contador-visitas').innerText = radar.visitas; }
+// 🧠 LIGANDO O SEMÁFORO AUTOMATICAMENTE PELO SINAL DO SATÉLITE
+if(radar.semaforo) {
+// Apaga todas as luzes primeiro (Paz do Arquiteto)
+document.getElementById('status-seguro').classList.add('desligado');
+document.getElementById('status-suspeito').classList.add('desligado');
+document.getElementById('status-perigo').classList.add('desligado');
+// Acende apenas a luz que o Cloudflare mandou
+if (radar.semaforo === "SEGURO") document.getElementById('status-seguro').classList.remove('desligado');
+if (radar.semaforo === "SUSPEITO") document.getElementById('status-suspeito').classList.remove('desligado');
+if (radar.semaforo === "PERIGO") document.getElementById('status-perigo').classList.remove('desligado');
 }
 }
 } catch(e) {
@@ -405,38 +411,4 @@ item.innerHTML = `
 gaveta.appendChild(item);
 }
 async function transmitirLaudo() {
-const codigo = document.getElementById('input-codigo-laudo').value.trim();
-const texto = document.getElementById('input-texto-laudo').value.trim();
-if(!codigo || !texto) return;
-try {
-await fetch(API_MATRIZ, {
-method: "POST",
-headers: { "Content-Type": "application/json", "Authorization": "Bearer " + senhaMestraGlobal },
-body: JSON.stringify({ tipo: "emitir_laudo", codigo, texto })
-});
-document.getElementById('status-laudo').style.display = "block";
-document.getElementById('input-codigo-laudo').value = "";
-document.getElementById('input-texto-laudo').value = "";
-setTimeout(() => document.getElementById('status-laudo').style.display = "none", 4000);
-} catch(e) { alert("Erro de transmissão."); }
-}
-// ==========================================
-//   🧠   LÓGICA OURO PURO: NÚMEROS AUTOMÁTICOS
-// ==========================================
-document.addEventListener('DOMContentLoaded', () => {
-const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
-const dataAtual = new Date();
-const mesAtual = meses[dataAtual.getMonth()] + " " + dataAtual.getFullYear();
-let mesPassadoIndex = dataAtual.getMonth() - 1;
-let anoPassado = dataAtual.getFullYear();
-if(mesPassadoIndex < 0) { mesPassadoIndex = 11; anoPassado--; }
-if(document.getElementById('nome-mes-atual')) {
-document.getElementById('nome-mes-atual').innerText = mesAtual;
-document.getElementById('nome-mes-passado').innerText = meses[mesPassadoIndex] + " " + anoPassado;
-// O Radar começa em 0 e aguarda a resposta do Satélite Invisível
-document.getElementById('contador-visitas').innerText = "0";
-}
-});
-</script>
-</body>
-</html>
+const codigo =
