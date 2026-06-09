@@ -15,40 +15,32 @@
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Courier New', Courier, monospace; }
 body { background-color: var(--bg-base); color: var(--texto-principal); min-height: 100vh; overflow-x: hidden; transition: box-shadow 0.3s; }
 /* ADAPTAÇÃO SENSORIAL (ALERTAS VISUAIS) */
-@keyframes pulsoOuro { 0% { box-shadow: inset 0 0 0px var(--ouro-puro); } 50% { box-shadow: inset 0 0 30px var(--ouro-puro);
-} 100% { box-shadow: inset 0 0 0px var(--ouro-puro); } }
-@keyframes pulsoVermelho { 0% { box-shadow: inset 0 0 0px var(--vermelho-alerta); } 50% { box-shadow: inset 0 0 40px var(--vermelho-alerta);
-} 100% { box-shadow: inset 0 0 0px var(--vermelho-alerta); } }
+@keyframes pulsoOuro { 0% { box-shadow: inset 0 0 0px var(--ouro-puro); } 50% { box-shadow: inset 0 0 30px var(--ouro-puro); } 100% { box-shadow: inset 0 0 0px var(--ouro-puro); } }
+@keyframes pulsoVermelho { 0% { box-shadow: inset 0 0 0px var(--vermelho-alerta); } 50% { box-shadow: inset 0 0 40px var(--vermelho-alerta); } 100% { box-shadow: inset 0 0 0px var(--vermelho-alerta); } }
 .alerta-visual-cidadao { animation: pulsoOuro 1.5s ease-out 2; }
 .alerta-visual-hacker { animation: pulsoVermelho 1.5s ease-out 3; }
 /* TELA DE BLOQUEIO */
-#tela-bloqueio { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100vh; width: 100%; position: fixed; top: 0;
-left: 0; background: var(--bg-base); z-index: 9999; }
+#tela-bloqueio { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100vh; width: 100%; position: fixed; top: 0; left: 0; background: var(--bg-base); z-index: 9999; }
 .icone-cadeado { font-size: 80px; color: var(--ouro-puro); margin-bottom: 25px; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.2)); }
 .titulo-bunker { color: var(--ouro-puro); font-size: 28px; letter-spacing: 6px; margin-bottom: 10px; text-transform: uppercase; }
-.input-senha { background: #000; border: 1px solid var(--borda); color: var(--texto-principal); padding: 18px; font-size: 16px; text-align: center; letter-spacing: 4px; width: 320px;
-margin-bottom: 25px; outline: none; border-radius: 4px; transition: 0.3s; }
+.input-senha { background: #000; border: 1px solid var(--borda); color: var(--texto-principal); padding: 18px; font-size: 16px; text-align: center; letter-spacing: 4px; width: 320px; margin-bottom: 25px; outline: none; border-radius: 4px; transition: 0.3s; }
 .input-senha:focus { border-color: var(--ouro-puro); box-shadow: 0 0 20px rgba(212, 175, 55, 0.1); }
-.btn-entrar { background: var(--ouro-puro); color: #000; font-weight: bold; font-size: 14px; padding: 18px 50px; border: none; cursor: pointer; text-transform: uppercase;
-letter-spacing: 3px; border-radius: 4px; transition: 0.3s; }
+.btn-entrar { background: var(--ouro-puro); color: #000; font-weight: bold; font-size: 14px; padding: 18px 50px; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 3px; border-radius: 4px; transition: 0.3s; }
 .btn-entrar:hover { background: #fff; box-shadow: 0 0 30px rgba(255, 255, 255, 0.2); }
 /* MENU LATERAL (GAVETA TÁTICA) */
-#sidebar { position: fixed; top: 0; left: calc(-1 * var(--sidebar-width)); width: var(--sidebar-width); height: 100vh; background: var(--bg-painel); border-right: 1px solid var(--borda);
-transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; padding: 30px 20px; display: flex; flex-direction: column; overflow-y: auto;}
+#sidebar { position: fixed; top: 0; left: calc(-1 * var(--sidebar-width)); width: var(--sidebar-width); height: 100vh; background: var(--bg-painel); border-right: 1px solid var(--borda); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; padding: 30px 20px; display: flex; flex-direction: column; overflow-y: auto;}
 #sidebar.aberto { left: 0; box-shadow: 10px 0 30px rgba(0,0,0,0.5); }
 .btn-fechar-menu { position: absolute; top: 20px; right: 20px; font-size: 24px; color: var(--texto-secundario); cursor: pointer; transition: 0.2s; }
 .btn-fechar-menu:hover { color: var(--vermelho-alerta); }
 .sidebar-header { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--borda); margin-top: 20px; }
 .sidebar-header i { font-size: 24px; color: var(--ouro-puro); }
-.sidebar-item { padding: 15px; color: var(--texto-secundario); cursor: pointer; border-radius: 6px; margin-bottom: 5px; display: flex; align-items: center; gap: 15px; transition: 0.2s;
-font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
+.sidebar-item { padding: 15px; color: var(--texto-secundario); cursor: pointer; border-radius: 6px; margin-bottom: 5px; display: flex; align-items: center; gap: 15px; transition: 0.2s; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
 .sidebar-item:hover { background: rgba(212, 175, 55, 0.05); color: #fff; }
 .sidebar-item.ativo { color: var(--ouro-puro); background: rgba(212, 175, 55, 0.1); border-left: 3px solid var(--ouro-puro); }
 .divisor-menu { height: 1px; background: var(--borda); margin: 15px 0; }
 .sidebar-footer { margin-top: auto; padding-top: 20px; font-size: 10px; color: #444; text-align: center; }
 /* HEADER SUPERIOR */
-.top-bar { width: 100%; height: 70px; background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--borda); display: flex;
-align-items: center; padding: 0 30px; position: sticky; top: 0; z-index: 900; }
+.top-bar { width: 100%; height: 70px; background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--borda); display: flex; align-items: center; padding: 0 30px; position: sticky; top: 0; z-index: 900; }
 .btn-menu { font-size: 20px; color: var(--texto-secundario); cursor: pointer; transition: 0.3s; }
 .btn-menu:hover { color: var(--ouro-puro); }
 .top-title { flex-grow: 1; text-align: center; font-size: 14px; letter-spacing: 4px; color: var(--ouro-puro); text-transform: uppercase; }
@@ -59,14 +51,11 @@ align-items: center; padding: 0 30px; position: sticky; top: 0; z-index: 900; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 /* ESTATÍSTICAS E COMPONENTES GERAIS */
 .status-satelite { color: var(--verde-seguro); font-weight: bold; font-size: 12px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; }
-.status-satelite span { display: inline-block; width: 8px; height: 8px; background: var(--verde-seguro); border-radius: 50%; box-shadow: 0 0 10px var(--verde-seguro);
-animation: piscar 1.5s infinite; }
+.status-satelite span { display: inline-block; width: 8px; height: 8px; background: var(--verde-seguro); border-radius: 50%; box-shadow: 0 0 10px var(--verde-seguro); animation: piscar 1.5s infinite; }
 .radar-bunker { background: rgba(10, 10, 10, 0.5); border: 1px solid var(--borda); padding: 30px; border-radius: 8px; margin-bottom: 40px; }
 .radar-grid { display: grid; grid-template-columns: 1fr 180px 1fr; gap: 40px; align-items: center; }
-.mes-box { display: flex; justify-content: space-between; background: var(--bg-card); padding: 15px; margin-bottom: 10px; border-left: 3px solid var(--ouro-puro); border-radius: 4px; font-size: 14px;
-}
-.olho-tecnologico { width: 150px; height: 150px; border-radius: 50%; border: 1px solid rgba(212, 175, 55, 0.2); display: flex; justify-content: center;
-align-items: center; position: relative; background: radial-gradient(circle, #000 30%, #0a0a0a 100%); }
+.mes-box { display: flex; justify-content: space-between; background: var(--bg-card); padding: 15px; margin-bottom: 10px; border-left: 3px solid var(--ouro-puro); border-radius: 4px; font-size: 14px; }
+.olho-tecnologico { width: 150px; height: 150px; border-radius: 50%; border: 1px solid rgba(212, 175, 55, 0.2); display: flex; justify-content: center; align-items: center; position: relative; background: radial-gradient(circle, #000 30%, #0a0a0a 100%); }
 .olho-iris { width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle, var(--vermelho-alerta) 5%, transparent 70%); animation: respirarOlho 3s infinite; }
 
 /* NEURO-SEMÁFORO TÁTICO */
@@ -81,25 +70,21 @@ align-items: center; position: relative; background: radial-gradient(circle, #00
 .painel-emissao { background: rgba(212, 175, 55, 0.02); border: 1px solid var(--ouro-puro); padding: 30px; border-radius: 8px; margin-bottom: 40px; }
 /* CARDS DOSSIÊ */
 .grid-dossies { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 25px; margin-top: 20px;}
-.card-dossie { background: var(--bg-card); border: 1px solid var(--borda); padding: 25px; border-radius: 8px; border-top: 3px solid var(--ouro-puro); transition: 0.3s; position: relative;
-}
+.card-dossie { background: var(--bg-card); border: 1px solid var(--borda); padding: 25px; border-radius: 8px; border-top: 3px solid var(--ouro-puro); transition: 0.3s; position: relative; }
 .card-dossie:hover { border-top-color: #fff; transform: translateY(-5px); }
 .card-dossie.hacker { border-top-color: var(--vermelho-alerta); background: rgba(255, 77, 77, 0.02); }
-.card-topo { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 11px; color: var(--texto-secundario); border-bottom: 1px solid #222; padding-bottom: 10px; align-items: center;
-}
+.card-topo { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 11px; color: var(--texto-secundario); border-bottom: 1px solid #222; padding-bottom: 10px; align-items: center; }
 .card-id { color: var(--ouro-puro); font-weight: bold; cursor: pointer; font-size: 13px; }
 .btn-limpar-card { color: var(--texto-secundario); cursor: pointer; font-size: 16px; transition: 0.2s; }
 .btn-limpar-card:hover { color: var(--vermelho-alerta); transform: scale(1.2); }
 /* PAINEL CLOUDFLARE MILITAR */
 .cf-header { border-bottom: 2px solid var(--ouro-puro); padding-bottom: 15px; margin-bottom: 30px; display: inline-block; }
 .cf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px;}
-.cf-modulo { background: #111; border: 1px solid #222; padding: 25px; border-radius: 4px; display: flex; align-items: center; gap: 25px;
-border-left: 4px solid var(--ouro-puro); }
+.cf-modulo { background: #111; border: 1px solid #222; padding: 25px; border-radius: 4px; display: flex; align-items: center; gap: 25px; border-left: 4px solid var(--ouro-puro); }
 .cf-icon { font-size: 40px; color: var(--ouro-puro); opacity: 0.8; }
 .cf-text h4 { color: #fff; font-size: 16px; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
 .cf-text p { color: var(--texto-secundario); font-size: 13px; margin-bottom: 10px; }
-.cf-status { display: inline-flex; align-items: center; gap: 8px; background: #000; padding: 4px 10px; border-radius: 4px; border: 1px solid #333;
-font-size: 11px; color: var(--verde-seguro); font-weight: bold; }
+.cf-status { display: inline-flex; align-items: center; gap: 8px; background: #000; padding: 4px 10px; border-radius: 4px; border: 1px solid #333; font-size: 11px; color: var(--verde-seguro); font-weight: bold; }
 /* ESTRUTURA TÁTICA DA TRIAGEM */
 .header-triagem { border-bottom: 2px solid var(--ouro-puro); padding-bottom: 15px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end;}
 .header-triagem h2 { color: var(--ouro-puro); text-transform: uppercase; font-size: 22px; margin-bottom: 5px; }
@@ -179,9 +164,9 @@ font-size: 11px; color: var(--verde-seguro); font-weight: bold; }
 <div class="olho-tecnologico"><div class="olho-iris"></div></div>
 <div>
 <h4 style="color: var(--texto-secundario); font-size: 11px; margin-bottom: 15px; letter-spacing: 1px;">SEMÁFORO TÁTICO</h4>
-<div class="semaforo-item"><span class="luz-neuro luz-verde"></span> SEGURO</div>
-<div class="semaforo-item desligado"><span class="luz-neuro luz-amarela"></span> SUSPEITO</div>
-<div class="semaforo-item desligado"><span class="luz-neuro luz-vermelha"></span> PERIGO</div>
+<div class="semaforo-item desligado" id="status-seguro"><span class="luz-neuro luz-verde"></span> SEGURO</div>
+<div class="semaforo-item desligado" id="status-suspeito"><span class="luz-neuro luz-amarela"></span> SUSPEITO</div>
+<div class="semaforo-item desligado" id="status-perigo"><span class="luz-neuro luz-vermelha"></span> PERIGO</div>
 </div>
 </div>
 <p style="text-align: center; color: var(--texto-secundario); font-size: 11px; margin-top: 20px;">RADAR DO POVO: <strong style="color:#fff;" id="contador-visitas">0</strong> VISITAS HOJE</p>
