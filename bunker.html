@@ -112,7 +112,7 @@ body { background-color: var(--bg-base); color: var(--texto-principal); min-heig
 <p style="color: var(--texto-secundario); margin-bottom: 30px; font-size: 12px; letter-spacing: 2px;">PROTOCOLO 1% MONSTRO ATIVADO</p>
 <input type="password" id="senha-input" class="input-senha" placeholder="CHAVE MESTRA" onkeypress="if(event.key === 'Enter') acessarBunker()">
 <button class="btn-entrar" id="btn-login" onclick="acessarBunker()">Desbloquear Base</button>
-<p id="msg-erro" style="color: var(--vermelho-alerta); margin-top: 25px; font-size: 13px; font-weight: bold; display: none;">    🚨    ACESSO NEGADO</p>
+<p id="msg-erro" style="color: var(--vermelho-alerta); margin-top: 25px; font-size: 13px; font-weight: bold; display: none;"> 🚨 ACESSO NEGADO</p>
 </div>
 <nav id="sidebar">
 <i class="fa-solid fa-xmark btn-fechar-menu" onclick="toggleSidebar()" title="Fechar Gaveta"></i>
@@ -164,7 +164,7 @@ body { background-color: var(--bg-base); color: var(--texto-principal); min-heig
 <textarea id="input-texto-laudo" class="input-senha" style="width: 100%; height: 60px; text-align: left; font-size: 14px; margin: 0;" placeholder="ESCREVA O VEREDITO OFICIAL DO DIRETOR..."></textarea>
 <button class="btn-entrar" style="padding: 12px 30px;" onclick="transmitirLaudo()">Transmitir Laudo Blindado</button>
 </div>
-<p id="status-laudo" style="color: var(--verde-seguro); font-size: 12px; font-weight: bold; margin-top: 15px; display: none;">    ✓    LAUDO ATUALIZADO E SALVO NO SATÉLITE!</p>
+<p id="status-laudo" style="color: var(--verde-seguro); font-size: 12px; font-weight: bold; margin-top: 15px; display: none;"> ✓ LAUDO ATUALIZADO E SALVO NO SATÉLITE!</p>
 </div>
 <div id="loading-dados" style="color: var(--texto-secundario); text-align: center; font-size: 14px; margin-top: 10px; display: none;">
 <i class="fa-solid fa-spinner fa-spin"></i> ATUALIZANDO GAVETAS COM O SATÉLITE...
@@ -198,21 +198,21 @@ body { background-color: var(--bg-base); color: var(--texto-principal); min-heig
 <div class="header-triagem">
 <div>
 <h2><i class="fa-brands fa-whatsapp"></i> Triagem: ZAP</h2>
-<p style="color:var(--texto-secundario); font-size:13px;">Clique na lupa (    🔎    ) para expandir os detalhes do dossiê.</p>
+<p style="color:var(--texto-secundario); font-size:13px;">Clique na lupa ( 🔎 ) para expandir os detalhes do dossiê.</p>
 </div>
 <div style="font-size: 12px; color: var(--ouro-puro); font-family: 'Courier New';">FORMATO: RT-PF-XXX-XXX</div>
 </div>
 <div class="grid-triagem">
 <div class="coluna-triagem coluna-oficial">
-<div class="titulo-coluna">    ✅    Oficial</div>
+<div class="titulo-coluna"> ✅ Oficial</div>
 <div class="lista-numeros" id="lista-zap-oficial"></div>
 </div>
 <div class="coluna-triagem coluna-estranho">
-<div class="titulo-coluna">    ⚠️    Estranho (Caixa de Entrada)</div>
+<div class="titulo-coluna"> ⚠️ Estranho (Caixa de Entrada)</div>
 <div class="lista-numeros" id="lista-zap-estranho"></div>
 </div>
 <div class="coluna-triagem coluna-falso">
-<div class="titulo-coluna">    🛑    Falso</div>
+<div class="titulo-coluna"> 🛑 Falso</div>
 <div class="lista-numeros" id="lista-zap-falso"></div>
 </div>
 </div>
@@ -222,9 +222,9 @@ body { background-color: var(--bg-base); color: var(--texto-principal); min-heig
 <h2><i class="fa-solid fa-envelope"></i> Triagem: E-Mail</h2>
 </div>
 <div class="grid-triagem">
-<div class="coluna-triagem coluna-oficial"><div class="titulo-coluna">    ✅    Oficial</div><div class="lista-numeros"></div></div>
-<div class="coluna-triagem coluna-estranho"><div class="titulo-coluna">    ⚠️    Estranho</div><div class="lista-numeros"></div></div>
-<div class="coluna-triagem coluna-falso"><div class="titulo-coluna">    🛑    Falso</div><div class="lista-numeros"></div></div>
+<div class="coluna-triagem coluna-oficial"><div class="titulo-coluna"> ✅ Oficial</div><div class="lista-numeros"></div></div>
+<div class="coluna-triagem coluna-estranho"><div class="titulo-coluna"> ⚠️ Estranho</div><div class="lista-numeros"></div></div>
+<div class="coluna-triagem coluna-falso"><div class="titulo-coluna"> 🛑 Falso</div><div class="lista-numeros"></div></div>
 </div>
 </div>
 <div id="view-sms" class="view-section">
@@ -232,9 +232,9 @@ body { background-color: var(--bg-base); color: var(--texto-principal); min-heig
 <h2><i class="fa-solid fa-comment-sms"></i> Triagem: SMS / Outro</h2>
 </div>
 <div class="grid-triagem">
-<div class="coluna-triagem coluna-oficial"><div class="titulo-coluna">    ✅    Oficial</div><div class="lista-numeros"></div></div>
-<div class="coluna-triagem coluna-estranho"><div class="titulo-coluna">    ⚠️    Estranho</div><div class="lista-numeros"></div></div>
-<div class="coluna-triagem coluna-falso"><div class="titulo-coluna">    🛑    Falso</div><div class="lista-numeros"></div></div>
+<div class="coluna-triagem coluna-oficial"><div class="titulo-coluna"> ✅ Oficial</div><div class="lista-numeros"></div></div>
+<div class="coluna-triagem coluna-estranho"><div class="titulo-coluna"> ⚠️ Estranho</div><div class="lista-numeros"></div></div>
+<div class="coluna-triagem coluna-falso"><div class="titulo-coluna"> 🛑 Falso</div><div class="lista-numeros"></div></div>
 </div>
 </div>
 </div>
@@ -243,8 +243,8 @@ body { background-color: var(--bg-base); color: var(--texto-principal); min-heig
 // ATENÇÃO COMANDANTE: INSIRA AQUI O LINK REAL DO SEU CLOUDFLARE WORKER
 const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
 let senhaMestraGlobal = "";
-let loopRadar = null; 
-let ultimoHashDados = ""; 
+let loopRadar = null;
+let ultimoHashDados = "";
 
 function toggleSidebar() {
     document.getElementById('sidebar').classList.toggle('aberto');
@@ -273,7 +273,7 @@ function copiarCodigo(event, codigo) {
 
 async function deletarDossie(protocolo, event) {
     event.stopPropagation();
-    if(!confirm("   ⚠️   DIRETOR: Deseja DESTRUIR este dossiê para sempre?")) return;
+    if(!confirm(" ⚠️ DIRETOR: Deseja DESTRUIR este dossiê para sempre?")) return;
     event.target.closest('.item-dossie') ? event.target.closest('.item-dossie').style.display = 'none' : null;
     event.target.closest('.card-dossie') ? event.target.closest('.card-dossie').style.display = 'none' : null;
     try {
@@ -282,7 +282,7 @@ async function deletarDossie(protocolo, event) {
             headers: { "Content-Type": "application/json", "Authorization": "Bearer " + senhaMestraGlobal },
             body: JSON.stringify({ protocolo: protocolo })
         });
-        ultimoHashDados = ""; 
+        ultimoHashDados = "";
         buscarDossiesSecretos(senhaMestraGlobal);
     } catch(e) {}
 }
@@ -303,24 +303,20 @@ async function buscarDossiesSecretos(chaveMestra) {
         if(req.status === 403) throw new Error("BLOQUEADO PELA RATOEIRA");
         if(req.status === 401) throw new Error("CHAVE MESTRA INCORRETA");
         if(!req.ok) throw new Error("ERRO DE COMUNICAÇÃO ORBITAL");
-
         senhaMestraGlobal = chaveMestra;
         document.getElementById('tela-bloqueio').style.display = "none";
         document.getElementById('painel-bunker').style.display = "block";
-
         const dados = await req.json();
         const dadosString = JSON.stringify(dados);
-
+        
         if (dadosString !== ultimoHashDados) {
-            ultimoHashDados = dadosString; 
-
+            ultimoHashDados = dadosString;
             const gradeHackers = document.getElementById('grade-hackers');
             const gavetaZapEstranho = document.getElementById('lista-zap-estranho');
             gradeHackers.innerHTML = "";
             gavetaZapEstranho.innerHTML = "";
             let temHacker = false;
             let temDossie = false;
-
             let qtdMesAtual = 0;
             let qtdMesPassado = 0;
             const dataHoje = new Date();
@@ -329,7 +325,7 @@ async function buscarDossiesSecretos(chaveMestra) {
             let mesPassadoNum = mesAtualNum - 1;
             let anoPassadoNum = anoAtualNum;
             if (mesPassadoNum === 0) { mesPassadoNum = 12; anoPassadoNum--; }
-
+            
             if (dados.length > 0) {
                 dados.reverse().forEach(dossie => {
                     if(dossie.data) {
@@ -337,7 +333,6 @@ async function buscarDossiesSecretos(chaveMestra) {
                         if(matchData) {
                             const mesDossie = parseInt(matchData[2], 10);
                             const anoDossie = parseInt(matchData[3], 10);
-
                             if (mesDossie === mesAtualNum && anoDossie === anoAtualNum) {
                                 qtdMesAtual++;
                             } else if (mesDossie === mesPassadoNum && anoDossie === anoPassadoNum) {
@@ -345,7 +340,6 @@ async function buscarDossiesSecretos(chaveMestra) {
                             }
                         }
                     }
-
                     if (dossie.protocolo && dossie.protocolo.startsWith("HACKER-")) {
                         temHacker = true;
                         renderCardHacker(dossie, gradeHackers);
@@ -355,22 +349,21 @@ async function buscarDossiesSecretos(chaveMestra) {
                     }
                 });
             }
-
+            
             document.body.classList.remove('alerta-visual-cidadao', 'alerta-visual-hacker');
             void document.body.offsetWidth;
             if (temHacker) { document.body.classList.add('alerta-visual-hacker'); }
             else if (temDossie) { document.body.classList.add('alerta-visual-cidadao'); }
-
+            
             if(document.getElementById('qtd-mes-atual')) {
                 document.getElementById('qtd-mes-atual').innerText = qtdMesAtual;
                 document.getElementById('qtd-mes-passado').innerText = qtdMesPassado;
             }
-
+            
             // 🧠 CÉREBRO DO SEMÁFORO (TELA 100% BLINDADA)
             document.getElementById('status-seguro').classList.add('desligado');
             document.getElementById('status-suspeito').classList.add('desligado');
             document.getElementById('status-perigo').classList.add('desligado');
-
             if (dados.length > 0) {
                 if (temHacker) {
                     document.getElementById('status-perigo').classList.remove('desligado');
@@ -379,7 +372,7 @@ async function buscarDossiesSecretos(chaveMestra) {
                 }
             }
         }
-
+        
         try {
             const reqRadar = await fetch(API_MATRIZ + "?comando=radar", { method: "GET", headers: { "Authorization": "Bearer " + chaveMestra } });
             if (reqRadar.ok) {
@@ -387,13 +380,12 @@ async function buscarDossiesSecretos(chaveMestra) {
                 if(radar.visitas !== undefined) { document.getElementById('contador-visitas').innerText = radar.visitas; }
             }
         } catch(e) {}
-
+        
         if (!loopRadar) { loopRadar = setInterval(() => { buscarDossiesSecretos(senhaMestraGlobal); }, 10000); }
-
     } catch (e) {
         document.getElementById('btn-login').innerText = "Desbloquear Base";
         document.getElementById('senha-input').value = "";
-        document.getElementById('msg-erro').innerText = "    🚨    " + e.message;
+        document.getElementById('msg-erro').innerText = " 🚨 " + e.message;
         document.getElementById('msg-erro').style.display = "block";
         if(loopRadar) { clearInterval(loopRadar); loopRadar = null; }
     }
@@ -409,7 +401,7 @@ function renderCardHacker(dossie, grade) {
     </div>
     <p style="font-size:13px; margin-bottom:10px;"><strong>PERFIL:</strong> ${dossie.perfil}</p>
     <p style="font-size:13px; color:#aaa; margin-bottom:15px;">${dossie.mensagem}</p>
-    <p style="color:var(--vermelho-alerta); font-weight:bold; font-size:11px; margin-top:15px;">    ⚠️    INVASOR IDENTIFICADO PELO MOTOR</p>
+    <p style="color:var(--vermelho-alerta); font-weight:bold; font-size:11px; margin-top:15px;"> ⚠️ INVASOR IDENTIFICADO PELO MOTOR</p>
     `;
     grade.appendChild(card);
 }
