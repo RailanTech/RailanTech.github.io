@@ -116,6 +116,16 @@ body.modo-offline { animation: alertaBordaOffline 2s infinite; }
 .dado-linha { margin-bottom: 8px; }
 .dado-linha strong { color: #ddd; font-family: 'Inter', sans-serif; }
 .texto-denuncia { margin-top: 10px; padding: 10px; background: #000; border-radius: 4px; border: 1px solid #222; font-style: italic; }
+.btn-card-guerra { background: var(--vermelho-alerta); color: #000; border: none; padding: 5px 10px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 11px; margin-top: 10px; display: flex; align-items: center; gap: 5px; }
+
+/* 📰 ESTILOS DO JORNAL 1% MONSTRO (CARD VISUAL) */
+#modal-jornal { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.9); z-index: 9999; display: none; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+.jornal-card { width: 380px; height: 380px; background: #0a0a0a; border: 2px solid var(--vermelho-alerta); border-radius: 10px; padding: 25px; box-shadow: 0 0 30px rgba(255, 77, 77, 0.3); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; }
+.jornal-header { color: var(--ouro-puro); font-size: 18px; font-weight: bold; letter-spacing: 3px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+.jornal-caveira { font-size: 50px; color: var(--vermelho-alerta); margin-bottom: 15px; }
+.jornal-alerta { background: var(--vermelho-alerta); color: #000; font-weight: bold; padding: 5px 15px; border-radius: 20px; font-size: 12px; margin-bottom: 20px; letter-spacing: 1px; }
+.jornal-mensagem { color: #fff; font-size: 15px; line-height: 1.5; font-style: italic; border-left: 3px solid var(--ouro-puro); padding-left: 10px; margin-bottom: 20px; word-wrap: break-word; max-width: 100%; }
+.jornal-footer { color: var(--texto-secundario); font-size: 11px; display: flex; align-items: center; gap: 10px; border-top: 1px solid #222; padding-top: 15px; width: 100%; justify-content: center; }
 
 @keyframes piscar { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
 @keyframes piscarRapido { 0%, 100% { opacity: 0.1; } 50% { opacity: 1; } }
@@ -125,6 +135,20 @@ body.modo-offline { animation: alertaBordaOffline 2s infinite; }
 </style>
 </head>
 <body>
+
+<div id="modal-jornal" onclick="fecharCardGuerra()">
+    <p style="color: #fff; margin-bottom: 20px; font-size: 14px;"><i class="fa-solid fa-camera"></i> TIRE UM PRINT DESTA TELA PARA POSTAR (Clique fora para fechar)</p>
+    <div class="jornal-card" id="area-print">
+        <div class="jornal-header"><i class="fa-solid fa-microchip"></i> RAILANTECH</div>
+        <div class="jornal-caveira"><i class="fa-solid fa-skull-crossbones"></i></div>
+        <div class="jornal-alerta">GOLPE INTERCEPTADO</div>
+        <div class="jornal-mensagem" id="jornal-texto-fraude">...</div>
+        <div class="jornal-footer">
+            <span id="jornal-bandeira" style="font-size: 16px;"></span>
+            <span>Muralha Antifraude Ativada</span>
+        </div>
+    </div>
+</div>
 
 <div id="tela-bloqueio">
 <div class="icone-cadeado"><i class="fa-solid fa-user-shield"></i></div>
@@ -216,9 +240,7 @@ body.modo-offline { animation: alertaBordaOffline 2s infinite; }
 
 <div id="view-zap" class="view-section">
 <div class="header-triagem">
-<div>
-<h2><i class="fa-brands fa-whatsapp"></i> Triagem: ZAP</h2>
-</div>
+<div><h2><i class="fa-brands fa-whatsapp"></i> Triagem: ZAP</h2></div>
 </div>
 <div class="grid-triagem">
 <div class="coluna-triagem coluna-oficial"><div class="titulo-coluna">✅ Oficial</div><div class="lista-numeros" id="lista-zap-oficial"></div></div>
@@ -274,14 +296,31 @@ function copiarCodigo(event, codigo) {
     navigator.clipboard.writeText(codigo).then(() => { alert("COPIADO: " + codigo); });
 }
 
-// 🇧🇷 FUNÇÃO PARA TRANSFORMAR SIGLA DE PAÍS EM BANDEIRA VISUAL
+// 🇧🇷 FUNÇÃO PARA BANDEIRA VISUAL
 function gerarBandeira(codigoPais) {
     if (!codigoPais || codigoPais === "Desconhecido" || codigoPais === "XX") return "🏴‍☠️";
     const pontosDeCodigo = codigoPais.toUpperCase().split('').map(char => 127397 + char.charCodeAt());
     return String.fromCodePoint(...pontosDeCodigo);
 }
 
-// 🟢 FUNÇÃO DO BATIMENTO CARDÍACO (ONLINE/OFFLINE)
+// 📸 FUNÇÃO DO JORNAL (CARD DE GUERRA VISUAL)
+function abrirCardGuerra(mensagemCrua, pais, event) {
+    if(event) event.stopPropagation();
+    
+    // Limpa a mensagem para caber bonito no card
+    let mensagemLimpa = mensagemCrua;
+    if(mensagemLimpa.length > 80) mensagemLimpa = mensagemLimpa.substring(0, 80) + "...";
+    
+    document.getElementById('jornal-texto-fraude').innerText = `"${mensagemLimpa}"`;
+    document.getElementById('jornal-bandeira').innerText = gerarBandeira(pais);
+    document.getElementById('modal-jornal').style.display = 'flex';
+}
+
+function fecharCardGuerra() {
+    document.getElementById('modal-jornal').style.display = 'none';
+}
+
+// 🟢 STATUS ONLINE
 function atualizarStatusSatelite(isOnline) {
     const indicador = document.getElementById('indicador-satelite');
     if (isOnline) {
@@ -324,8 +363,6 @@ async function buscarDossiesSecretos(chaveMestra) {
         senhaMestraGlobal = chaveMestra;
         document.getElementById('tela-bloqueio').style.display = "none";
         document.getElementById('painel-bunker').style.display = "block";
-        
-        // CÉREBRO RESPONDENDO = ONLINE
         atualizarStatusSatelite(true);
         
         const dados = await req.json();
@@ -370,7 +407,6 @@ async function buscarDossiesSecretos(chaveMestra) {
                 document.getElementById('qtd-mes-passado').innerText = qtdMesPassado;
             }
             
-            // 🚥 CONTROLE DO SEMÁFORO
             document.getElementById('status-seguro').classList.add('desligado');
             document.getElementById('status-suspeito').classList.add('desligado');
             document.getElementById('status-neutro').classList.add('desligado');
@@ -396,7 +432,7 @@ async function buscarDossiesSecretos(chaveMestra) {
         document.getElementById('senha-input').value = "";
         document.getElementById('msg-erro').innerText = "🚨 " + e.message;
         document.getElementById('msg-erro').style.display = "block";
-        atualizarStatusSatelite(false); // CAIU!
+        atualizarStatusSatelite(false); 
         if(loopRadar) { clearInterval(loopRadar); loopRadar = null; }
     }
 }
@@ -405,6 +441,17 @@ function renderCardHacker(dossie, grade) {
     const bandeira = gerarBandeira(dossie.pais);
     const card = document.createElement('div');
     card.className = 'card-dossie hacker';
+    
+    // Alerta Especial do Cloudflare (Sensor 500)
+    if(dossie.protocolo === "HACKER-ALERTA") {
+        card.innerHTML = `<h3 style="color:var(--vermelho-alerta); margin-bottom:10px;">🚨 AVISO DO SATÉLITE</h3><p style="font-size:14px; font-weight:bold;">${dossie.mensagem}</p>`;
+        grade.appendChild(card);
+        return;
+    }
+
+    // Usando encodeURIComponent para evitar bugs com aspas na mensagem ao chamar o JS
+    const msgSegura = encodeURIComponent(dossie.mensagem);
+
     card.innerHTML = `
     <div class="card-topo">
     <div style="display:flex; align-items:center; gap:8px;"><span class="bandeira-icon">${bandeira}</span><span class="card-id">${dossie.protocolo}</span></div>
@@ -412,7 +459,8 @@ function renderCardHacker(dossie, grade) {
     </div>
     <p style="font-size:13px; margin-bottom:10px;"><strong>PERFIL:</strong> ${dossie.perfil}</p>
     <p style="font-size:13px; color:#aaa; margin-bottom:15px;">${dossie.mensagem}</p>
-    <p style="color:var(--vermelho-alerta); font-weight:bold; font-size:11px; margin-top:15px;">⚠️ INVASOR BLOQUEADO</p>`;
+    <button class="btn-card-guerra" onclick="abrirCardGuerra(decodeURIComponent('${msgSegura}'), '${dossie.pais}')"><i class="fa-solid fa-camera"></i> Gerar Card de Alerta</button>
+    `;
     grade.appendChild(card);
 }
 
