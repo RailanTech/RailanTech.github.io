@@ -60,7 +60,7 @@ body.modo-offline { animation: alertaBordaOffline 2s infinite; }
 
 .radar-bunker { background: rgba(10, 10, 10, 0.5); border: 1px solid var(--borda); padding: 30px; border-radius: 8px; margin-bottom: 40px; }
 .radar-grid { display: grid; grid-template-columns: 1fr 180px 1fr; gap: 40px; align-items: center; }
-.mes-box { display: flex; justify-content: space-between; background: var(--bg-card); padding: 15px; margin-bottom: 10px; border-left: 3px solid var(--ouro-puro); border-radius: 4px; font-size: 14px; }
+.mes-box { display: flex; justify-content: space-between; background: var(--bg-card); padding: 15px; margin-bottom: 10px; border-left: 3px solid var(--ouro-puro); border-radius: 4px; font-size: 14px; transition: 0.3s; }
 .olho-tecnologico { width: 150px; height: 150px; border-radius: 50%; border: 1px solid rgba(212, 175, 55, 0.2); display: flex; justify-content: center; align-items: center; position: relative; background: radial-gradient(circle, #000 30%, #0a0a0a 100%); }
 .olho-iris { width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle, var(--vermelho-alerta) 5%, transparent 70%); animation: respirarOlho 3s infinite; }
 .semaforo-item { display: flex; align-items: center; gap: 15px; font-size: 13px; background: #111111; padding: 12px 20px; margin-bottom: 8px; border-radius: 6px; font-weight: bold; letter-spacing: 1px; transition: 0.3s; }
@@ -71,6 +71,12 @@ body.modo-offline { animation: alertaBordaOffline 2s infinite; }
 .luz-amarela { background: #ffeb3b; box-shadow: 0 0 15px 4px rgba(255, 235, 59, 0.2); }
 .luz-vermelha { background: #ff4d4d; box-shadow: 0 0 15px 4px rgba(255, 77, 77, 0.2); }
 .luz-branca { background: #ffffff; box-shadow: 0 0 15px 4px rgba(255, 255, 255, 0.3); }
+
+/* 🖱️ CLASSE DO BOTÃO CLICÁVEL (ARQUIVO) */
+.botao-arquivo-secreto { cursor: pointer; border: 1px solid transparent; }
+.botao-arquivo-secreto:hover { background: #1a1a1a; border-color: var(--ouro-puro); transform: scale(1.02); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.1); }
+.texto-radar-secreto { display: inline-block; padding: 5px 15px; border-radius: 20px; cursor: pointer; transition: 0.3s; border: 1px solid transparent; }
+.texto-radar-secreto:hover { background: #111; border-color: var(--ouro-puro); color: #fff !important; }
 
 .painel-emissao { background: rgba(212, 175, 55, 0.02); border: 1px solid var(--ouro-puro); padding: 30px; border-radius: 8px; margin-bottom: 40px; }
 .grid-dossies { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 25px; margin-top: 20px;}
@@ -119,19 +125,23 @@ body.modo-offline { animation: alertaBordaOffline 2s infinite; }
 .texto-denuncia { margin-top: 10px; padding: 10px; background: #000; border-radius: 4px; border: 1px solid #222; font-style: italic; }
 .btn-card-guerra { background: var(--vermelho-alerta); color: #000; border: none; padding: 5px 10px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 11px; margin-top: 10px; display: flex; align-items: center; gap: 5px; }
 
-/* 📰 ESTILOS DO JORNAL E BOTÃO CINZA (VACINADO CONTRA ERRO DE LETRAS) */
+/* 📰 ESTILOS DO JORNAL E BOTÃO CINZA */
 #modal-jornal { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.9); z-index: 9999; display: none; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
 .jornal-card { width: 380px; height: 380px; background: #0a0a0a; border: 2px solid var(--vermelho-alerta); border-radius: 10px; padding: 25px; box-shadow: 0 0 30px rgba(255, 77, 77, 0.3); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; }
-/* Fonte Arial forçada e letter-spacing zerado para garantir perfeição no download */
 .jornal-header { color: var(--ouro-puro); font-size: 18px; font-weight: bold; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; font-family: Arial, Helvetica, sans-serif !important; }
 .jornal-caveira { font-size: 50px; color: var(--vermelho-alerta); margin-bottom: 15px; }
 .jornal-alerta { background: var(--vermelho-alerta); color: #000; font-weight: bold; padding: 6px 16px; border-radius: 20px; font-size: 13px; margin-bottom: 20px; font-family: Arial, Helvetica, sans-serif !important; }
 .jornal-mensagem { color: #fff; font-size: 15px; line-height: 1.5; font-style: italic; border-left: 3px solid var(--ouro-puro); padding-left: 10px; margin-bottom: 20px; word-wrap: break-word; max-width: 100%; font-family: Arial, Helvetica, sans-serif !important; }
 .jornal-footer { color: var(--texto-secundario); font-size: 11px; display: flex; align-items: center; gap: 10px; border-top: 1px solid #222; padding-top: 15px; width: 100%; justify-content: center; font-family: Arial, Helvetica, sans-serif !important; }
-
-/* O BOTÃO CINZA (PEDIDO DO DIRETOR) */
 .btn-salvar-imagem { background: #555555; color: #ffffff; border: 1px solid #777; padding: 12px 25px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px; margin-top: 25px; display: flex; align-items: center; gap: 10px; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
 .btn-salvar-imagem:hover { background: #777777; transform: translateY(-2px); }
+
+/* 🗄️ ESTILOS DA GAVETA DE HISTÓRICO (NOVO) */
+#modal-historico { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.9); z-index: 9998; display: none; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+.historico-card { width: 90%; max-width: 600px; max-height: 80vh; background: #0a0a0a; border: 1px solid var(--ouro-puro); border-radius: 8px; padding: 30px; overflow-y: auto; position: relative; box-shadow: 0 0 40px rgba(0,0,0,0.8); }
+.btn-fechar-historico { position: absolute; top: 20px; right: 20px; color: var(--texto-secundario); cursor: pointer; font-size: 24px; transition: 0.2s; }
+.btn-fechar-historico:hover { color: var(--vermelho-alerta); transform: scale(1.1); }
+.historico-item-linha { background: #111; padding: 15px; border-left: 4px solid var(--ouro-puro); margin-bottom: 15px; border-radius: 4px; display: flex; flex-direction: column; gap: 8px; animation: fadeIn 0.3s ease-out; }
 
 @keyframes piscar { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
 @keyframes piscarRapido { 0%, 100% { opacity: 0.1; } 50% { opacity: 1; } }
@@ -154,6 +164,14 @@ body.modo-offline { animation: alertaBordaOffline 2s infinite; }
         </div>
     </div>
     <button class="btn-salvar-imagem" onclick="baixarImagem(event)"><i class="fa-solid fa-download"></i> Salvar Arquivo</button>
+</div>
+
+<div id="modal-historico">
+    <div class="historico-card">
+        <i class="fa-solid fa-xmark btn-fechar-historico" onclick="fecharGavetaHistorico()"></i>
+        <h2 id="titulo-historico" style="color: var(--ouro-puro); margin-bottom: 25px; border-bottom: 1px solid #222; padding-bottom: 15px; font-size: 20px;">Histórico</h2>
+        <div id="lista-historico"></div>
+    </div>
 </div>
 
 <div id="tela-bloqueio">
@@ -195,9 +213,13 @@ body.modo-offline { animation: alertaBordaOffline 2s infinite; }
 <div class="radar-bunker">
 <div class="radar-grid">
 <div>
-<h4 style="color: var(--texto-secundario); font-size: 11px; margin-bottom: 15px; letter-spacing: 1px;">LINHA DO TEMPO</h4>
-<div class="mes-box" id="box-mes-atual"><span id="nome-mes-atual">Carregando...</span> <strong style="color: #fff;" id="qtd-mes-atual">0</strong></div>
-<div class="mes-box" style="border-left-color: #444;"><span id="nome-mes-passado">Mês Passado</span> <strong style="color: #fff;" id="qtd-mes-passado">0</strong></div>
+<h4 style="color: var(--texto-secundario); font-size: 11px; margin-bottom: 15px; letter-spacing: 1px;">LINHA DO TEMPO (ARQUIVO)</h4>
+<div class="mes-box botao-arquivo-secreto" id="box-mes-atual" onclick="abrirGavetaHistorico('atual')" title="Ver Histórico do Mês">
+    <span id="nome-mes-atual">Carregando...</span> <strong style="color: #fff;" id="qtd-mes-atual">0</strong>
+</div>
+<div class="mes-box botao-arquivo-secreto" style="border-left-color: #444;" id="box-mes-passado" onclick="abrirGavetaHistorico('passado')" title="Ver Histórico do Mês Anterior">
+    <span id="nome-mes-passado">Mês Passado</span> <strong style="color: #fff;" id="qtd-mes-passado">0</strong>
+</div>
 </div>
 <div class="olho-tecnologico"><div class="olho-iris"></div></div>
 <div>
@@ -208,7 +230,11 @@ body.modo-offline { animation: alertaBordaOffline 2s infinite; }
 <div class="semaforo-item desligado" id="status-perigo"><span class="luz-neuro luz-vermelha"></span> 🚨 PERIGO</div>
 </div>
 </div>
-<p style="text-align: center; color: var(--texto-secundario); font-size: 11px; margin-top: 20px;">RADAR DO POVO: <strong style="color:#fff;" id="contador-visitas">0</strong> VISITAS HOJE</p>
+<p style="text-align: center; color: var(--texto-secundario); font-size: 11px; margin-top: 20px;">
+    <span class="texto-radar-secreto" onclick="abrirGavetaHistorico('radar')" title="Ver Satélite ao Vivo">
+        RADAR DO POVO: <strong style="color:#fff;" id="contador-visitas">0</strong> VISITAS HOJE 🗒️
+    </span>
+</p>
 </div>
 
 <div class="painel-emissao">
@@ -284,6 +310,10 @@ let senhaMestraGlobal = "";
 let loopRadar = null;
 let ultimoHashDados = "";
 
+// MEMÓRIA TÁTICA PARA O ARQUIVO (O Cérebro do Diretor)
+let memoriaDossiesGlobais = [];
+let visitasGlobais = 0;
+
 function toggleSidebar() { document.getElementById('sidebar').classList.toggle('aberto'); }
 
 function mudarAba(aba) {
@@ -309,13 +339,11 @@ function gerarBandeira(codigoPais) {
     return String.fromCodePoint(...pontosDeCodigo);
 }
 
-// 📸 FUNÇÃO DO JORNAL (CARD DE GUERRA VISUAL)
+// 📸 FUNÇÕES DO JORNAL DE GUERRA
 function abrirCardGuerra(mensagemCrua, pais, event) {
     if(event) event.stopPropagation();
-    
     let mensagemLimpa = mensagemCrua;
     if(mensagemLimpa.length > 80) mensagemLimpa = mensagemLimpa.substring(0, 80) + "...";
-    
     document.getElementById('jornal-texto-fraude').innerText = `"${mensagemLimpa}"`;
     document.getElementById('jornal-bandeira').innerText = gerarBandeira(pais);
     document.getElementById('modal-jornal').style.display = 'flex';
@@ -326,31 +354,87 @@ function fecharCardGuerra(event) {
     document.getElementById('modal-jornal').style.display = 'none';
 }
 
-// 💾 FUNÇÃO PARA SALVAR O ARQUIVO (A PEDIDO DO DIRETOR)
 function baixarImagem(event) {
     if(event) event.stopPropagation();
-    
     const botao = event.currentTarget;
     const textoOriginal = botao.innerHTML;
     botao.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processando...';
-    
     const cardPrint = document.getElementById('area-print');
     
-    // O motor fotográfico entra em ação
     html2canvas(cardPrint, { backgroundColor: "#0a0a0a", scale: 2 }).then(canvas => {
         const link = document.createElement('a');
         link.download = 'Alerta-RailanTech.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
-        
         botao.innerHTML = '<i class="fa-solid fa-check"></i> Salvo com Sucesso!';
         botao.style.background = "var(--verde-seguro)";
-        
         setTimeout(() => {
             botao.innerHTML = textoOriginal;
             botao.style.background = "#555555";
         }, 3000);
     });
+}
+
+// 🗄️ FUNÇÕES DA GAVETA DE HISTÓRICO SECRETA
+function abrirGavetaHistorico(tipo) {
+    const lista = document.getElementById('lista-historico');
+    const titulo = document.getElementById('titulo-historico');
+    lista.innerHTML = '';
+    
+    const d = new Date();
+    const mesAtualNum = d.getMonth() + 1;
+    const anoAtualNum = d.getFullYear();
+    let mesPassadoNum = mesAtualNum - 1; let anoPassadoNum = anoAtualNum;
+    if (mesPassadoNum === 0) { mesPassadoNum = 12; anoPassadoNum--; }
+    
+    const nomesMeses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+
+    if (tipo === 'radar') {
+        titulo.innerHTML = '<i class="fa-solid fa-satellite-dish"></i> Radar do Povo (Status)';
+        lista.innerHTML = `
+            <div style="text-align:center; padding: 30px;">
+                <i class="fa-solid fa-earth-americas" style="font-size: 70px; color: var(--verde-seguro); margin-bottom: 20px; animation: respirarOlho 2s infinite;"></i>
+                <h3 style="color: #fff; font-size: 32px; letter-spacing: 2px;">${visitasGlobais} VISITAS</h3>
+                <p style="color: var(--texto-secundario); font-size: 14px; margin-top: 15px;">Número de pessoas protegidas pelo seu sistema nas últimas 24 horas. O Satélite Orbital está ativo e escaneando conexões.</p>
+            </div>
+        `;
+    } else {
+        let mesAlvo = (tipo === 'atual') ? mesAtualNum : mesPassadoNum;
+        let anoAlvo = (tipo === 'atual') ? anoAtualNum : anoPassadoNum;
+        
+        titulo.innerHTML = `<i class="fa-regular fa-folder-open"></i> Arquivo Secreto: ${nomesMeses[mesAlvo-1]} ${anoAlvo}`;
+        
+        let arquivosEncontrados = memoriaDossiesGlobais.filter(dossie => {
+            if(!dossie.data) return false;
+            const match = dossie.data.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+            if(match) { return parseInt(match[2]) === mesAlvo && parseInt(match[3]) === anoAlvo; }
+            return false;
+        });
+
+        if (arquivosEncontrados.length === 0) {
+            lista.innerHTML = '<p style="color: #555; text-align: center; padding: 20px; font-style: italic;">Nenhum dossiê registrado neste mês. O radar está limpo.</p>';
+        } else {
+            arquivosEncontrados.forEach(d => {
+                let corLinha = d.protocolo.startsWith("HACKER-") ? "var(--vermelho-alerta)" : "var(--ouro-puro)";
+                let icone = d.protocolo.startsWith("HACKER-") ? "☠️ Invasor" : "📄 Dossiê";
+                lista.innerHTML += `
+                    <div class="historico-item-linha" style="border-left-color: ${corLinha};">
+                        <div style="display:flex; justify-content: space-between; align-items: center;">
+                            <strong style="color: #fff; font-size: 14px;">${icone} | ${d.protocolo}</strong>
+                            <span style="color: #666; font-size: 11px;">${d.data || 'Desconhecido'}</span>
+                        </div>
+                        <p style="color: #ccc; font-size: 13px;"><strong>Perfil:</strong> ${d.perfil}</p>
+                        <p style="color: #999; font-size: 12px; font-style: italic;">"${d.mensagem.substring(0, 100)}..."</p>
+                    </div>
+                `;
+            });
+        }
+    }
+    document.getElementById('modal-historico').style.display = 'flex';
+}
+
+function fecharGavetaHistorico() {
+    document.getElementById('modal-historico').style.display = 'none';
 }
 
 // 🟢 STATUS ONLINE
@@ -403,6 +487,8 @@ async function buscarDossiesSecretos(chaveMestra) {
         
         if (dadosString !== ultimoHashDados) {
             ultimoHashDados = dadosString;
+            memoriaDossiesGlobais = dados; // 🧠 Salva na memória para o Arquivo Clicável
+            
             const gradeHackers = document.getElementById('grade-hackers');
             const gavetaZapEstranho = document.getElementById('lista-zap-estranho');
             gradeHackers.innerHTML = ""; gavetaZapEstranho.innerHTML = "";
@@ -455,7 +541,10 @@ async function buscarDossiesSecretos(chaveMestra) {
             const reqRadar = await fetch(API_MATRIZ + "?comando=radar", { method: "GET", headers: { "Authorization": "Bearer " + chaveMestra } });
             if (reqRadar.ok) {
                 const radar = await reqRadar.json();
-                if(radar.visitas !== undefined) document.getElementById('contador-visitas').innerText = radar.visitas;
+                if(radar.visitas !== undefined) {
+                    document.getElementById('contador-visitas').innerText = radar.visitas;
+                    visitasGlobais = radar.visitas; // 🧠 Salva para a tela do Radar
+                }
             }
         } catch(e) {}
         
