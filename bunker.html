@@ -307,7 +307,6 @@ function gerarBandeira(codigoPais) {
 function abrirCardGuerra(mensagemCrua, pais, event) {
     if(event) event.stopPropagation();
     
-    // Limpa a mensagem para caber bonito no card
     let mensagemLimpa = mensagemCrua;
     if(mensagemLimpa.length > 80) mensagemLimpa = mensagemLimpa.substring(0, 80) + "...";
     
@@ -442,14 +441,12 @@ function renderCardHacker(dossie, grade) {
     const card = document.createElement('div');
     card.className = 'card-dossie hacker';
     
-    // Alerta Especial do Cloudflare (Sensor 500)
     if(dossie.protocolo === "HACKER-ALERTA") {
         card.innerHTML = `<h3 style="color:var(--vermelho-alerta); margin-bottom:10px;">🚨 AVISO DO SATÉLITE</h3><p style="font-size:14px; font-weight:bold;">${dossie.mensagem}</p>`;
         grade.appendChild(card);
         return;
     }
 
-    // Usando encodeURIComponent para evitar bugs com aspas na mensagem ao chamar o JS
     const msgSegura = encodeURIComponent(dossie.mensagem);
 
     card.innerHTML = `
