@@ -72,7 +72,6 @@ body.modo-offline { animation: alertaBordaOffline 2s infinite; }
 .luz-vermelha { background: #ff4d4d; box-shadow: 0 0 15px 4px rgba(255, 77, 77, 0.2); }
 .luz-branca { background: #ffffff; box-shadow: 0 0 15px 4px rgba(255, 255, 255, 0.3); }
 
-/* 🖱️ CLASSE DO BOTÃO CLICÁVEL (ARQUIVO) */
 .botao-arquivo-secreto { cursor: pointer; border: 1px solid transparent; }
 .botao-arquivo-secreto:hover { background: #1a1a1a; border-color: var(--ouro-puro); transform: scale(1.02); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.1); }
 .texto-radar-secreto { display: inline-block; padding: 5px 15px; border-radius: 20px; cursor: pointer; transition: 0.3s; border: 1px solid transparent; }
@@ -136,7 +135,7 @@ body.modo-offline { animation: alertaBordaOffline 2s infinite; }
 .btn-salvar-imagem { background: #555555; color: #ffffff; border: 1px solid #777; padding: 12px 25px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px; margin-top: 25px; display: flex; align-items: center; gap: 10px; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
 .btn-salvar-imagem:hover { background: #777777; transform: translateY(-2px); }
 
-/* 🗄️ ESTILOS DA GAVETA DE HISTÓRICO (NOVO) */
+/* 🗄️ ESTILOS DA GAVETA DE HISTÓRICO */
 #modal-historico { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.9); z-index: 9998; display: none; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
 .historico-card { width: 90%; max-width: 600px; max-height: 80vh; background: #0a0a0a; border: 1px solid var(--ouro-puro); border-radius: 8px; padding: 30px; overflow-y: auto; position: relative; box-shadow: 0 0 40px rgba(0,0,0,0.8); }
 .btn-fechar-historico { position: absolute; top: 20px; right: 20px; color: var(--texto-secundario); cursor: pointer; font-size: 24px; transition: 0.2s; }
@@ -310,7 +309,6 @@ let senhaMestraGlobal = "";
 let loopRadar = null;
 let ultimoHashDados = "";
 
-// MEMÓRIA TÁTICA PARA O ARQUIVO (O Cérebro do Diretor)
 let memoriaDossiesGlobais = [];
 let visitasGlobais = 0;
 
@@ -332,14 +330,12 @@ function copiarCodigo(event, codigo) {
     navigator.clipboard.writeText(codigo).then(() => { alert("COPIADO: " + codigo); });
 }
 
-// 🇧🇷 FUNÇÃO PARA BANDEIRA VISUAL
 function gerarBandeira(codigoPais) {
     if (!codigoPais || codigoPais === "Desconhecido" || codigoPais === "XX") return "🏴‍☠️";
     const pontosDeCodigo = codigoPais.toUpperCase().split('').map(char => 127397 + char.charCodeAt());
     return String.fromCodePoint(...pontosDeCodigo);
 }
 
-// 📸 FUNÇÕES DO JORNAL DE GUERRA
 function abrirCardGuerra(mensagemCrua, pais, event) {
     if(event) event.stopPropagation();
     let mensagemLimpa = mensagemCrua;
@@ -375,7 +371,6 @@ function baixarImagem(event) {
     });
 }
 
-// 🗄️ FUNÇÕES DA GAVETA DE HISTÓRICO SECRETA
 function abrirGavetaHistorico(tipo) {
     const lista = document.getElementById('lista-historico');
     const titulo = document.getElementById('titulo-historico');
@@ -437,7 +432,6 @@ function fecharGavetaHistorico() {
     document.getElementById('modal-historico').style.display = 'none';
 }
 
-// 🟢 STATUS ONLINE
 function atualizarStatusSatelite(isOnline) {
     const indicador = document.getElementById('indicador-satelite');
     if (isOnline) {
@@ -487,7 +481,7 @@ async function buscarDossiesSecretos(chaveMestra) {
         
         if (dadosString !== ultimoHashDados) {
             ultimoHashDados = dadosString;
-            memoriaDossiesGlobais = dados; // 🧠 Salva na memória para o Arquivo Clicável
+            memoriaDossiesGlobais = dados;
             
             const gradeHackers = document.getElementById('grade-hackers');
             const gavetaZapEstranho = document.getElementById('lista-zap-estranho');
@@ -543,7 +537,7 @@ async function buscarDossiesSecretos(chaveMestra) {
                 const radar = await reqRadar.json();
                 if(radar.visitas !== undefined) {
                     document.getElementById('contador-visitas').innerText = radar.visitas;
-                    visitasGlobais = radar.visitas; // 🧠 Salva para a tela do Radar
+                    visitasGlobais = radar.visitas;
                 }
             }
         } catch(e) {}
@@ -629,6 +623,16 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('nome-mes-passado').innerText = meses[mPassado] + " " + aPassado;
     }
 });
+</script>
+
+<script>
+(function(){
+  function _0x2f9a(e){if(e)e.preventDefault();return false;}
+  document.addEventListener('contextmenu',_0x2f9a);
+  document.addEventListener('keydown',function(e){
+    if(e.keyCode===123||(e.ctrlKey&&e.shiftKey&&(e.keyCode===73||e.keyCode===74||e.keyCode===67))||(e.ctrlKey&&(e.keyCode===85||e.keyCode===83))){_0x2f9a(e);return false;}
+  });
+})();
 </script>
 </body>
 </html>
