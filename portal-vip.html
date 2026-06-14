@@ -1,69 +1,84 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portal VIP - RailanTech</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<style>
-:root {
-    --bg-principal: #131314; --bg-secundario: #1e1f20; 
-    --texto-principal: #e3e3e3; --texto-secundario: #888; 
-    --ouro-puro: #d4af37; --ouro-brilho: #f3e5ab;
-    --borda: #444746; --verde-seguro: #00e676; --vermelho-alerta: #ff4d4d;
+<script>
+const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
+
+// Faz o Enter funcionar no teclado
+document.getElementById('input-protocolo').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') buscarLaudo();
+});
+
+// Faz o clique do botão funcionar
+document.getElementById('btn-buscar').addEventListener('click', buscarLaudo);
+
+async function buscarLaudo() {
+    const inputChave = document.getElementById('input-protocolo');
+    const chave = inputChave.value.trim().toUpperCase();
+    const caixaLaudo = document.getElementById('caixa-laudo');
+    const textoResultado = document.getElementById('texto-resultado');
+    const btnBuscar = document.getElementById('btn-buscar');
+
+    if (!chave) {
+        alert("⚠️ Por favor, digite a sua Chave Oficial (Ex: RT-PF-...).");
+        return;
+    }
+
+    // Efeito visual de processamento militar
+    btnBuscar.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> A PROCURAR NO COFRE...';
+    btnBuscar.style.pointerEvents = 'none';
+    caixaLaudo.style.display = 'none';
+
+    try {
+        // Envia a chave para o Cloudflare investigar
+        const req = await fetch(API_MATRIZ + "?protocolo=" + encodeURIComponent(chave), {
+            method: "GET"
+        });
+
+        const res = await req.json();
+        caixaLaudo.style.display = 'block';
+
+        if (req.ok) {
+            if (res.laudo) {
+                // ✅ CENÁRIO 1: O Laudo está pronto!
+                caixaLaudo.style.borderLeftColor = "var(--verde-seguro)";
+                document.querySelector('.laudo-titulo').innerHTML = '<i class="fa-solid fa-check-double"></i> Laudo Oficial Concluído';
+                document.querySelector('.laudo-titulo').style.color = "var(--verde-seguro)";
+                textoResultado.innerHTML = res.laudo.replace(/\n/g, '<br>');
+            
+            } else if (res.status === "em_analise") {
+                // ⏳ CENÁRIO 2: A chave existe, mas o Diretor ainda não deu o veredito
+                caixaLaudo.style.borderLeftColor = "var(--ouro-puro)";
+                document.querySelector('.laudo-titulo').innerHTML = '<i class="fa-solid fa-hourglass-half"></i> Em Análise Pericial';
+                document.querySelector('.laudo-titulo').style.color = "var(--ouro-puro)";
+                textoResultado.innerHTML = "O seu dossiê está na mesa de operações. O caso exige análise profunda. Por favor, retorne e consulte a chave mais tarde.";
+            }
+        } else {
+            // ❌ CENÁRIO 3: A pessoa digitou a chave errada
+            caixaLaudo.style.borderLeftColor = "var(--vermelho-alerta)";
+            document.querySelector('.laudo-titulo').innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Chave Inválida';
+            document.querySelector('.laudo-titulo').style.color = "var(--vermelho-alerta)";
+            textoResultado.innerHTML = "Não encontrámos nenhum dossiê com esta chave. Verifique se digitou corretamente.";
+        }
+
+    } catch (error) {
+        // 🚨 CENÁRIO 4: Falha na Internet
+        caixaLaudo.style.display = 'block';
+        caixaLaudo.style.borderLeftColor = "var(--vermelho-alerta)";
+        document.querySelector('.laudo-titulo').innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Erro de Comunicação';
+        document.querySelector('.laudo-titulo').style.color = "var(--vermelho-alerta)";
+        textoResultado.innerHTML = "O Satélite Orbital está inacessível neste momento devido a uma interferência de rede.";
+    } finally {
+        // Devolve o botão ao normal
+        btnBuscar.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Consultar Laudo';
+        btnBuscar.style.pointerEvents = 'auto';
+    }
 }
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; }
-body { background-color: var(--bg-principal); color: var(--texto-principal); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+</script>
 
-.top-bar { width: 100%; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--borda); background: rgba(0,0,0,0.5); }
-.btn-voltar { color: var(--texto-secundario); text-decoration: none; font-size: 14px; font-weight: bold; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
-.btn-voltar:hover { color: var(--ouro-puro); }
-
-.main-container { width: 100%; max-width: 600px; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 5vh; }
-.icone-cofre { font-size: 60px; color: var(--ouro-puro); margin-bottom: 20px; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.2)); }
-.titulo { color: var(--ouro-brilho); font-size: 28px; margin-bottom: 10px; font-weight: 600; letter-spacing: 1px; }
-.subtitulo { color: var(--texto-secundario); font-size: 15px; margin-bottom: 40px; line-height: 1.6; }
-
-.caixa-pesquisa { width: 100%; background: var(--bg-secundario); border: 1px solid var(--borda); border-radius: 12px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-.input-chave { width: 100%; background: var(--bg-principal); border: 1px solid var(--borda); color: var(--ouro-brilho); padding: 18px; border-radius: 8px; font-size: 16px; text-align: center; letter-spacing: 2px; outline: none; transition: 0.3s; margin-bottom: 20px; font-weight: bold; }
-.input-chave:focus { border-color: var(--ouro-puro); box-shadow: 0 0 15px rgba(212, 175, 55, 0.1); }
-.input-chave::placeholder { color: #555; letter-spacing: normal; font-weight: normal; }
-
-.btn-consultar { width: 100%; background: linear-gradient(45deg, var(--ouro-puro), var(--ouro-brilho)); color: #000; padding: 18px; border-radius: 8px; font-weight: bold; font-size: 16px; border: none; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 1px; }
-.btn-consultar:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4); }
-
-/* Caixa onde o Laudo vai aparecer depois (escondida por padrão) */
-#caixa-laudo { display: none; width: 100%; margin-top: 30px; background: #0a0a0a; border-left: 4px solid var(--ouro-puro); padding: 25px; border-radius: 0 8px 8px 0; text-align: left; animation: fadeIn 0.5s; }
-.laudo-titulo { color: var(--ouro-puro); font-size: 14px; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 2px; font-weight: bold; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #222; padding-bottom: 10px; }
-.laudo-texto { color: var(--texto-principal); font-size: 15px; line-height: 1.8; }
-
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-</style>
-</head>
-<body>
-
-<div class="top-bar">
-    <a href="index.html" class="btn-voltar"><i class="fa-solid fa-arrow-left"></i> Voltar à Central</a>
-    <div style="color: var(--ouro-puro); font-weight: bold; letter-spacing: 2px; font-size: 14px;"><i class="fa-solid fa-microchip"></i> RAILANTECH</div>
-</div>
-
-<div class="main-container">
-    <i class="fa-solid fa-vault icone-cofre"></i>
-    <h1 class="titulo">Acesso VIP a Laudos</h1>
-    <p class="subtitulo">Insira a sua Chave Oficial de Protocolo gerada no momento da denúncia para descriptografar o laudo da Inteligência Pericial.</p>
-
-    <div class="caixa-pesquisa">
-        <input type="text" id="input-protocolo" class="input-chave" placeholder="Ex: RT-PF-123-456">
-        <button class="btn-consultar" id="btn-buscar">
-            <i class="fa-solid fa-magnifying-glass"></i> Consultar Laudo
-        </button>
-    </div>
-
-    <div id="caixa-laudo">
-        <div class="laudo-titulo"><i class="fa-solid fa-file-shield"></i> Veredito Oficial</div>
-        <div class="laudo-texto" id="texto-resultado"></div>
-    </div>
-</div>
-
-</body>
-</html>
+<script>
+(function(){
+  function _0x2f9a(e){if(e)e.preventDefault();return false;}
+ document.addEventListener('contextmenu',_0x2f9a);
+ document.addEventListener('keydown',function(e){
+   if(e.keyCode===123||(e.ctrlKey&&e.shiftKey&&(e.keyCode===73||e.keyCode===74||e.keyCode===67))||(e.ctrlKey&&(e.keyCode===85||e.keyCode===83))){_0x2f9a(e);return false;}
+  });
+})();
+</script>
