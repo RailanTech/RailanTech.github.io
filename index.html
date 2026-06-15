@@ -81,10 +81,10 @@ summary::-webkit-details-marker { display: none; }
         <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
     </button>
     <div class="menu-flutuante" id="menuFlutuante">
-        <div class="menu-item" onclick="abrirModalPainel('form-dossie')">  🛡️   Denunciar Golpe</div>
-        <div class="menu-item" onclick="abrirModalPainel('painel-ajuda')">  ❓   Ajuda Tática</div>
-        <div class="menu-item" onclick="abrirModalPainel('painel-sobre')">  ℹ️   Sobre a Central</div>
-        <div class="menu-item" style="color: var(--ouro-puro); font-weight: bold;" onclick="window.location.href='portal-vip.html'">  🔐   Acesso VIP (Laudos)</div>
+        <div class="menu-item" onclick="abrirModalPainel('form-dossie')">🛡️ Denunciar Golpe</div>
+        <div class="menu-item" onclick="abrirModalPainel('painel-ajuda')">❓ Ajuda Tática</div>
+        <div class="menu-item" onclick="abrirModalPainel('painel-sobre')">ℹ️ Sobre a Central</div>
+        <div class="menu-item" style="color: var(--ouro-puro); font-weight: bold;" onclick="window.location.href='portal-vip.html'">🔐 Acesso VIP (Laudos)</div>
     </div>
 </div>
 
@@ -116,7 +116,7 @@ summary::-webkit-details-marker { display: none; }
 
 <div class="rodape-lgpd">
     <p>
-         <b>  ⚖️  TERMO DE RESPONSABILIDADE E SEGURANÇA:</b> O Terminal RailanTech é uma ferramenta de utilidade pública e apoio investigativo.
+         <b>⚖️ TERMO DE RESPONSABILIDADE E SEGURANÇA:</b> O Terminal RailanTech é uma ferramenta de utilidade pública e apoio investigativo.
         Os laudos servem como alerta preventivo. A decisão de clicar em links ou realizar pagamentos é de inteira responsabilidade do usuário.
         A RailanTech não se responsabiliza por danos causados por terceiros.<br>
        <b>Privacidade Absoluta (Lei de Proteção):</b> Operamos com sigilo absoluto. Não solicitamos nem armazenamos CPFs, senhas, e-mails ou dados bancários.
@@ -125,7 +125,7 @@ summary::-webkit-details-marker { display: none; }
 
 <div class="modal-overlay" id="modalOSINT">
     <div class="modal-content">
-        <button class="btn-fechar" onclick="document.getElementById('modalOSINT').style.display='none'">   ✖   </button>
+        <button class="btn-fechar" onclick="document.getElementById('modalOSINT').style.display='none'">✖</button>
         
         <div id="painel-bem-vindo" style="display:none;">
             <div style="text-align: center; margin-bottom: 25px; padding: 0 40px;">
@@ -141,16 +141,16 @@ summary::-webkit-details-marker { display: none; }
         </div>
 
         <div id="painel-sobre" style="display:none;">
-            <div class="modal-title">  ℹ️  Sobre a Central</div>
+            <div class="modal-title">ℹ️ Sobre a Central</div>
             <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6; text-align: justify;">
                 O <b>Terminal RailanTech</b> é uma ferramenta de utilidade pública focada em proteger cidadãos e empresas contra fraudes digitais, utilizando alta tecnologia.
             </p>
             <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6; text-align: justify;">
-                🔍  <b>Como Funciona a Busca Segura?</b><br>
+                🔍 <b>Como Funciona a Busca Segura?</b><br>
                 Nós cruzamos dados e relatos públicos na internet para descobrir se um link ou mensagem pertence a um golpista conhecido. Nós apenas analisamos os rastros deixados pelos criminosos.
             </p>
             <p style="color: var(--texto-secundario); font-size: 15px; line-height: 1.6; text-align: justify;">
-                🛡️  <b>Segurança e Privacidade:</b><br>
+                🛡️ <b>Segurança e Privacidade:</b><br>
                 O nosso sistema cumpre rigorosamente as leis de proteção de dados.
                 O seu sigilo aqui é absoluto. Nós <b>não pedimos, não lemos e não guardamos</b> senhas, contatos ou dados do seu banco.
                 O nosso único trabalho é proteger você.
@@ -158,20 +158,20 @@ summary::-webkit-details-marker { display: none; }
         </div>
 
         <div id="form-dossie" style="display:none;">
-            <div class="modal-title">   🛡️    Dossiê de Investigação</div>
+            <div class="modal-title">🛡️ Dossiê de Investigação</div>
             <p style="color: var(--texto-secundario); margin-bottom: 25px; font-size: 14px;">Suas informações ajudam a alimentar a nossa Lista Negra de golpistas.</p>
             
             <div class="secao-dossie">
                <p>1. Quem foi o alvo da tentativa de golpe?</p>
                <details id="menu-sanfona-perfil" style="width: 100%; cursor: pointer;">
                    <summary id="texto-perfil-escolhido" class="btn-opcao selecionado" style="display: flex; justify-content: space-between; align-items: center; list-style: none;">
-                       <span>   👤    Sou Cidadão (PF)</span> <span> ▼ </span>
+                       <span>👤 Sou Cidadão (PF)</span> <span>▼</span>
                    </summary>
                    <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px; padding: 15px; background: rgba(0,0,0,0.3); border: 1px solid var(--borda); border-radius: 12px;">
-                       <button class="btn-opcao" style="text-align: left; border: none; background: transparent; color: var(--texto-principal); padding: 10px;" onclick="mudarPerfilSanfona('Cidadão', '   👤    Sou Cidadão (PF)')">👤  Sou Cidadão (PF)</button>
-                       <button class="btn-opcao" style="text-align: left; border: none; background: transparent; color: var(--texto-principal); padding: 10px;" onclick="mudarPerfilSanfona('Cidadão (Idoso)', '   🧓    Sou Pessoa Idosa (+60)')">🧓  Sou Pessoa Idosa (+60)</button>
-                       <button class="btn-opcao" style="text-align: left; border: none; background: transparent; color: var(--texto-principal); padding: 10px;" onclick="mudarPerfilSanfona('Cidadão (PCD)', '   ♿    Tenho Deficiência')">♿  Tenho Deficiência</button>
-                       <button class="btn-opcao" style="text-align: left; border: none; background: transparent; color: var(--texto-principal); padding: 10px;" onclick="mudarPerfilSanfona('Empresa', '   🏢    Sou Empresa (CNPJ)')">🏢  Sou Empresa (CNPJ)</button>
+                       <button class="btn-opcao" style="text-align: left; border: none; background: transparent; color: var(--texto-principal); padding: 10px;" onclick="mudarPerfilSanfona('Cidadão', '👤 Sou Cidadão (PF)')">👤 Sou Cidadão (PF)</button>
+                       <button class="btn-opcao" style="text-align: left; border: none; background: transparent; color: var(--texto-principal); padding: 10px;" onclick="mudarPerfilSanfona('Cidadão (Idoso)', '🧓 Sou Pessoa Idosa (+60)')">🧓 Sou Pessoa Idosa (+60)</button>
+                       <button class="btn-opcao" style="text-align: left; border: none; background: transparent; color: var(--texto-principal); padding: 10px;" onclick="mudarPerfilSanfona('Cidadão (PCD)', '♿ Tenho Deficiência')">♿ Tenho Deficiência</button>
+                       <button class="btn-opcao" style="text-align: left; border: none; background: transparent; color: var(--texto-principal); padding: 10px;" onclick="mudarPerfilSanfona('Empresa', '🏢 Sou Empresa (CNPJ)')">🏢 Sou Empresa (CNPJ)</button>
                    </div>
                </details>
            </div>
@@ -190,7 +190,7 @@ summary::-webkit-details-marker { display: none; }
                <textarea id="texto-relato" class="input-texto" rows="4" placeholder="Escreva aqui ou anexe uma evidência..."></textarea>
                <input type="file" id="input-anexo-dossie" accept="image/*,video/*,audio/*" style="display:none" onchange="prepararAnexoDossie(event)">
                <button class="btn-fantasma" id="btn-ui-anexo" onclick="document.getElementById('input-anexo-dossie').click()">
-                    📎  Anexar Evidência
+                    📎 Anexar Evidência
                </button>
            </div>
             
@@ -198,7 +198,7 @@ summary::-webkit-details-marker { display: none; }
         </div>
 
         <div id="tela-sucesso" style="display:none; text-align: center; padding: 20px 0;">
-            <h3 style="color: var(--verde-seguro); font-size: 24px; margin-bottom: 15px;" id="titulo-sucesso">  ✅   Denúncia e Dossiê Blindado!</h3>
+            <h3 style="color: var(--verde-seguro); font-size: 24px; margin-bottom: 15px;" id="titulo-sucesso">✅ Denúncia e Dossiê Blindado!</h3>
             <p style="color: var(--texto-secundario); font-size: 15px;" id="texto-sucesso">A Inteligência RailanTech assumiu o caso. Guarde a sua Chave de Acesso Oficial (Token):</p>
             
             <div class="protocolo-box" id="num-protocolo">RT-PF-...</div>
@@ -216,11 +216,11 @@ summary::-webkit-details-marker { display: none; }
         </div>
 
         <div id="painel-ajuda" style="display:none;">
-            <div class="modal-title">   ❓    Ajuda Tática</div>
-            <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6; text-align: justify;">     🚨      <b>1. Congele e Capture:</b> Não clique em nenhum link no escuro! Tire um Print (foto da tela) da mensagem suspeita.</p>
-            <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6; text-align: justify;">     📥      <b>2. Acione o Radar:</b> Cole o texto do golpe na barra principal ou anexe a foto da conversa.</p>
-            <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6; text-align: justify;">     ⚖️      <b>3. O Veredito Oficial:</b> Se acender a luz do <b style="color: var(--vermelho-alerta);">Alerta Vermelho</b>, é fraude: bloqueie o contato. Se brilhar o <b style="color: var(--verde-seguro);">Selo Verde</b>, o acesso é seguro.</p>
-            <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6; text-align: justify;">     📎      <b>4. Evidências (Print, Vídeo e Áudio):</b> O sistema analisa os 3 formatos. Para garantir a velocidade, mídias de vídeo e áudio devem ter no <b>máximo 2 minutos (10MB)</b>.</p>
+            <div class="modal-title">❓ Ajuda Tática</div>
+            <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6; text-align: justify;">🚨 <b>1. Congele e Capture:</b> Não clique em nenhum link no escuro! Tire um Print (foto da tela) da mensagem suspeita.</p>
+            <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6; text-align: justify;">📥 <b>2. Acione o Radar:</b> Cole o texto do golpe na barra principal ou anexe a foto da conversa.</p>
+            <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6; text-align: justify;">⚖️ <b>3. O Veredito Oficial:</b> Se acender a luz do <b style="color: var(--vermelho-alerta);">Alerta Vermelho</b>, é fraude: bloqueie o contato. Se brilhar o <b style="color: var(--verde-seguro);">Selo Verde</b>, o acesso é seguro.</p>
+            <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6; text-align: justify;">📎 <b>4. Evidências (Print, Vídeo e Áudio):</b> O sistema analisa os 3 formatos. Para garantir a velocidade, mídias de vídeo e áudio devem ter no <b>máximo 2 minutos (10MB)</b>.</p>
         </div>
     </div>
 </div>
@@ -278,9 +278,9 @@ function abrirModalPainel(painelID) {
        dossieDados.anexoBase64 = null;
        document.getElementById('texto-relato').value = '';
        const btnUi = document.getElementById('btn-ui-anexo');
-       btnUi.innerHTML = '   📎    Anexar Evidência';
+       btnUi.innerHTML = '📎 Anexar Evidência';
        btnUi.style.color = 'var(--texto-secundario)';
-       mudarPerfilSanfona('Cidadão', '   👤    Sou Cidadão (PF)');
+       mudarPerfilSanfona('Cidadão', '👤 Sou Cidadão (PF)');
    }
    
    document.getElementById(painelID).style.display = 'block';
@@ -337,7 +337,7 @@ async function acionarDetetiveImagem(event) {
 
     const limiteTamanho = 10 * 1024 * 1024; // 10MB
     if (file.size > limiteTamanho) {
-        alert(" 🚨 EVIDÊNCIA MUITO PESADA. Máximo de 10 MB.");
+        alert("🚨 EVIDÊNCIA MUITO PESADA. Máximo de 10 MB.");
         event.target.value = ''; return;
     }
 
@@ -376,7 +376,7 @@ let dossieDados = { perfil: 'Cidadão', canal: 'WhatsApp', anexoBase64: null };
 
 function mudarPerfilSanfona(valor, textoLindo) {
    dossieDados.perfil = valor;
-   document.getElementById('texto-perfil-escolhido').innerHTML = `<span>${textoLindo}</span> <span> ▼ </span>`;
+   document.getElementById('texto-perfil-escolhido').innerHTML = `<span>${textoLindo}</span> <span>▼</span>`;
    document.getElementById('menu-sanfona-perfil').removeAttribute('open');
 }
 
@@ -392,7 +392,7 @@ function prepararAnexoDossie(event) {
    if(file) {
        const limiteTamanho = 10 * 1024 * 1024;
        if (file.size > limiteTamanho) {
-           alert(" 🚨  ARQUIVO MUITO PESADO. Para a sua segurança, o anexo deve ter no MÁXIMO 2 MINUTOS (10 MB).");
+           alert("🚨 ARQUIVO MUITO PESADO. Para a sua segurança, o anexo deve ter no MÁXIMO 2 MINUTOS (10 MB).");
            event.target.value = '';
            return;
        }
@@ -400,7 +400,7 @@ function prepararAnexoDossie(event) {
        reader.onload = function(e) {
            dossieDados.anexoBase64 = e.target.result;
            const btnUi = document.getElementById('btn-ui-anexo');
-           btnUi.innerHTML = '     ✅      Evidência Capturada (' + file.name.substring(0,12) + '...)';
+           btnUi.innerHTML = '✅ Evidência Capturada (' + file.name.substring(0,12) + '...)';
            btnUi.style.color = 'var(--verde-seguro)';
        };
        reader.readAsDataURL(file);
@@ -427,7 +427,7 @@ async function transmitirDossieOficial() {
        const data = await req.json();
        
        document.getElementById('form-dossie').style.display = 'none';
-       document.getElementById('titulo-sucesso').innerHTML = "   ✅    Denúncia e Dossiê Blindado!";
+       document.getElementById('titulo-sucesso').innerHTML = "✅ Denúncia e Dossiê Blindado!";
        document.getElementById('texto-sucesso').innerText = "A Inteligência RailanTech assumiu o caso. Guarde a sua Chave de Acesso Oficial (Token):";
        document.getElementById('num-protocolo').innerText = data.protocolo || "RT-BR-SUCESSO";
        document.getElementById('btn-copiar-chave').style.display = "inline-block";
@@ -441,7 +441,7 @@ async function transmitirDossieOficial() {
        localStorage.setItem('railantech_fila_offline', JSON.stringify(filaCaixaPreta));
 
        document.getElementById('form-dossie').style.display = 'none';
-       document.getElementById('titulo-sucesso').innerHTML = "   🛡️    Salvo na Caixa Preta!";
+       document.getElementById('titulo-sucesso').innerHTML = "🛡️ Salvo na Caixa Preta!";
        document.getElementById('texto-sucesso').innerHTML = "A rede está instável, mas <b>sua denúncia está 100% segura no seu celular.</b> Ela será enviada automaticamente e em silêncio assim que a conexão voltar.";
        document.getElementById('num-protocolo').innerText = "RT-EM-ESPERA";
        document.getElementById('btn-copiar-chave').style.display = "none";
