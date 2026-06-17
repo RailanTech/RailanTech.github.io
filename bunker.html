@@ -91,7 +91,7 @@ font-weight: bold; letter-spacing: 1px; transition: 0.3s; }
 .card-dossie { background: var(--bg-card); border: 1px solid var(--borda); padding: 25px; border-radius: 8px; border-top: 3px solid var(--ouro-puro); transition: 0.3s; position: relative;
 }
 .card-dossie:hover { border-top-color: #fff; transform: translateY(-5px); }
-.card-dossie.hacker { border-top-color: var(--vermelho-alerta); background: rgba(255, 77, 77, 0.02); }
+.card-dossie.hacker { border-top-color: var(--vermelho-alerta); background: #0e0d0f; border: 1px solid rgba(255, 77, 77, 0.15); border-top: 3px solid var(--vermelho-alerta); }
 .card-topo { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 11px; color: var(--texto-secundario); border-bottom: 1px solid #222; padding-bottom: 10px; align-items: center;
 }
 .card-id { color: var(--ouro-puro); font-weight: bold; cursor: pointer; font-size: 13px; }
@@ -281,7 +281,7 @@ RADAR DO POVO: <strong style="color:#fff;" id="contador-visitas">0</strong> VISI
 </div>
 </div>
 </div>
-<h3 style="color: var(--vermelho-alerta); font-size: 16px; margin-top: 20px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px;"><i class="fa-solid fa-skull-crossbones"></i> PRISÃO DE INVASORES (RATOEIRA)</h3>
+<h3 style="color: var(--vermelho-alerta); font-size: 16px; margin-top: 20px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px;"><i class="fa-solid fa-skull-crossbones"></i> PRISÃO DE INVASORES (RATOEIRA 1%)</h3>
 <div class="grid-dossies" id="grade-hackers"></div>
 </div>
 <div id="view-zap" class="view-section">
@@ -340,7 +340,7 @@ event.stopPropagation();
 navigator.clipboard.writeText(codigo).then(() => { alert("COPIADO: " + codigo); });
 }
 function gerarBandeira(codigoPais) {
-if (!codigoPais || codigoPais === "Desconhecido" || codigoPais === "XX") return " 🏴 ‍ ☠️ ";
+if (!codigoPais || codigoPais === "Desconhecido" || codigoPais === "XX") return " 🏴‍☠️ ";
 const pontosDeCodigo = codigoPais.toUpperCase().split('').map(char => 127397 + char.charCodeAt());
 return String.fromCodePoint(...pontosDeCodigo);
 }
@@ -460,7 +460,6 @@ await fetch(API_MATRIZ, { method: "DELETE", headers: { "Content-Type": "applicat
 ultimoHashDados = ""; buscarDossiesSecretos(senhaMestraGlobal);
 } catch(e) {}
 }
-//  🛡️  O NOVO SISTEMA DE RAIO-X PARA DEBUGAR ERROS
 async function acessarBunker() {
 const senha = document.getElementById('senha-input').value.trim();
 if(!senha) return;
@@ -475,7 +474,6 @@ const req = await fetch(API_MATRIZ, { method: "GET", headers: { "Authorization":
 if(req.status === 403) throw new Error("BLOQUEADO PELA RATOEIRA");
 if(req.status === 401) throw new Error("CHAVE MESTRA INCORRETA");
 
-//  🔎  O DIAGNÓSTICO DE RAIO-X: Se o Cloudflare falhar, nós vamos ver o motivo!
 if(!req.ok) {
 let detalheErro = "Status HTTP " + req.status;
 try {
@@ -571,11 +569,9 @@ if (!loopRadar) loopRadar = setInterval(() => { buscarDossiesSecretos(senhaMestr
 document.getElementById('btn-login').innerText = "Desbloquear Base";
 document.getElementById('senha-input').value = "";
 
-// Se for um erro do seu navegador tentando conectar com o Cloudflare (CORS/Offline)
 if (e.message.includes("Failed to fetch")) {
 document.getElementById('msg-erro').innerText = " 🚨  REDE BLOQUEADA: O Cloudflare não está permitindo a conexão.";
 } else {
-// Se for um erro reportado pelo nosso Raio-X
 document.getElementById('msg-erro').innerText = " 🚨  " + e.message;
 }
 
@@ -594,15 +590,35 @@ if(dossie.protocolo === "HACKER-ALERTA") {
 card.innerHTML = `<h3 style="color:var(--vermelho-alerta); margin-bottom:10px;"> 🚨  AVISO DO SATÉLITE</h3><p style="font-size:14px; font-weight:bold;">${dossie.mensagem}</p>`;
 grade.appendChild(card); return;
 }
+
+let iconeMaquina = "💻";
+if(dossie.dadosProfundos && dossie.dadosProfundos.maquina) {
+const mq = dossie.dadosProfundos.maquina.toLowerCase();
+if(mq.includes("mobi") || mq.includes("android") || mq.includes("iphone") || mq.includes("ipad")) {
+iconeMaquina = "📱";
+}
+}
+
+let badgeVpn = "";
+if(dossie.dadosProfundos && dossie.dadosProfundos.vpn && dossie.dadosProfundos.vpn !== "Não" && dossie.dadosProfundos.vpn !== "Análise Requerida") {
+badgeVpn = `<span style="background: rgba(168, 85, 247, 0.2); color: #c084fc; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-left: 8px;"><i class="fa-solid fa-user-ninja"></i> 🥷 VPN/TOR</span>`;
+}
+
 const msgSegura = encodeURIComponent(dossie.mensagem);
 card.innerHTML = `
 <div class="card-topo">
-<div style="display:flex; align-items:center; gap:8px;"><span class="bandeira-icon">${bandeira}</span><span class="card-id">${dossie.protocolo}</span></div>
+<div style="display:flex; align-items:center; gap:8px;"><span class="bandeira-icon">${bandeira}</span><span class="card-id">${dossie.protocolo}</span>${badgeVpn}</div>
 <i class="fa-solid fa-xmark btn-limpar-card" onclick="deletarDossie('${dossie.protocolo}', event)"></i>
 </div>
-<p style="font-size:13px; margin-bottom:10px;"><strong>PERFIL:</strong> ${dossie.perfil}</p>
-<p style="font-size:13px; color:#aaa; margin-bottom:15px;">${dossie.mensagem}</p>
-<p style="font-size: 11px; color: var(--texto-secundario); font-family: 'Courier New', monospace; background: #000; padding: 10px; border-radius: 4px;"><strong>Super DNA Digital:</strong> ${dossie.assinaturaDigital}</p>
+<div style="display: flex; gap: 15px; margin-bottom: 15px; align-items: center;">
+<span style="font-size: 24px; background: #000; padding: 10px; border-radius: 8px; border: 1px solid #222; display: flex; align-items: center; justify-content: center;">${iconeMaquina}</span>
+<div>
+<p style="font-size:11px; font-weight: bold; color: var(--vermelho-alerta); letter-spacing: 1px;">INVASOR INTERCEPTADO</p>
+<p style="font-size:13px; color: #fff; font-weight: bold;">${dossie.perfil}</p>
+</div>
+</div>
+<p style="font-size:13px; color:#aaa; margin-bottom:15px; background: #000; padding: 12px; border-radius: 6px; border: 1px solid #1a1a1a; font-style: italic;">"${dossie.mensagem}"</p>
+<p style="font-size: 11px; color: var(--texto-secundario); font-family: 'Courier New', monospace; background: #000; padding: 10px; border-radius: 4px; border: 1px solid #111;"><strong>DNA Digital:</strong> <span style="color: var(--roxo-hacker); font-weight: bold;">${dossie.assinaturaDigital}</span></p>
 <button class="btn-card-guerra" onclick="abrirCardGuerra(decodeURIComponent('${msgSegura}'), '${dossie.pais}')"><i class="fa-solid fa-camera"></i> Gerar Card de Alerta</button>`;
 grade.appendChild(card);
 }
@@ -611,6 +627,15 @@ if(!gaveta) return;
 const bandeira = gerarBandeira(dossie.pais);
 const item = document.createElement('div');
 item.className = 'item-dossie';
+
+let iconePerfil = "👤";
+if(dossie.perfil) {
+const pf = dossie.perfil.toLowerCase();
+if(pf.includes("idoso") || pf.includes("60")) iconePerfil = "🧓";
+else if(pf.includes("pcd") || pf.includes("deficiência")) iconePerfil = "♿";
+else if(pf.includes("empresa") || pf.includes("cnpj")) iconePerfil = "🏢";
+else if(pf.includes("hacker") || pf.includes("invasor")) iconePerfil = "☠️";
+}
 
 let conteudoProfundoHacker = "";
 if (isHackerColumn && dossie.dadosProfundos) {
@@ -633,7 +658,7 @@ item.innerHTML = `
 <i class="fa-solid fa-xmark btn-limpar-card" style="margin-left:10px; color:var(--vermelho-alerta);" onclick="deletarDossie('${dossie.protocolo}', event)"></i>
 </div></div>
 <div class="item-detalhes">
-<div class="dado-linha"><strong>NOME/PERFIL:</strong> ${dossie.perfil}</div>
+<div class="dado-linha"><strong>${iconePerfil} PERFIL:</strong> ${dossie.perfil}</div>
 <div class="dado-linha"><strong>CANAL:</strong> ${dossie.canal || 'Não informado'}</div>
 <div class="texto-denuncia">"${dossie.mensagem}"</div>
 <div style="margin-top: 15px; padding: 10px; background: rgba(0, 230, 118, 0.1); border: 1px solid var(--verde-seguro); border-radius: 4px; color: var(--verde-seguro); font-size: 11px; font-weight: bold; text-align: center;">
