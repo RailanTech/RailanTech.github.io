@@ -90,7 +90,7 @@ summary::-webkit-details-marker { display: none; }
 </button>
 <div class="menu-flutuante" id="menuFlutuante">
 <div class="menu-item" onclick="abrirModalPainel('form-dossie')"> 🛡️  Denunciar Golpe</div>
-<div class="menu-item" onclick="abrirModalPainel('painel-ajuda')"> ❓  Ajuda T á tica</div>
+<div class="menu-item" onclick="abrirModalPainel('painel-ajuda')"> ❓  Ajuda Tática</div>
 <div class="menu-item" onclick="abrirModalPainel('painel-sobre')"> ℹ️  Sobre a Central</div>
 <div class="menu-item" style="color: var(--ouro-puro); font-weight: bold;" onclick="window.location.href='portal-vip.html'"> 🔐  Acesso VIP (Laudos)</div>
 </div>
@@ -177,7 +177,7 @@ onclick="mudarPerfilSanfona('Cidadão', ' 👤  Sou Cidadão (PF)')"> 👤  Sou 
 <button class="btn-opcao" style="text-align: left; border: none; background: transparent; color: var(--texto-principal); padding: 10px;"
 onclick="mudarPerfilSanfona('Cidadão (Idoso)', ' 🧓  Sou Pessoa Idosa (+60)')"> 🧓  Sou Pessoa Idosa (+60)</button>
 <button class="btn-opcao" style="text-align: left; border: none; background: transparent; color: var(--texto-principal); padding: 10px;"
-onclick="mudarPerfilSanfona('Cidadão (PCD)', ' ♿  Tenho Defici ê ncia')"> ♿  Tenho Defici ê ncia</button>
+onclick="mudarPerfilSanfona('Cidadão (PCD)', ' ♿  Tenho Deficiência')"> ♿  Tenho Deficiência</button>
 <button class="btn-opcao" style="text-align: left; border: none; background: transparent; color: var(--texto-principal); padding: 10px;"
 onclick="mudarPerfilSanfona('Empresa', ' 🏢  Sou Empresa (CNPJ)')"> 🏢  Sou Empresa (CNPJ)</button>
 </div>
@@ -205,7 +205,7 @@ onclick="mudarPerfilSanfona('Empresa', ' 🏢  Sou Empresa (CNPJ)')"> 🏢  Sou 
 <button class="btn-enviar-dossie" onclick="transmitirDossieOficial()" id="btn-transmitir">Transmitir Dossiê para a Central</button>
 </div>
 <div id="tela-sucesso" style="display:none; text-align: center; padding: 20px 0;">
-<h3 style="color: var(--verde-seguro); font-size: 24px; margin-bottom: 15px;" id="titulo-sucesso"> ✅  Den ú ncia e Dossi ê  Blindado!</h3>
+<h3 style="color: var(--verde-seguro); font-size: 24px; margin-bottom: 15px;" id="titulo-sucesso"> ✅  Denúncia e Dossiê Blindado!</h3>
 <p style="color: var(--texto-secundario); font-size: 15px;" id="texto-sucesso">A Inteligência RailanTech assumiu o caso. Guarde a sua Chave de Acesso Oficial (Token):</p>
 
 <div class="protocolo-box" id="num-protocolo">RT-PF-...</div>
@@ -220,7 +220,7 @@ onclick="mudarPerfilSanfona('Empresa', ' 🏢  Sou Empresa (CNPJ)')"> 🏢  Sou 
 <button class="btn-opcao selecionado" style="width: 100%; border: none;" onclick="document.getElementById('modalOSINT').style.display='none'">Fechar Aba</button>
 </div>
 <div id="painel-ajuda" style="display:none;">
-<div class="modal-title"> ❓  Ajuda T á tica</div>
+<div class="modal-title"> ❓  Ajuda Tática</div>
 <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6; text-align: justify;"> 🚨  <b>1.
 Congele e Capture:</b> Não clique em nenhum link no escuro! Tire um Print (foto da tela) da mensagem suspeita.</p>
 <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 18px; line-height: 1.6; text-align: justify;"> 📥  <b>2.
@@ -318,7 +318,7 @@ resposta.style.color = "var(--amarelo-suspeito)"; resposta.innerHTML = " ⚠️ 
 resposta.style.color = "var(--texto-secundario)"; resposta.innerHTML = res.analise;
 }
 } else {
-resposta.style.color = "var(--texto-secundario)"; resposta.innerHTML = " ⚪  An á lise conclu í da.";
+resposta.style.color = "var(--texto-secundario)"; resposta.innerHTML = " ⚪  Análise concluída.";
 }
 } catch (erro) {
 resposta.style.color = "var(--vermelho-alerta)"; resposta.innerHTML = " 🚨  Erro de comunicação com o Satélite Orbital.";
@@ -355,7 +355,7 @@ resposta.style.color = "var(--amarelo-suspeito)"; resposta.innerHTML = " ⚠️ 
 resposta.style.color = "var(--texto-secundario)"; resposta.innerHTML = res.analise;
 }
 } else {
-resposta.style.color = "var(--texto-secundario)"; resposta.innerHTML = " ⚪  An á lise da evid ê ncia conclu í da.";
+resposta.style.color = "var(--texto-secundario)"; resposta.innerHTML = " ⚪  Análise da evidência concluída.";
 }
 } catch (erro) {
 resposta.style.color = "var(--vermelho-alerta)"; resposta.innerHTML = " 🚨  Erro de comunicação com o Satélite Orbital.";
@@ -388,7 +388,7 @@ const reader = new FileReader();
 reader.onload = function(e) {
 dossieDados.anexoBase64 = e.target.result;
 const btnUi = document.getElementById('btn-ui-anexo');
-btnUi.innerHTML = ' ✅  Evid ê ncia Capturada (' + file.name.substring(0,12) + '...)';
+btnUi.innerHTML = ' ✅  Evidência Capturada (' + file.name.substring(0,12) + '...)';
 btnUi.style.color = 'var(--verde-seguro)';
 };
 reader.readAsDataURL(file);
@@ -414,7 +414,7 @@ if(!req.ok) throw new Error("Satélite Offline");
 const data = await req.json();
 
 document.getElementById('form-dossie').style.display = 'none';
-document.getElementById('titulo-sucesso').innerHTML = " ✅  Den ú ncia e Dossi ê  Blindado!";
+document.getElementById('titulo-sucesso').innerHTML = " ✅  Denúncia e Dossiê Blindado!";
 document.getElementById('texto-sucesso').innerText = "A Inteligência RailanTech assumiu o caso. Guarde a sua Chave de Acesso Oficial (Token):";
 document.getElementById('num-protocolo').innerText = data.protocolo || "RT-BR-SUCESSO";
 document.getElementById('btn-copiar-chave').style.display = "inline-block";
@@ -465,6 +465,5 @@ btn.style.borderColor = 'var(--ouro-puro)';
 });
 }
 </script>
-<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "1e6b4568443c4148ba4b3211f8a83bce"}'></script>
 </body>
 </html>
