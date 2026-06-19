@@ -108,7 +108,10 @@ border-left: 4px solid var(--ouro-puro); }
 font-size: 11px; color: var(--verde-seguro); font-weight: bold; }
 .header-triagem { border-bottom: 2px solid var(--ouro-puro); padding-bottom: 15px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end;}
 .header-triagem h2 { color: var(--ouro-puro); text-transform: uppercase; font-size: 22px; margin-bottom: 5px; }
-.grid-triagem { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; }
+
+/* REGRAS ATUALIZADAS (APAGADA A COLUNA 5 DOS HACKERS) */
+.grid-triagem { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+
 .coluna-triagem { background: #0a0a0a; border: 1px solid #222; border-radius: 6px; overflow: hidden; }
 .titulo-coluna { padding: 15px; text-align: center; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; background: #111; border-bottom: 1px solid #222;}
 .coluna-oficial .titulo-coluna { color: var(--verde-seguro); border-bottom-color: rgba(0, 230, 118, 0.3); }
@@ -170,6 +173,7 @@ animation: fadeIn 0.3s ease-out; }
 </style>
 </head>
 <body>
+
 <div id="modal-jornal" onclick="fecharCardGuerra(event)">
 <div class="jornal-card" id="area-print" onclick="event.stopPropagation()">
 <div class="jornal-header"><i class="fa-solid fa-microchip"></i> RAILANTECH</div>
@@ -183,6 +187,7 @@ animation: fadeIn 0.3s ease-out; }
 </div>
 <button class="btn-salvar-imagem" onclick="baixarImagem(event)"><i class="fa-solid fa-download"></i> Salvar Arquivo</button>
 </div>
+
 <div id="modal-historico">
 <div class="historico-card">
 <i class="fa-solid fa-xmark btn-fechar-historico" onclick="fecharGavetaHistorico()"></i>
@@ -190,14 +195,28 @@ animation: fadeIn 0.3s ease-out; }
 <div id="lista-historico"></div>
 </div>
 </div>
+
+<div id="modal-cofre-laboratorio" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.98); z-index: 9999; display: none; flex-direction: column; align-items: center; justify-content: center;">
+    <div class="icone-cadeado" style="color: #ffffff;"><i class="fa-solid fa-user-ninja"></i></div>
+    <h1 class="titulo-bunker" style="color: #ffffff;">LABORATÓRIO (REC)</h1>
+    <p style="color: #555555; margin-bottom: 30px; font-size: 12px; letter-spacing: 2px;">ACESSO EXCLUSIVO DO DIRETOR</p>
+    
+    <input type="password" id="senha-laboratorio-input" class="input-senha" placeholder="CÓDIGO DE ACESSO" style="border-color: #333;" onkeypress="if(event.key === 'Enter') destravarLaboratorio()">
+    <button class="btn-entrar" style="background: #ffffff; color: #000;" onclick="destravarLaboratorio()">Abrir Cofre</button>
+    
+    <p id="msg-erro-laboratorio" style="color: var(--vermelho-alerta); margin-top: 25px; font-size: 13px; font-weight: bold; display: none;"> 🚨 CÓDIGO INVÁLIDO</p>
+    <button onclick="fecharTelaCofre()" style="margin-top: 25px; background: transparent; border: none; color: #555; cursor: pointer; font-size: 10px; font-weight: bold; letter-spacing: 2px;">[ CANCELAR ]</button>
+</div>
+
 <div id="tela-bloqueio">
 <div class="icone-cadeado"><i class="fa-solid fa-user-shield"></i></div>
 <h1 class="titulo-bunker">Bunker de Comando</h1>
 <p style="color: var(--texto-secundario); margin-bottom: 30px; font-size: 12px; letter-spacing: 2px;">PROTOCOLO 1% MONSTRO ATIVADO</p>
 <input type="password" id="senha-input" class="input-senha" placeholder="CHAVE MESTRA" onkeypress="if(event.key === 'Enter') acessarBunker()">
 <button class="btn-entrar" id="btn-login" onclick="acessarBunker()">Desbloquear Base</button>
-<p id="msg-erro">  🚨  ACESSO NEGADO</p>
+<p id="msg-erro">   🚨   ACESSO NEGADO</p>
 </div>
+
 <nav id="sidebar">
 <i class="fa-solid fa-xmark btn-fechar-menu" onclick="toggleSidebar()" title="Fechar Gaveta"></i>
 <div class="sidebar-header">
@@ -214,14 +233,23 @@ animation: fadeIn 0.3s ease-out; }
 <div class="sidebar-item" id="menu-zap" onclick="mudarAba('zap')"><i class="fa-brands fa-whatsapp"></i> Análise ZAP</div>
 <div class="sidebar-item" id="menu-email" onclick="mudarAba('email')"><i class="fa-solid fa-envelope"></i> Análise E-Mail</div>
 <div class="sidebar-item" id="menu-sms" onclick="mudarAba('sms')"><i class="fa-solid fa-comment-sms"></i> Análise SMS / Outro</div>
+
+<div class="divisor-menu"></div>
+<div class="sidebar-item" id="menu-laboratorio" onclick="abrirTelaCofre()">
+    <i class="fa-solid fa-folder-closed" style="color: #ffffff;"></i> LABORATÓRIO
+</div>
+
 <div class="sidebar-footer">Adaptação Visual 1% Monstro</div>
 </nav>
+
 <div class="top-bar">
 <div class="btn-menu" onclick="toggleSidebar()"><i class="fa-solid fa-bars-staggered"></i></div>
 <div class="top-title">RailanTech Command Center</div>
 <div class="status-satelite" id="indicador-satelite"><span></span> VERIFICANDO...</div>
 </div>
+
 <div id="painel-bunker">
+
 <div id="view-osint" class="view-section ativa">
 <div class="radar-bunker">
 <div class="radar-grid">
@@ -240,16 +268,16 @@ animation: fadeIn 0.3s ease-out; }
 </div>
 <div>
 <h4 style="color: var(--texto-secundario); font-size: 11px; margin-bottom: 15px; letter-spacing: 1px;">SEMÁFORO TÁTICO</h4>
-<div class="semaforo-item desligado" id="status-seguro"><span class="luz-neuro luz-verde"></span>  ✅  SEGURO</div>
-<div class="semaforo-item desligado" id="status-suspeito"><span class="luz-neuro luz-amarela"></span>  ⚠️  SUSPEITO</div>
-<div class="semaforo-item desligado" id="status-neutro"><span class="luz-neuro luz-branca"></span>  🛡️  NEUTRO</div>
-<div class="semaforo-item desligado" id="status-perigo"><span class="luz-neuro luz-vermelha"></span>  🚨  PERIGO</div>
-<div class="semaforo-item desligado" id="status-hacker"><span class="luz-neuro luz-roxa"></span>  ☠️  HACKER</div>
+<div class="semaforo-item desligado" id="status-seguro"><span class="luz-neuro luz-verde"></span>   ✅   SEGURO</div>
+<div class="semaforo-item desligado" id="status-suspeito"><span class="luz-neuro luz-amarela"></span>   ⚠️   SUSPEITO</div>
+<div class="semaforo-item desligado" id="status-neutro"><span class="luz-neuro luz-branca"></span>   🛡️   NEUTRO</div>
+<div class="semaforo-item desligado" id="status-perigo"><span class="luz-neuro luz-vermelha"></span>   🚨   PERIGO</div>
+<div class="semaforo-item desligado" id="status-hacker"><span class="luz-neuro luz-roxa"></span>   ☠️   HACKER</div>
 </div>
 </div>
 <p style="text-align: center; color: var(--texto-secundario); font-size: 11px; margin-top: 20px;">
 <span class="texto-radar-secreto" onclick="abrirGavetaHistorico('radar')" title="Ver Satélite ao Vivo">
-RADAR DO POVO: <strong style="color:#fff;" id="contador-visitas">0</strong> VISITAS HOJE  🗒️
+RADAR DO POVO: <strong style="color:#fff;" id="contador-visitas">0</strong> VISITAS HOJE   🗒️
 </span>
 </p>
 </div>
@@ -260,9 +288,10 @@ RADAR DO POVO: <strong style="color:#fff;" id="contador-visitas">0</strong> VISI
 <textarea id="input-texto-laudo" class="input-senha" style="width: 100%; height: 60px; text-align: left; font-size: 14px; margin: 0;" placeholder="ESCREVA O VEREDITO OFICIAL DO DIRETOR..."></textarea>
 <button class="btn-entrar" style="padding: 12px 30px;" onclick="transmitirLaudo()">Transmitir Laudo Blindado</button>
 </div>
-<p id="status-laudo" style="color: var(--verde-seguro); font-size: 12px; font-weight: bold; margin-top: 15px; display: none;">  ✓  LAUDO ATUALIZADO!</p>
+<p id="status-laudo" style="color: var(--verde-seguro); font-size: 12px; font-weight: bold; margin-top: 15px; display: none;">   ✓   LAUDO ATUALIZADO!</p>
 </div>
 </div>
+
 <div id="view-cloudflare" class="view-section">
 <h2 class="cf-header" style="color: var(--ouro-puro); text-transform: uppercase; font-size: 24px;">Painel de Defesa Orbital</h2>
 <div class="cf-grid">
@@ -284,409 +313,455 @@ RADAR DO POVO: <strong style="color:#fff;" id="contador-visitas">0</strong> VISI
 <h3 style="color: var(--vermelho-alerta); font-size: 16px; margin-top: 20px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px;"><i class="fa-solid fa-skull-crossbones"></i> PRISÃO DE INVASORES (RATOEIRA 1%)</h3>
 <div class="grid-dossies" id="grade-hackers"></div>
 </div>
+
 <div id="view-zap" class="view-section">
 <div class="header-triagem">
 <div><h2><i class="fa-brands fa-whatsapp"></i> Triagem: ZAP</h2></div>
 </div>
 <div class="grid-triagem">
-<div class="coluna-triagem coluna-oficial"><div class="titulo-coluna"> ✅  Oficial</div><div class="lista-numeros" id="lista-zap-oficial"></div></div>
-<div class="coluna-triagem coluna-estranho"><div class="titulo-coluna"> ⚠️  Estranho</div><div class="lista-numeros" id="lista-zap-estranho"></div></div>
-<div class="coluna-triagem coluna-neutro"><div class="titulo-coluna"> 🛡️  Jogos/Neutro</div><div class="lista-numeros" id="lista-zap-neutro"></div></div>
-<div class="coluna-triagem coluna-falso"><div class="titulo-coluna"> 🚨  Falso</div><div class="lista-numeros" id="lista-zap-falso"></div></div>
-<div class="coluna-triagem coluna-hacker"><div class="titulo-coluna"> 🟣☠️  HACKER</div><div class="lista-numeros" id="lista-zap-hacker"></div></div>
+<div class="coluna-triagem coluna-oficial"><div class="titulo-coluna">  ✅   Oficial</div><div class="lista-numeros" id="lista-zap-oficial"></div></div>
+<div class="coluna-triagem coluna-estranho"><div class="titulo-coluna">  ⚠️   Estranho</div><div class="lista-numeros" id="lista-zap-estranho"></div></div>
+<div class="coluna-triagem coluna-neutro"><div class="titulo-coluna">  🛡️   Jogos/Neutro</div><div class="lista-numeros" id="lista-zap-neutro"></div></div>
+<div class="coluna-triagem coluna-falso"><div class="titulo-coluna">  🚨   Falso</div><div class="lista-numeros" id="lista-zap-falso"></div></div>
 </div>
 </div>
+
 <div id="view-email" class="view-section">
 <div class="header-triagem"><h2><i class="fa-solid fa-envelope"></i> Triagem: E-Mail</h2></div>
 <div class="grid-triagem">
-<div class="coluna-triagem coluna-oficial"><div class="titulo-coluna"> ✅  Oficial</div><div class="lista-numeros"></div></div>
-<div class="coluna-triagem coluna-estranho"><div class="titulo-coluna"> ⚠️  Estranho</div><div class="lista-numeros"></div></div>
-<div class="coluna-triagem coluna-neutro"><div class="titulo-coluna"> 🛡️  Neutro</div><div class="lista-numeros"></div></div>
-<div class="coluna-triagem coluna-falso"><div class="titulo-coluna"> 🚨  Falso</div><div class="lista-numeros"></div></div>
-<div class="coluna-triagem coluna-hacker"><div class="titulo-coluna"> 🟣☠️  HACKER</div><div class="lista-numeros"></div></div>
+<div class="coluna-triagem coluna-oficial"><div class="titulo-coluna">  ✅   Oficial</div><div class="lista-numeros"></div></div>
+<div class="coluna-triagem coluna-estranho"><div class="titulo-coluna">  ⚠️   Estranho</div><div class="lista-numeros"></div></div>
+<div class="coluna-triagem coluna-neutro"><div class="titulo-coluna">  🛡️   Neutro</div><div class="lista-numeros"></div></div>
+<div class="coluna-triagem coluna-falso"><div class="titulo-coluna">  🚨   Falso</div><div class="lista-numeros"></div></div>
 </div>
 </div>
+
 <div id="view-sms" class="view-section">
 <div class="header-triagem"><h2><i class="fa-solid fa-comment-sms"></i> Triagem: SMS / Outro</h2></div>
 <div class="grid-triagem">
-<div class="coluna-triagem coluna-oficial"><div class="titulo-coluna"> ✅  Oficial</div><div class="lista-numeros"></div></div>
-<div class="coluna-triagem coluna-estranho"><div class="titulo-coluna"> ⚠️  Estranho</div><div class="lista-numeros"></div></div>
-<div class="coluna-triagem coluna-neutro"><div class="titulo-coluna"> 🛡️  Neutro</div><div class="lista-numeros"></div></div>
-<div class="coluna-triagem coluna-falso"><div class="titulo-coluna"> 🚨  Falso</div><div class="lista-numeros"></div></div>
-<div class="coluna-triagem coluna-hacker"><div class="titulo-coluna"> 🟣☠️  HACKER</div><div class="lista-numeros"></div></div>
+<div class="coluna-triagem coluna-oficial"><div class="titulo-coluna">  ✅   Oficial</div><div class="lista-numeros"></div></div>
+<div class="coluna-triagem coluna-estranho"><div class="titulo-coluna">  ⚠️   Estranho</div><div class="lista-numeros"></div></div>
+<div class="coluna-triagem coluna-neutro"><div class="titulo-coluna">  🛡️   Neutro</div><div class="lista-numeros"></div></div>
+<div class="coluna-triagem coluna-falso"><div class="titulo-coluna">  🚨   Falso</div><div class="lista-numeros"></div></div>
 </div>
 </div>
+
+<div id="view-laboratorio" class="view-section">
+    <div class="header-triagem" style="border-bottom-color: #555;">
+        <div><h2 style="color: #ffffff;"><i class="fa-solid fa-flask"></i> Laboratório Secreto (REC)</h2></div>
+        <button onclick="trancarLaboratorioDeNovo()" style="background: transparent; border: 1px solid #555; color: #aaa; padding: 5px 15px; border-radius: 4px; cursor: pointer; font-size: 11px;">🔒 Trancar Cofre</button>
+    </div>
+    <div style="background: rgba(168, 85, 247, 0.05); border: 1px solid var(--roxo-hacker); border-radius: 8px; padding: 20px; min-height: 400px;">
+        <p style="color: var(--roxo-hacker); font-size: 12px; font-weight: bold; letter-spacing: 2px; margin-bottom: 20px;"><i class="fa-solid fa-satellite-dish"></i> SATÉLITE RECATIVADO: ARQUIVOS CAPTURADOS</p>
+        <div class="lista-numeros coluna-hacker" id="gaveta-arquivos-hacker" style="display: flex; flex-direction: column; gap: 15px;">
+            </div>
+    </div>
 </div>
+
+</div>
+
 <script>
-//  🚨  MANTENHA A URL EXATA DO SEU CLOUDFLARE AQUI
+//   🚨   MANTENHA A URL EXATA DO SEU CLOUDFLARE AQUI
 const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
 let senhaMestraGlobal = "";
 let loopRadar = null;
 let ultimoHashDados = "";
 let memoriaDossiesGlobais = [];
 let visitasGlobais = 0;
+let laboratorioDestravado = false;
+
 function toggleSidebar() { document.getElementById('sidebar').classList.toggle('aberto'); }
+
 function mudarAba(aba) {
-document.querySelectorAll('.view-section').forEach(el => el.classList.remove('ativa'));
-document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('ativo'));
-document.getElementById(`view-${aba}`).classList.add('ativa');
-document.getElementById(`menu-${aba}`).classList.add('ativo');
-if(window.innerWidth < 768) { toggleSidebar(); }
-window.scrollTo({top: 0, behavior: 'smooth'});
+    document.querySelectorAll('.view-section').forEach(el => el.classList.remove('ativa'));
+    document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('ativo'));
+    document.getElementById(`view-${aba}`).classList.add('ativa');
+    document.getElementById(`menu-${aba}`).classList.add('ativo');
+    if(window.innerWidth < 768) { toggleSidebar(); }
+    window.scrollTo({top: 0, behavior: 'smooth'});
 }
+
+/* NOVAS REGRAS DO LABORATÓRIO SECRETO */
+function abrirTelaCofre() {
+    if (laboratorioDestravado) {
+        mudarAba('laboratorio');
+    } else {
+        document.getElementById('senha-laboratorio-input').value = "";
+        document.getElementById('msg-erro-laboratorio').style.display = "none";
+        document.getElementById('modal-cofre-laboratorio').style.display = "flex";
+    }
+}
+
+function fecharTelaCofre() {
+    document.getElementById('modal-cofre-laboratorio').style.display = "none";
+}
+
+function destravarLaboratorio() {
+    const senha = document.getElementById('senha-laboratorio-input').value;
+    if (senha === "Bunker_OuroPuro@95") {
+        laboratorioDestravado = true;
+        fecharTelaCofre();
+        mudarAba('laboratorio');
+    } else {
+        document.getElementById('msg-erro-laboratorio').style.display = "block";
+    }
+}
+
+function trancarLaboratorioDeNovo() {
+    laboratorioDestravado = false;
+    mudarAba('osint');
+}
+
 function abrirDossie(elemento) { elemento.nextElementSibling.classList.toggle('aberto'); }
+
 function copiarCodigo(event, codigo) {
-event.stopPropagation();
-navigator.clipboard.writeText(codigo).then(() => { alert("COPIADO: " + codigo); });
+    event.stopPropagation();
+    navigator.clipboard.writeText(codigo).then(() => { alert("COPIADO: " + codigo); });
 }
+
 function gerarBandeira(codigoPais) {
-if (!codigoPais || codigoPais === "Desconhecido" || codigoPais === "XX") return " 🏴‍☠️ ";
-const pontosDeCodigo = codigoPais.toUpperCase().split('').map(char => 127397 + char.charCodeAt());
-return String.fromCodePoint(...pontosDeCodigo);
+    if (!codigoPais || codigoPais === "Desconhecido" || codigoPais === "XX") return "  🏴 ‍ ☠️  ";
+    const pontosDeCodigo = codigoPais.toUpperCase().split('').map(char => 127397 + char.charCodeAt());
+    return String.fromCodePoint(...pontosDeCodigo);
 }
+
 function abrirCardGuerra(mensagemCrua, pais, event) {
-if(event) event.stopPropagation();
-let mensagemLimpa = mensagemCrua;
-if(mensagemLimpa.length > 80) mensagemLimpa = mensagemLimpa.substring(0, 80) + "...";
-document.getElementById('jornal-texto-fraude').innerText = `"${mensagemLimpa}"`;
-document.getElementById('jornal-bandeira').innerText = gerarBandeira(pais);
-document.getElementById('modal-jornal').style.display = 'flex';
+    if(event) event.stopPropagation();
+    let mensagemLimpa = mensagemCrua;
+    if(mensagemLimpa.length > 80) mensagemLimpa = mensagemLimpa.substring(0, 80) + "...";
+    document.getElementById('jornal-texto-fraude').innerText = `"${mensagemLimpa}"`;
+    document.getElementById('jornal-bandeira').innerText = gerarBandeira(pais);
+    document.getElementById('modal-jornal').style.display = 'flex';
 }
+
 function fecharCardGuerra(event) {
-if(event && event.target !== document.getElementById('modal-jornal')) return;
-document.getElementById('modal-jornal').style.display = 'none';
+    if(event && event.target !== document.getElementById('modal-jornal')) return;
+    document.getElementById('modal-jornal').style.display = 'none';
 }
+
 function baixarImagem(event) {
-if(event) event.stopPropagation();
-const botao = event.currentTarget;
-const textoOriginal = botao.innerHTML;
-botao.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processando...';
-const cardPrint = document.getElementById('area-print');
-
-html2canvas(cardPrint, { backgroundColor: "#0a0a0a", scale: 2 }).then(canvas => {
-const link = document.createElement('a');
-link.download = 'Alerta-RailanTech.png';
-link.href = canvas.toDataURL('image/png');
-link.click();
-botao.innerHTML = '<i class="fa-solid fa-check"></i> Salvo com Sucesso!';
-botao.style.background = "var(--verde-seguro)";
-setTimeout(() => {
-botao.innerHTML = textoOriginal;
-botao.style.background = "#555555";
-}, 3000);
-});
+    if(event) event.stopPropagation();
+    const botao = event.currentTarget;
+    const textoOriginal = botao.innerHTML;
+    botao.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processando...';
+    const cardPrint = document.getElementById('area-print');
+    html2canvas(cardPrint, { backgroundColor: "#0a0a0a", scale: 2 }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'Alerta-RailanTech.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        botao.innerHTML = '<i class="fa-solid fa-check"></i> Salvo com Sucesso!';
+        botao.style.background = "var(--verde-seguro)";
+        setTimeout(() => {
+            botao.innerHTML = textoOriginal;
+            botao.style.background = "#555555";
+        }, 3000);
+    });
 }
+
 function abrirGavetaHistorico(tipo) {
-const lista = document.getElementById('lista-historico');
-const titulo = document.getElementById('titulo-historico');
-lista.innerHTML = '';
-
-const d = new Date();
-const mesAtualNum = d.getMonth() + 1;
-const anoAtualNum = d.getFullYear();
-let mesPassadoNum = mesAtualNum - 1; let anoPassadoNum = anoAtualNum;
-if (mesPassadoNum === 0) { mesPassadoNum = 12; anoPassadoNum--; }
-
-const nomesMeses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
-if (tipo === 'radar') {
-titulo.innerHTML = '<i class="fa-solid fa-satellite-dish"></i> Radar do Povo (Status)';
-lista.innerHTML = `
-<div style="text-align:center; padding: 30px;">
-<i class="fa-solid fa-earth-americas" style="font-size: 70px; color: var(--verde-seguro); margin-bottom: 20px; animation: respirarOlho 2s infinite;"></i>
-<h3 style="color: #fff; font-size: 32px; letter-spacing: 2px;">${visitasGlobais} VISITAS</h3>
-<p style="color: var(--texto-secundario); font-size: 14px; margin-top: 15px;">Número de pessoas protegidas pelo seu sistema nas últimas 24 horas.</p>
-</div>
-`;
-} else {
-let mesAlvo = (tipo === 'atual') ? mesAtualNum : mesPassadoNum;
-let anoAlvo = (tipo === 'atual') ? anoAtualNum : anoPassadoNum;
-
-titulo.innerHTML = `<i class="fa-regular fa-folder-open"></i> Arquivo Secreto: ${nomesMeses[mesAlvo-1]} ${anoAlvo}`;
-
-let arquivosEncontrados = memoriaDossiesGlobais.filter(dossie => {
-if(!dossie.data) return false;
-const match = dossie.data.match(/(\d{2})\/(\d{2})\/(\d{4})/);
-if(match) { return parseInt(match[2]) === mesAlvo && parseInt(match[3]) === anoAlvo; }
-return false;
-});
-if (arquivosEncontrados.length === 0) {
-lista.innerHTML = '<p style="color: #555; text-align: center; padding: 20px; font-style: italic;">Nenhum dossiê registrado neste mês.</p>';
-} else {
-arquivosEncontrados.forEach(d => {
-let corLinha = d.protocolo.startsWith("HACKER-") ? "var(--roxo-hacker)" : "var(--ouro-puro)";
-let icone = d.protocolo.startsWith("HACKER-") ? " ☠️  Invasor Profissional" : " 📄  Dossiê";
-lista.innerHTML += `
-<div class="historico-item-linha" style="border-left-color: ${corLinha};">
-<div style="display:flex; justify-content: space-between; align-items: center;">
-<strong style="color: #fff; font-size: 14px;">${icone} | ${d.protocolo}</strong>
-<span style="color: #666; font-size: 11px;">${d.data || 'Desconhecido'}</span>
-</div>
-<p style="color: #ccc; font-size: 13px;"><strong>Perfil:</strong> ${d.perfil}</p>
-<p style="color: #999; font-size: 12px; font-style: italic;">"${d.mensagem.substring(0, 100)}..."</p>
-</div>
-`;
-});
+    const lista = document.getElementById('lista-historico');
+    const titulo = document.getElementById('titulo-historico');
+    lista.innerHTML = '';
+    const d = new Date();
+    const mesAtualNum = d.getMonth() + 1;
+    const anoAtualNum = d.getFullYear();
+    let mesPassadoNum = mesAtualNum - 1; let anoPassadoNum = anoAtualNum;
+    if (mesPassadoNum === 0) { mesPassadoNum = 12; anoPassadoNum--; }
+    const nomesMeses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+    
+    if (tipo === 'radar') {
+        titulo.innerHTML = '<i class="fa-solid fa-satellite-dish"></i> Radar do Povo (Status)';
+        lista.innerHTML = `
+        <div style="text-align:center; padding: 30px;">
+        <i class="fa-solid fa-earth-americas" style="font-size: 70px; color: var(--verde-seguro); margin-bottom: 20px; animation: respirarOlho 2s infinite;"></i>
+        <h3 style="color: #fff; font-size: 32px; letter-spacing: 2px;">${visitasGlobais} VISITAS</h3>
+        <p style="color: var(--texto-secundario); font-size: 14px; margin-top: 15px;">Número de pessoas protegidas pelo seu sistema nas últimas 24 horas.</p>
+        </div>
+        `;
+    } else {
+        let mesAlvo = (tipo === 'atual') ? mesAtualNum : mesPassadoNum;
+        let anoAlvo = (tipo === 'atual') ? anoAtualNum : anoPassadoNum;
+        titulo.innerHTML = `<i class="fa-regular fa-folder-open"></i> Arquivo Secreto: ${nomesMeses[mesAlvo-1]} ${anoAlvo}`;
+        let arquivosEncontrados = memoriaDossiesGlobais.filter(dossie => {
+            if(!dossie.data) return false;
+            const match = dossie.data.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+            if(match) { return parseInt(match[2]) === mesAlvo && parseInt(match[3]) === anoAlvo; }
+            return false;
+        });
+        if (arquivosEncontrados.length === 0) {
+            lista.innerHTML = '<p style="color: #555; text-align: center; padding: 20px; font-style: italic;">Nenhum dossiê registrado neste mês.</p>';
+        } else {
+            arquivosEncontrados.forEach(d => {
+                let corLinha = d.protocolo.startsWith("HACKER-") ? "var(--roxo-hacker)" : "var(--ouro-puro)";
+                let icone = d.protocolo.startsWith("HACKER-") ? "  ☠️   Invasor Profissional" : "  📄   Dossiê";
+                lista.innerHTML += `
+                <div class="historico-item-linha" style="border-left-color: ${corLinha};">
+                <div style="display:flex; justify-content: space-between; align-items: center;">
+                <strong style="color: #fff; font-size: 14px;">${icone} | ${d.protocolo}</strong>
+                <span style="color: #666; font-size: 11px;">${d.data || 'Desconhecido'}</span>
+                </div>
+                <p style="color: #ccc; font-size: 13px;"><strong>Perfil:</strong> ${d.perfil}</p>
+                <p style="color: #999; font-size: 12px; font-style: italic;">"${d.mensagem.substring(0, 100)}..."</p>
+                </div>
+                `;
+            });
+        }
+    }
+    document.getElementById('modal-historico').style.display = 'flex';
 }
-}
-document.getElementById('modal-historico').style.display = 'flex';
-}
+
 function fecharGavetaHistorico() { document.getElementById('modal-historico').style.display = 'none'; }
+
 async function solicitarRespostaIA() {
-if(!confirm(" ⚠️  Pedir para a I.A analisar o mês e escrever uma resposta oficial?")) return;
-try {
-await fetch(API_MATRIZ + "?comando=ia_responde", { method: "GET", headers: { "Authorization": "Bearer " + senhaMestraGlobal } });
-alert(" ✓  Ordem transmitida ao Satélite.");
-} catch(e) {}
+    if(!confirm("  ⚠️   Pedir para a I.A analisar o mês e escrever uma resposta oficial?")) return;
+    try {
+        await fetch(API_MATRIZ + "?comando=ia_responde", { method: "GET", headers: { "Authorization": "Bearer " + senhaMestraGlobal } });
+        alert("  ✓   Ordem transmitida ao Satélite.");
+    } catch(e) {}
 }
+
 function atualizarStatusSatelite(isOnline) {
-const indicador = document.getElementById('indicador-satelite');
-if (isOnline) {
-indicador.className = 'status-satelite online';
-indicador.innerHTML = '<span></span> ONLINE';
-document.body.classList.remove('modo-offline');
-} else {
-indicador.className = 'status-satelite offline';
-indicador.innerHTML = '<span></span> OFFLINE / QUEDA';
-document.body.classList.add('modo-offline');
+    const indicador = document.getElementById('indicador-satelite');
+    if (isOnline) {
+        indicador.className = 'status-satelite online';
+        indicador.innerHTML = '<span></span> ONLINE';
+        document.body.classList.remove('modo-offline');
+    } else {
+        indicador.className = 'status-satelite offline';
+        indicador.innerHTML = '<span></span> OFFLINE / QUEDA';
+        document.body.classList.add('modo-offline');
+    }
 }
-}
+
 async function deletarDossie(protocolo, event) {
-event.stopPropagation();
-if(!confirm(" ⚠️  DESTRUIR este dossiê?")) return;
-event.target.closest('.item-dossie') ? event.target.closest('.item-dossie').style.display = 'none' : null;
-event.target.closest('.card-dossie') ? event.target.closest('.card-dossie').style.display = 'none' : null;
-try {
-await fetch(API_MATRIZ, { method: "DELETE", headers: { "Content-Type": "application/json", "Authorization": "Bearer " + senhaMestraGlobal }, body: JSON.stringify({ protocolo: protocolo }) });
-ultimoHashDados = ""; buscarDossiesSecretos(senhaMestraGlobal);
-} catch(e) {}
+    event.stopPropagation();
+    if(!confirm("  ⚠️   DESTRUIR este dossiê?")) return;
+    event.target.closest('.item-dossie') ? event.target.closest('.item-dossie').style.display = 'none' : null;
+    event.target.closest('.card-dossie') ? event.target.closest('.card-dossie').style.display = 'none' : null;
+    try {
+        await fetch(API_MATRIZ, { method: "DELETE", headers: { "Content-Type": "application/json", "Authorization": "Bearer " + senhaMestraGlobal }, body: JSON.stringify({ protocolo: protocolo }) });
+        ultimoHashDados = ""; buscarDossiesSecretos(senhaMestraGlobal);
+    } catch(e) {}
 }
+
 async function acessarBunker() {
-const senha = document.getElementById('senha-input').value.trim();
-if(!senha) return;
-document.getElementById('msg-erro').style.display = "none";
-document.getElementById('btn-login').innerText = "VERIFICANDO...";
-await buscarDossiesSecretos(senha);
+    const senha = document.getElementById('senha-input').value.trim();
+    if(!senha) return;
+    document.getElementById('msg-erro').style.display = "none";
+    document.getElementById('btn-login').innerText = "VERIFICANDO...";
+    await buscarDossiesSecretos(senha);
 }
+
 async function buscarDossiesSecretos(chaveMestra) {
-try {
-const req = await fetch(API_MATRIZ, { method: "GET", headers: { "Authorization": "Bearer " + chaveMestra } });
-
-if(req.status === 403) throw new Error("BLOQUEADO PELA RATOEIRA");
-if(req.status === 401) throw new Error("CHAVE MESTRA INCORRETA");
-
-if(!req.ok) {
-let detalheErro = "Status HTTP " + req.status;
-try {
-const erroServidor = await req.json();
-if(erroServidor && erroServidor.detalhe) detalheErro = erroServidor.detalhe;
-else if(erroServidor && erroServidor.analise) detalheErro = erroServidor.analise;
-} catch(jsonErr) {
-try { const textoPuro = await req.text(); if(textoPuro) detalheErro = "Resposta: " + textoPuro.substring(0, 50); } catch(textErr){}
-}
-throw new Error("SATÉLITE REJEITOU (" + detalheErro + ")");
-}
-
-senhaMestraGlobal = chaveMestra;
-document.getElementById('tela-bloqueio').style.display = "none";
-document.getElementById('painel-bunker').style.display = "block";
-atualizarStatusSatelite(true);
-
-const dados = await req.json();
-const dadosString = JSON.stringify(dados);
-
-if (dadosString !== ultimoHashDados) {
-ultimoHashDados = dadosString;
-memoriaDossiesGlobais = dados;
-
-const gradeHackers = document.getElementById('grade-hackers');
-const gavetaZapEstranho = document.getElementById('lista-zap-estranho');
-const gavetaZapHacker = document.getElementById('lista-zap-hacker');
-
-if(gradeHackers) gradeHackers.innerHTML = "";
-if(gavetaZapEstranho) gavetaZapEstranho.innerHTML = "";
-if(gavetaZapHacker) gavetaZapHacker.innerHTML = "";
-
-let temHacker = false, temDossie = false;
-let qtdMesAtual = 0, qtdMesPassado = 0;
-const dataHoje = new Date();
-const mesAtualNum = dataHoje.getMonth() + 1, anoAtualNum = dataHoje.getFullYear();
-let mesPassadoNum = mesAtualNum - 1, anoPassadoNum = anoAtualNum;
-if (mesPassadoNum === 0) { mesPassadoNum = 12; anoPassadoNum--; }
-
-if (dados.length > 0) {
-dados.reverse().forEach(dossie => {
-if(dossie.data) {
-const match = dossie.data.match(/(\d{2})\/(\d{2})\/(\d{4})/);
-if(match) {
-if (parseInt(match[2]) === mesAtualNum && parseInt(match[3]) === anoAtualNum) qtdMesAtual++;
-else if (parseInt(match[2]) === mesPassadoNum && parseInt(match[3]) === anoPassadoNum) qtdMesPassado++;
-}
-}
-if (dossie.protocolo && dossie.protocolo.startsWith("HACKER-")) {
-temHacker = true; renderCardHacker(dossie, gradeHackers);
-} else if (dossie.protocolo !== "Aviso") {
-temDossie = true;
-if (dossie.perfil && (dossie.perfil.toLowerCase().includes('hacker') || dossie.perfil.toLowerCase().includes('invasor'))) {
-if(gavetaZapHacker) renderCardRetratil(dossie, gavetaZapHacker, true);
-} else {
-if(gavetaZapEstranho) renderCardRetratil(dossie, gavetaZapEstranho, false);
-}
-}
-});
-}
-
-document.body.classList.remove('alerta-visual-cidadao', 'alerta-visual-hacker');
-void document.body.offsetWidth;
-if (temHacker) document.body.classList.add('alerta-visual-hacker');
-else if (temDossie) document.body.classList.add('alerta-visual-cidadao');
-
-if(document.getElementById('qtd-mes-atual')) document.getElementById('qtd-mes-atual').innerText = qtdMesAtual;
-if(document.getElementById('qtd-mes-passado')) document.getElementById('qtd-mes-passado').innerText = qtdMesPassado;
-
-['status-seguro', 'status-suspeito', 'status-neutro', 'status-perigo', 'status-hacker'].forEach(id => {
-if(document.getElementById(id)) document.getElementById(id).classList.add('desligado');
-});
-
-if (dados.length > 0) {
-if (temHacker && document.getElementById('status-perigo')) document.getElementById('status-perigo').classList.remove('desligado');
-else if (temDossie && document.getElementById('status-suspeito')) document.getElementById('status-suspeito').classList.remove('desligado');
-}
-}
-
-try {
-const reqRadar = await fetch(API_MATRIZ + "?comando=radar", { method: "GET", headers: { "Authorization": "Bearer " + chaveMestra } });
-if (reqRadar.ok) {
-const radar = await reqRadar.json();
-if(radar.visitas !== undefined) {
-if(document.getElementById('contador-visitas')) document.getElementById('contador-visitas').innerText = radar.visitas;
-visitasGlobais = radar.visitas;
-}
-}
-} catch(e) {}
-
-if (!loopRadar) loopRadar = setInterval(() => { buscarDossiesSecretos(senhaMestraGlobal); }, 10000);
-} catch (e) {
-document.getElementById('btn-login').innerText = "Desbloquear Base";
-document.getElementById('senha-input').value = "";
-
-if (e.message.includes("Failed to fetch")) {
-document.getElementById('msg-erro').innerText = " 🚨  REDE BLOQUEADA: O Cloudflare não está permitindo a conexão.";
-} else {
-document.getElementById('msg-erro').innerText = " 🚨  " + e.message;
+    try {
+        const req = await fetch(API_MATRIZ, { method: "GET", headers: { "Authorization": "Bearer " + chaveMestra } });
+        if(req.status === 403) throw new Error("BLOQUEADO PELA RATOEIRA");
+        if(req.status === 401) throw new Error("CHAVE MESTRA INCORRETA");
+        if(!req.ok) {
+            let detalheErro = "Status HTTP " + req.status;
+            try {
+                const erroServidor = await req.json();
+                if(erroServidor && erroServidor.detalhe) detalheErro = erroServidor.detalhe;
+                else if(erroServidor && erroServidor.analise) detalheErro = erroServidor.analise;
+            } catch(jsonErr) {
+                try { const textoPuro = await req.text(); if(textoPuro) detalheErro = "Resposta: " + textoPuro.substring(0, 50); } catch(textErr){}
+            }
+            throw new Error("SATÉLITE REJEITOU (" + detalheErro + ")");
+        }
+        senhaMestraGlobal = chaveMestra;
+        document.getElementById('tela-bloqueio').style.display = "none";
+        document.getElementById('painel-bunker').style.display = "block";
+        atualizarStatusSatelite(true);
+        const dados = await req.json();
+        const dadosString = JSON.stringify(dados);
+        
+        if (dadosString !== ultimoHashDados) {
+            ultimoHashDados = dadosString;
+            memoriaDossiesGlobais = dados;
+            const gradeHackers = document.getElementById('grade-hackers');
+            const gavetaZapEstranho = document.getElementById('lista-zap-estranho');
+            const gavetaArquivosHacker = document.getElementById('gaveta-arquivos-hacker');
+            
+            if(gradeHackers) gradeHackers.innerHTML = "";
+            if(gavetaZapEstranho) gavetaZapEstranho.innerHTML = "";
+            if(gavetaArquivosHacker) gavetaArquivosHacker.innerHTML = "";
+            
+            let temHacker = false, temDossie = false;
+            let qtdMesAtual = 0, qtdMesPassado = 0;
+            const dataHoje = new Date();
+            const mesAtualNum = dataHoje.getMonth() + 1, anoAtualNum = dataHoje.getFullYear();
+            let mesPassadoNum = mesAtualNum - 1, anoPassadoNum = anoAtualNum;
+            if (mesPassadoNum === 0) { mesPassadoNum = 12; anoPassadoNum--; }
+            
+            if (dados.length > 0) {
+                dados.reverse().forEach(dossie => {
+                    if(dossie.data) {
+                        const match = dossie.data.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+                        if(match) {
+                            if (parseInt(match[2]) === mesAtualNum && parseInt(match[3]) === anoAtualNum) qtdMesAtual++;
+                            else if (parseInt(match[2]) === mesPassadoNum && parseInt(match[3]) === anoPassadoNum) qtdMesPassado++;
+                        }
+                    }
+                    if (dossie.protocolo && dossie.protocolo.startsWith("HACKER-")) {
+                        temHacker = true; renderCardHacker(dossie, gradeHackers);
+                    } else if (dossie.protocolo !== "Aviso") {
+                        temDossie = true;
+                        if (dossie.perfil && (dossie.perfil.toLowerCase().includes('hacker') || dossie.perfil.toLowerCase().includes('invasor'))) {
+                            // JOGA OS DADOS NO LABORATÓRIO (ESCONDIDO)
+                            if(gavetaArquivosHacker) renderCardRetratil(dossie, gavetaArquivosHacker, true);
+                        } else {
+                            if(gavetaZapEstranho) renderCardRetratil(dossie, gavetaZapEstranho, false);
+                        }
+                    }
+                });
+            }
+            document.body.classList.remove('alerta-visual-cidadao', 'alerta-visual-hacker');
+            void document.body.offsetWidth;
+            if (temHacker) document.body.classList.add('alerta-visual-hacker');
+            else if (temDossie) document.body.classList.add('alerta-visual-cidadao');
+            if(document.getElementById('qtd-mes-atual')) document.getElementById('qtd-mes-atual').innerText = qtdMesAtual;
+            if(document.getElementById('qtd-mes-passado')) document.getElementById('qtd-mes-passado').innerText = qtdMesPassado;
+            ['status-seguro', 'status-suspeito', 'status-neutro', 'status-perigo', 'status-hacker'].forEach(id => {
+                if(document.getElementById(id)) document.getElementById(id).classList.add('desligado');
+            });
+            if (dados.length > 0) {
+                if (temHacker && document.getElementById('status-perigo')) document.getElementById('status-perigo').classList.remove('desligado');
+                else if (temDossie && document.getElementById('status-suspeito')) document.getElementById('status-suspeito').classList.remove('desligado');
+            }
+        }
+        
+        try {
+            const reqRadar = await fetch(API_MATRIZ + "?comando=radar", { method: "GET", headers: { "Authorization": "Bearer " + chaveMestra } });
+            if (reqRadar.ok) {
+                const radar = await reqRadar.json();
+                if(radar.visitas !== undefined) {
+                    if(document.getElementById('contador-visitas')) document.getElementById('contador-visitas').innerText = radar.visitas;
+                    visitasGlobais = radar.visitas;
+                }
+            }
+        } catch(e) {}
+        
+        if (!loopRadar) loopRadar = setInterval(() => { buscarDossiesSecretos(senhaMestraGlobal); }, 10000);
+        
+    } catch (e) {
+        document.getElementById('btn-login').innerText = "Desbloquear Base";
+        document.getElementById('senha-input').value = "";
+        if (e.message.includes("Failed to fetch")) {
+            document.getElementById('msg-erro').innerText = "  🚨   REDE BLOQUEADA: O Cloudflare não está permitindo a conexão.";
+        } else {
+            document.getElementById('msg-erro').innerText = "  🚨   " + e.message;
+        }
+        document.getElementById('msg-erro').style.display = "block";
+        atualizarStatusSatelite(false);
+        if(loopRadar) { clearInterval(loopRadar); loopRadar = null; }
+    }
 }
 
-document.getElementById('msg-erro').style.display = "block";
-atualizarStatusSatelite(false);
-if(loopRadar) { clearInterval(loopRadar); loopRadar = null; }
-}
-}
 function renderCardHacker(dossie, grade) {
-if(!grade) return;
-const bandeira = gerarBandeira(dossie.pais);
-const card = document.createElement('div');
-card.className = 'card-dossie hacker';
-
-if(dossie.protocolo === "HACKER-ALERTA") {
-card.innerHTML = `<h3 style="color:var(--vermelho-alerta); margin-bottom:10px;"> 🚨  AVISO DO SATÉLITE</h3><p style="font-size:14px; font-weight:bold;">${dossie.mensagem}</p>`;
-grade.appendChild(card); return;
+    if(!grade) return;
+    const bandeira = gerarBandeira(dossie.pais);
+    const card = document.createElement('div');
+    card.className = 'card-dossie hacker';
+    if(dossie.protocolo === "HACKER-ALERTA") {
+        card.innerHTML = `<h3 style="color:var(--vermelho-alerta); margin-bottom:10px;">  🚨   AVISO DO SATÉLITE</h3><p style="font-size:14px; font-weight:bold;">${dossie.mensagem}</p>`;
+        grade.appendChild(card); return;
+    }
+    let iconeMaquina = " 💻 ";
+    if(dossie.dadosProfundos && dossie.dadosProfundos.maquina) {
+        const mq = dossie.dadosProfundos.maquina.toLowerCase();
+        if(mq.includes("mobi") || mq.includes("android") || mq.includes("iphone") || mq.includes("ipad")) {
+            iconeMaquina = " 📱 ";
+        }
+    }
+    let badgeVpn = "";
+    if(dossie.dadosProfundos && dossie.dadosProfundos.vpn && dossie.dadosProfundos.vpn !== "Não" && dossie.dadosProfundos.vpn !== "Análise Requerida") {
+        badgeVpn = `<span style="background: rgba(168, 85, 247, 0.2); color: #c084fc; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-left: 8px;"><i class="fa-solid fa-user-ninja"></i>  🥷  VPN/TOR</span>`;
+    }
+    const msgSegura = encodeURIComponent(dossie.mensagem);
+    card.innerHTML = `
+    <div class="card-topo">
+    <div style="display:flex; align-items:center; gap:8px;"><span class="bandeira-icon">${bandeira}</span><span class="card-id">${dossie.protocolo}</span>${badgeVpn}</div>
+    <i class="fa-solid fa-xmark btn-limpar-card" onclick="deletarDossie('${dossie.protocolo}', event)"></i>
+    </div>
+    <div style="display: flex; gap: 15px; margin-bottom: 15px; align-items: center;">
+    <span style="font-size: 24px; background: #000; padding: 10px; border-radius: 8px; border: 1px solid #222; display: flex; align-items: center; justify-content: center;">${iconeMaquina}</span>
+    <div>
+    <p style="font-size:11px; font-weight: bold; color: var(--vermelho-alerta); letter-spacing: 1px;">INVASOR INTERCEPTADO</p>
+    <p style="font-size:13px; color: #fff; font-weight: bold;">${dossie.perfil}</p>
+    </div>
+    </div>
+    <p style="font-size:13px; color:#aaa; margin-bottom:15px; background: #000; padding: 12px; border-radius: 6px; border: 1px solid #1a1a1a; font-style: italic;">"${dossie.mensagem}"</p>
+    <p style="font-size: 11px; color: var(--texto-secundario); font-family: 'Courier New', monospace; background: #000; padding: 10px; border-radius: 4px; border: 1px solid #111;"><strong>DNA Digital:</strong> <span style="color: var(--roxo-hacker); font-weight: bold;">${dossie.assinaturaDigital}</span></p>
+    <button class="btn-card-guerra" onclick="abrirCardGuerra(decodeURIComponent('${msgSegura}'), '${dossie.pais}')"><i class="fa-solid fa-camera"></i> Gerar Card de Alerta</button>`;
+    grade.appendChild(card);
 }
 
-let iconeMaquina = "💻";
-if(dossie.dadosProfundos && dossie.dadosProfundos.maquina) {
-const mq = dossie.dadosProfundos.maquina.toLowerCase();
-if(mq.includes("mobi") || mq.includes("android") || mq.includes("iphone") || mq.includes("ipad")) {
-iconeMaquina = "📱";
-}
-}
-
-let badgeVpn = "";
-if(dossie.dadosProfundos && dossie.dadosProfundos.vpn && dossie.dadosProfundos.vpn !== "Não" && dossie.dadosProfundos.vpn !== "Análise Requerida") {
-badgeVpn = `<span style="background: rgba(168, 85, 247, 0.2); color: #c084fc; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-left: 8px;"><i class="fa-solid fa-user-ninja"></i> 🥷 VPN/TOR</span>`;
-}
-
-const msgSegura = encodeURIComponent(dossie.mensagem);
-card.innerHTML = `
-<div class="card-topo">
-<div style="display:flex; align-items:center; gap:8px;"><span class="bandeira-icon">${bandeira}</span><span class="card-id">${dossie.protocolo}</span>${badgeVpn}</div>
-<i class="fa-solid fa-xmark btn-limpar-card" onclick="deletarDossie('${dossie.protocolo}', event)"></i>
-</div>
-<div style="display: flex; gap: 15px; margin-bottom: 15px; align-items: center;">
-<span style="font-size: 24px; background: #000; padding: 10px; border-radius: 8px; border: 1px solid #222; display: flex; align-items: center; justify-content: center;">${iconeMaquina}</span>
-<div>
-<p style="font-size:11px; font-weight: bold; color: var(--vermelho-alerta); letter-spacing: 1px;">INVASOR INTERCEPTADO</p>
-<p style="font-size:13px; color: #fff; font-weight: bold;">${dossie.perfil}</p>
-</div>
-</div>
-<p style="font-size:13px; color:#aaa; margin-bottom:15px; background: #000; padding: 12px; border-radius: 6px; border: 1px solid #1a1a1a; font-style: italic;">"${dossie.mensagem}"</p>
-<p style="font-size: 11px; color: var(--texto-secundario); font-family: 'Courier New', monospace; background: #000; padding: 10px; border-radius: 4px; border: 1px solid #111;"><strong>DNA Digital:</strong> <span style="color: var(--roxo-hacker); font-weight: bold;">${dossie.assinaturaDigital}</span></p>
-<button class="btn-card-guerra" onclick="abrirCardGuerra(decodeURIComponent('${msgSegura}'), '${dossie.pais}')"><i class="fa-solid fa-camera"></i> Gerar Card de Alerta</button>`;
-grade.appendChild(card);
-}
 function renderCardRetratil(dossie, gaveta, isHackerColumn) {
-if(!gaveta) return;
-const bandeira = gerarBandeira(dossie.pais);
-const item = document.createElement('div');
-item.className = 'item-dossie';
-
-let iconePerfil = "👤";
-if(dossie.perfil) {
-const pf = dossie.perfil.toLowerCase();
-if(pf.includes("idoso") || pf.includes("60")) iconePerfil = "🧓";
-else if(pf.includes("pcd") || pf.includes("deficiência")) iconePerfil = "♿";
-else if(pf.includes("empresa") || pf.includes("cnpj")) iconePerfil = "🏢";
-else if(pf.includes("hacker") || pf.includes("invasor")) iconePerfil = "☠️";
+    if(!gaveta) return;
+    const bandeira = gerarBandeira(dossie.pais);
+    const item = document.createElement('div');
+    item.className = 'item-dossie';
+    let iconePerfil = " 👤 ";
+    if(dossie.perfil) {
+        const pf = dossie.perfil.toLowerCase();
+        if(pf.includes("idoso") || pf.includes("60")) iconePerfil = " 🧓 ";
+        else if(pf.includes("pcd") || pf.includes("deficiência")) iconePerfil = " ♿ ";
+        else if(pf.includes("empresa") || pf.includes("cnpj")) iconePerfil = " 🏢 ";
+        else if(pf.includes("hacker") || pf.includes("invasor")) iconePerfil = " ☠️ ";
+    }
+    let conteudoProfundoHacker = "";
+    if (isHackerColumn && dossie.dadosProfundos) {
+        conteudoProfundoHacker = `
+        <div style="margin-top: 15px; padding: 15px; background: rgba(168, 85, 247, 0.05); border: 1px dashed var(--roxo-hacker); border-radius: 4px; color: var(--roxo-hacker); font-family: 'Courier New', monospace; font-size: 11px; display:flex; flex-direction:column; gap:8px;">
+        <strong><i class="fa-solid fa-satellite-dish"></i> DNA Digital Profundo (CIA/007)</strong>
+        <span>OS/Máquina: ${dossie.dadosProfundos.maquina || 'Oculto'}</span>
+        <span>Provedor (ASN): ${dossie.dadosProfundos.provedor || 'Oculto'}</span>
+        <span>Cripto TLS: ${dossie.dadosProfundos.tls || 'Oculto'}</span>
+        <span>VPN/TOR: ${dossie.dadosProfundos.vpn || 'Oculto'}</span>
+        <span style="border: 1px solid var(--vermelho-alerta); color:var(--vermelho-alerta); padding: 5px; text-align:center; font-weight:bold; text-transform:uppercase;">  🚫   Rosto Digital Bloqueado Perpetual</span>
+        </div>`;
+    }
+    item.innerHTML = `
+    <div class="item-cabecalho" onclick="abrirDossie(this)">
+    <span class="codigo-rt"><span class="bandeira-icon">${bandeira}</span> ${dossie.protocolo}</span>
+    <div class="botoes-acao">
+    <button class="btn-copiar" onclick="copiarCodigo(event, '${dossie.protocolo}')"><i class="fa-regular fa-copy"></i></button>
+    <i class="fa-solid fa-magnifying-glass btn-mostrar"></i>
+    <i class="fa-solid fa-xmark btn-limpar-card" style="margin-left:10px; color:var(--vermelho-alerta);" onclick="deletarDossie('${dossie.protocolo}', event)"></i>
+    </div></div>
+    <div class="item-detalhes">
+    <div class="dado-linha"><strong>${iconePerfil} PERFIL:</strong> ${dossie.perfil}</div>
+    <div class="dado-linha"><strong>CANAL:</strong> ${dossie.canal || 'Não informado'}</div>
+    <div class="texto-denuncia">"${dossie.mensagem}"</div>
+    <div style="margin-top: 15px; padding: 10px; background: rgba(0, 230, 118, 0.1); border: 1px solid var(--verde-seguro); border-radius: 4px; color: var(--verde-seguro); font-size: 11px; font-weight: bold; text-align: center;">
+    <i class="fa-solid fa-robot"></i> LAUDO DA I.A NO COFRE
+    </div>${conteudoProfundoHacker}</div>`;
+    gaveta.appendChild(item);
 }
 
-let conteudoProfundoHacker = "";
-if (isHackerColumn && dossie.dadosProfundos) {
-conteudoProfundoHacker = `
-<div style="margin-top: 15px; padding: 15px; background: rgba(168, 85, 247, 0.05); border: 1px dashed var(--roxo-hacker); border-radius: 4px; color: var(--roxo-hacker); font-family: 'Courier New', monospace; font-size: 11px; display:flex; flex-direction:column; gap:8px;">
-<strong><i class="fa-solid fa-satellite-dish"></i> DNA Digital Profundo (CIA/007)</strong>
-<span>OS/Máquina: ${dossie.dadosProfundos.maquina || 'Oculto'}</span>
-<span>Provedor (ASN): ${dossie.dadosProfundos.provedor || 'Oculto'}</span>
-<span>Cripto TLS: ${dossie.dadosProfundos.tls || 'Oculto'}</span>
-<span>VPN/TOR: ${dossie.dadosProfundos.vpn || 'Oculto'}</span>
-<span style="border: 1px solid var(--vermelho-alerta); color:var(--vermelho-alerta); padding: 5px; text-align:center; font-weight:bold; text-transform:uppercase;"> 🚫  Rosto Digital Bloqueado Perpetual</span>
-</div>`;
-}
-item.innerHTML = `
-<div class="item-cabecalho" onclick="abrirDossie(this)">
-<span class="codigo-rt"><span class="bandeira-icon">${bandeira}</span> ${dossie.protocolo}</span>
-<div class="botoes-acao">
-<button class="btn-copiar" onclick="copiarCodigo(event, '${dossie.protocolo}')"><i class="fa-regular fa-copy"></i></button>
-<i class="fa-solid fa-magnifying-glass btn-mostrar"></i>
-<i class="fa-solid fa-xmark btn-limpar-card" style="margin-left:10px; color:var(--vermelho-alerta);" onclick="deletarDossie('${dossie.protocolo}', event)"></i>
-</div></div>
-<div class="item-detalhes">
-<div class="dado-linha"><strong>${iconePerfil} PERFIL:</strong> ${dossie.perfil}</div>
-<div class="dado-linha"><strong>CANAL:</strong> ${dossie.canal || 'Não informado'}</div>
-<div class="texto-denuncia">"${dossie.mensagem}"</div>
-<div style="margin-top: 15px; padding: 10px; background: rgba(0, 230, 118, 0.1); border: 1px solid var(--verde-seguro); border-radius: 4px; color: var(--verde-seguro); font-size: 11px; font-weight: bold; text-align: center;">
-<i class="fa-solid fa-robot"></i> LAUDO DA I.A NO COFRE
-</div>${conteudoProfundoHacker}</div>`;
-gaveta.appendChild(item);
-}
 async function transmitirLaudo() {
-const codigo = document.getElementById('input-codigo-laudo').value.trim();
-const texto = document.getElementById('input-texto-laudo').value.trim();
-if(!codigo || !texto) return;
-try {
-await fetch(API_MATRIZ, { method: "POST", headers: { "Content-Type": "application/json", "Authorization": "Bearer " + senhaMestraGlobal }, body: JSON.stringify({ tipo: "emitir_laudo", codigo, texto }) });
-document.getElementById('status-laudo').style.display = "block";
-document.getElementById('input-codigo-laudo').value = ""; document.getElementById('input-texto-laudo').value = "";
-setTimeout(() => { if(document.getElementById('status-laudo')) document.getElementById('status-laudo').style.display = "none"; }, 4000);
-ultimoHashDados = ""; buscarDossiesSecretos(senhaMestraGlobal);
-} catch(e) {}
+    const codigo = document.getElementById('input-codigo-laudo').value.trim();
+    const texto = document.getElementById('input-texto-laudo').value.trim();
+    if(!codigo || !texto) return;
+    try {
+        await fetch(API_MATRIZ, { method: "POST", headers: { "Content-Type": "application/json", "Authorization": "Bearer " + senhaMestraGlobal }, body: JSON.stringify({ tipo: "emitir_laudo", codigo, texto }) });
+        document.getElementById('status-laudo').style.display = "block";
+        document.getElementById('input-codigo-laudo').value = ""; document.getElementById('input-texto-laudo').value = "";
+        setTimeout(() => { if(document.getElementById('status-laudo')) document.getElementById('status-laudo').style.display = "none"; }, 4000);
+        ultimoHashDados = ""; buscarDossiesSecretos(senhaMestraGlobal);
+    } catch(e) {}
 }
+
 document.addEventListener('DOMContentLoaded', () => {
-const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
-const d = new Date();
-if(document.getElementById('nome-mes-atual')) {
-document.getElementById('nome-mes-atual').innerText = meses[d.getMonth()] + " " + d.getFullYear();
-let mPassado = d.getMonth() - 1, aPassado = d.getFullYear();
-if(mPassado < 0) { mPassado = 11; aPassado--; }
-document.getElementById('nome-mes-passado').innerText = meses[mPassado] + " " + aPassado;
-}
+    const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+    const d = new Date();
+    if(document.getElementById('nome-mes-atual')) {
+        document.getElementById('nome-mes-atual').innerText = meses[d.getMonth()] + " " + d.getFullYear();
+        let mPassado = d.getMonth() - 1, aPassado = d.getFullYear();
+        if(mPassado < 0) { mPassado = 11; aPassado--; }
+        document.getElementById('nome-mes-passado').innerText = meses[mPassado] + " " + aPassado;
+    }
 });
 </script>
 </body>
