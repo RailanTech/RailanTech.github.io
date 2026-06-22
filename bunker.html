@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bunker Secreto - RailanTech</title>
+<title>RailanTech - Comando e Defesa</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
@@ -15,42 +15,37 @@
 }
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Courier New', Courier, monospace; }
 body { background-color: var(--bg-base); color: var(--texto-principal); min-height: 100vh; overflow-x: hidden; transition: box-shadow 0.3s, border-top 0.3s; border-top: 0px solid var(--vermelho-alerta); }
-@keyframes pulsoOuro { 0% { box-shadow: inset 0 0 0px var(--ouro-puro); } 50% { box-shadow: inset 0 0 30px var(--ouro-puro);
-} 100% { box-shadow: inset 0 0 0px var(--ouro-puro); } }
-@keyframes pulsoVermelho { 0% { box-shadow: inset 0 0 0px var(--vermelho-alerta); } 50% { box-shadow: inset 0 0 40px var(--vermelho-alerta);
-} 100% { box-shadow: inset 0 0 0px var(--vermelho-alerta); } }
-@keyframes pulsoRoxo { 0% { box-shadow: inset 0 0 0px var(--roxo-hacker); } 50% { box-shadow: inset 0 0 40px var(--roxo-hacker);
-} 100% { box-shadow: inset 0 0 0px var(--roxo-hacker); } }
+@keyframes pulsoOuro { 0% { box-shadow: inset 0 0 0px var(--ouro-puro); } 50% { box-shadow: inset 0 0 30px var(--ouro-puro); } 100% { box-shadow: inset 0 0 0px var(--ouro-puro); } }
+@keyframes pulsoVermelho { 0% { box-shadow: inset 0 0 0px var(--vermelho-alerta); } 50% { box-shadow: inset 0 0 40px var(--vermelho-alerta); } 100% { box-shadow: inset 0 0 0px var(--vermelho-alerta); } }
+@keyframes pulsoRoxo { 0% { box-shadow: inset 0 0 0px var(--roxo-hacker); } 50% { box-shadow: inset 0 0 40px var(--roxo-hacker); } 100% { box-shadow: inset 0 0 0px var(--roxo-hacker); } }
 @keyframes alertaBordaOffline { 0%, 100% { border-top-width: 5px; border-top-color: #330000; } 50% { border-top-width: 5px; border-top-color: var(--vermelho-alerta); } }
 body.modo-offline { animation: alertaBordaOffline 2s infinite; }
 .alerta-visual-cidadao { animation: pulsoOuro 1.5s ease-out 2; }
 .alerta-visual-hacker { animation: pulsoVermelho 1.5s ease-out 3; }
-#tela-bloqueio { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100vh; width: 100%; position: fixed; top: 0;
-left: 0; background: var(--bg-base); z-index: 9999; }
+
+/* TELA DE BLOQUEIO MODIFICADA (Inicia escondida) */
+#tela-bloqueio { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100vh; width: 100%; position: fixed; top: 0; left: 0; background: var(--bg-base); z-index: 9999; }
 .icone-cadeado { font-size: 80px; color: var(--ouro-puro); margin-bottom: 25px; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.2)); }
 .titulo-bunker { color: var(--ouro-puro); font-size: 28px; letter-spacing: 6px; margin-bottom: 10px; text-transform: uppercase; }
-.input-senha { background: #000; border: 1px solid var(--borda); color: var(--texto-principal); padding: 18px; font-size: 16px; text-align: center; letter-spacing: 4px; width: 320px;
-margin-bottom: 25px; outline: none; border-radius: 4px; transition: 0.3s; }
+.input-senha { background: #000; border: 1px solid var(--borda); color: var(--texto-principal); padding: 18px; font-size: 16px; text-align: center; letter-spacing: 4px; width: 320px; margin-bottom: 25px; outline: none; border-radius: 4px; transition: 0.3s; }
 .input-senha:focus { border-color: var(--ouro-puro); box-shadow: 0 0 20px rgba(212, 175, 55, 0.1); }
-.btn-entrar { background: var(--ouro-puro); color: #000; font-weight: bold; font-size: 14px; padding: 18px 50px; border: none; cursor: pointer; text-transform: uppercase;
-letter-spacing: 3px; border-radius: 4px; transition: 0.3s; }
+.btn-entrar { background: var(--ouro-puro); color: #000; font-weight: bold; font-size: 14px; padding: 18px 50px; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 3px; border-radius: 4px; transition: 0.3s; }
 .btn-entrar:hover { background: #fff; box-shadow: 0 0 30px rgba(255, 255, 255, 0.2); }
 #msg-erro { color: var(--vermelho-alerta); margin-top: 25px; font-size: 13px; font-weight: bold; display: none; }
-#sidebar { position: fixed; top: 0; left: calc(-1 * var(--sidebar-width)); width: var(--sidebar-width); height: 100vh; background: var(--bg-painel); border-right: 1px solid var(--borda);
-transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; padding: 30px 20px; display: flex; flex-direction: column; overflow-y: auto;}
+
+/* MENU E BUNKER (Padrão) */
+#sidebar { position: fixed; top: 0; left: calc(-1 * var(--sidebar-width)); width: var(--sidebar-width); height: 100vh; background: var(--bg-painel); border-right: 1px solid var(--borda); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; padding: 30px 20px; display: flex; flex-direction: column; overflow-y: auto;}
 #sidebar.aberto { left: 0; box-shadow: 10px 0 30px rgba(0,0,0,0.5); }
 .btn-fechar-menu { position: absolute; top: 20px; right: 20px; font-size: 24px; color: var(--texto-secundario); cursor: pointer; transition: 0.2s; }
 .btn-fechar-menu:hover { color: var(--vermelho-alerta); }
 .sidebar-header { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--borda); margin-top: 20px; }
 .sidebar-header i { font-size: 24px; color: var(--ouro-puro); }
-.sidebar-item { padding: 15px; color: var(--texto-secundario); cursor: pointer; border-radius: 6px; margin-bottom: 5px; display: flex; align-items: center; gap: 15px; transition: 0.2s;
-font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
+.sidebar-item { padding: 15px; color: var(--texto-secundario); cursor: pointer; border-radius: 6px; margin-bottom: 5px; display: flex; align-items: center; gap: 15px; transition: 0.2s; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
 .sidebar-item:hover { background: rgba(212, 175, 55, 0.05); color: #fff; }
 .sidebar-item.ativo { color: var(--ouro-puro); background: rgba(212, 175, 55, 0.1); border-left: 3px solid var(--ouro-puro); }
 .divisor-menu { height: 1px; background: var(--borda); margin: 15px 0; }
 .sidebar-footer { margin-top: auto; padding-top: 20px; font-size: 10px; color: #444; text-align: center; }
-.top-bar { width: 100%; height: 70px; background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--borda); display: flex;
-align-items: center; padding: 0 30px; position: sticky; top: 0; z-index: 900; }
+.top-bar { width: 100%; height: 70px; background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--borda); display: flex; align-items: center; padding: 0 30px; position: sticky; top: 0; z-index: 900; }
 .btn-menu { font-size: 20px; color: var(--texto-secundario); cursor: pointer; transition: 0.3s; }
 .btn-menu:hover { color: var(--ouro-puro); }
 .top-title { flex-grow: 1; text-align: center; font-size: 14px; letter-spacing: 4px; color: var(--ouro-puro); text-transform: uppercase; }
@@ -65,13 +60,10 @@ align-items: center; padding: 0 30px; position: sticky; top: 0; z-index: 900; }
 .view-section.ativa { display: flex; }
 .radar-bunker { background: rgba(10, 10, 10, 0.5); border: 1px solid var(--borda); padding: 30px; border-radius: 8px; margin-bottom: 40px; position: relative; }
 .radar-grid { display: grid; grid-template-columns: 1fr 180px 1fr; gap: 40px; align-items: center; }
-.mes-box { display: flex; justify-content: space-between; background: var(--bg-card); padding: 15px; margin-bottom: 10px; border-left: 3px solid var(--ouro-puro); border-radius: 4px; font-size: 14px;
-transition: 0.3s; }
-.olho-tecnologico { width: 150px; height: 150px; border-radius: 50%; border: 1px solid rgba(212, 175, 55, 0.2); display: flex; justify-content: center;
-align-items: center; position: relative; background: radial-gradient(circle, #000 30%, #0a0a0a 100%); }
+.mes-box { display: flex; justify-content: space-between; background: var(--bg-card); padding: 15px; margin-bottom: 10px; border-left: 3px solid var(--ouro-puro); border-radius: 4px; font-size: 14px; transition: 0.3s; }
+.olho-tecnologico { width: 150px; height: 150px; border-radius: 50%; border: 1px solid rgba(212, 175, 55, 0.2); display: flex; justify-content: center; align-items: center; position: relative; background: radial-gradient(circle, #000 30%, #0a0a0a 100%); }
 .olho-iris { width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle, var(--vermelho-alerta) 5%, transparent 70%); animation: respirarOlho 3s infinite; }
-.semaforo-item { display: flex; align-items: center; gap: 15px; font-size: 13px; background: #111111; padding: 12px 20px; margin-bottom: 8px; border-radius: 6px;
-font-weight: bold; letter-spacing: 1px; transition: 0.3s; }
+.semaforo-item { display: flex; align-items: center; gap: 15px; font-size: 13px; background: #111111; padding: 12px 20px; margin-bottom: 8px; border-radius: 6px; font-weight: bold; letter-spacing: 1px; transition: 0.3s; }
 .semaforo-item.desligado { opacity: 0.3; }
 .semaforo-item.desligado .luz-neuro { background: #222 !important; box-shadow: none !important; }
 .luz-neuro { width: 14px; height: 14px; border-radius: 50%; transition: all 0.3s ease; }
@@ -88,30 +80,23 @@ font-weight: bold; letter-spacing: 1px; transition: 0.3s; }
 .radar-proativo-trigger:hover + .olho-iris { background: radial-gradient(circle, var(--ouro-puro) 5%, transparent 70%); animation: respirarOlho 1.5s infinite; }
 .painel-emissao { background: rgba(212, 175, 55, 0.02); border: 1px solid var(--ouro-puro); padding: 30px; border-radius: 8px; margin-bottom: 40px; }
 .grid-dossies { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 25px; margin-top: 20px;}
-.card-dossie { background: var(--bg-card); border: 1px solid var(--borda); padding: 25px; border-radius: 8px; border-top: 3px solid var(--ouro-puro); transition: 0.3s; position: relative;
-}
+.card-dossie { background: var(--bg-card); border: 1px solid var(--borda); padding: 25px; border-radius: 8px; border-top: 3px solid var(--ouro-puro); transition: 0.3s; position: relative; }
 .card-dossie:hover { border-top-color: #fff; transform: translateY(-5px); }
 .card-dossie.hacker { border-top-color: var(--vermelho-alerta); background: #0e0d0f; border: 1px solid rgba(255, 77, 77, 0.15); border-top: 3px solid var(--vermelho-alerta); }
-.card-topo { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 11px; color: var(--texto-secundario); border-bottom: 1px solid #222; padding-bottom: 10px; align-items: center;
-}
+.card-topo { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 11px; color: var(--texto-secundario); border-bottom: 1px solid #222; padding-bottom: 10px; align-items: center; }
 .card-id { color: var(--ouro-puro); font-weight: bold; cursor: pointer; font-size: 13px; }
 .btn-limpar-card { color: var(--texto-secundario); cursor: pointer; font-size: 16px; transition: 0.2s; }
 .btn-limpar-card:hover { color: var(--vermelho-alerta); transform: scale(1.2); }
 .cf-header { border-bottom: 2px solid var(--ouro-puro); padding-bottom: 15px; margin-bottom: 30px; display: inline-block; }
 .cf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px;}
-.cf-modulo { background: #111; border: 1px solid #222; padding: 25px; border-radius: 4px; display: flex; align-items: center; gap: 25px;
-border-left: 4px solid var(--ouro-puro); }
+.cf-modulo { background: #111; border: 1px solid #222; padding: 25px; border-radius: 4px; display: flex; align-items: center; gap: 25px; border-left: 4px solid var(--ouro-puro); }
 .cf-icon { font-size: 40px; color: var(--ouro-puro); opacity: 0.8; }
 .cf-text h4 { color: #fff; font-size: 16px; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
 .cf-text p { color: var(--texto-secundario); font-size: 13px; margin-bottom: 10px; }
-.cf-status { display: inline-flex; align-items: center; gap: 8px; background: #000; padding: 4px 10px; border-radius: 4px; border: 1px solid #333;
-font-size: 11px; color: var(--verde-seguro); font-weight: bold; }
+.cf-status { display: inline-flex; align-items: center; gap: 8px; background: #000; padding: 4px 10px; border-radius: 4px; border: 1px solid #333; font-size: 11px; color: var(--verde-seguro); font-weight: bold; }
 .header-triagem { border-bottom: 2px solid var(--ouro-puro); padding-bottom: 15px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end;}
 .header-triagem h2 { color: var(--ouro-puro); text-transform: uppercase; font-size: 22px; margin-bottom: 5px; }
-
-/* REGRAS ATUALIZADAS (APAGADA A COLUNA 5 DOS HACKERS) */
 .grid-triagem { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
-
 .coluna-triagem { background: #0a0a0a; border: 1px solid #222; border-radius: 6px; overflow: hidden; }
 .titulo-coluna { padding: 15px; text-align: center; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; background: #111; border-bottom: 1px solid #222;}
 .coluna-oficial .titulo-coluna { color: var(--verde-seguro); border-bottom-color: rgba(0, 230, 118, 0.3); }
@@ -138,33 +123,48 @@ font-size: 11px; color: var(--verde-seguro); font-weight: bold; }
 .dado-linha { margin-bottom: 8px; }
 .dado-linha strong { color: #ddd; font-family: 'Inter', sans-serif; }
 .texto-denuncia { margin-top: 10px; padding: 10px; background: #000; border-radius: 4px; border: 1px solid #222; font-style: italic; }
-.btn-card-guerra { background: var(--vermelho-alerta); color: #000; border: none; padding: 5px 10px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 11px;
-margin-top: 10px; display: flex; align-items: center; gap: 5px; }
-#modal-jornal { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.9); z-index: 9999; display: none; flex-direction: column;
-align-items: center; justify-content: center; backdrop-filter: blur(5px); }
-.jornal-card { width: 380px; height: 380px; background: #0a0a0a; border: 2px solid var(--vermelho-alerta); border-radius: 10px; padding: 25px;
-box-shadow: 0 0 30px rgba(255, 77, 77, 0.3); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative;
-}
-.jornal-header { color: var(--ouro-puro); font-size: 18px; font-weight: bold; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 10px;
-font-family: Arial, Helvetica, sans-serif !important; }
+.btn-card-guerra { background: var(--vermelho-alerta); color: #000; border: none; padding: 5px 10px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 11px; margin-top: 10px; display: flex; align-items: center; gap: 5px; }
+#modal-jornal { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.9); z-index: 9999; display: none; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+.jornal-card { width: 380px; height: 380px; background: #0a0a0a; border: 2px solid var(--vermelho-alerta); border-radius: 10px; padding: 25px; box-shadow: 0 0 30px rgba(255, 77, 77, 0.3); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; }
+.jornal-header { color: var(--ouro-puro); font-size: 18px; font-weight: bold; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; font-family: Arial, Helvetica, sans-serif !important; }
 .jornal-caveira { font-size: 50px; color: var(--vermelho-alerta); margin-bottom: 15px; }
-.jornal-alerta { background: var(--vermelho-alerta); color: #000; font-weight: bold; padding: 6px 16px; border-radius: 20px; font-size: 13px; margin-bottom: 20px;
-font-family: Arial, Helvetica, sans-serif !important; }
-.jornal-mensagem { color: #fff; font-size: 15px; line-height: 1.5; font-style: italic; border-left: 3px solid var(--ouro-puro); padding-left: 10px; margin-bottom: 20px; word-wrap: break-word;
-max-width: 100%; font-family: Arial, Helvetica, sans-serif !important; }
-.jornal-footer { color: var(--texto-secundario); font-size: 11px; display: flex; align-items: center; gap: 10px; border-top: 1px solid #222; padding-top: 15px; width: 100%;
-justify-content: center; font-family: Arial, Helvetica, sans-serif !important; }
-.btn-salvar-imagem { background: #555555; color: #ffffff; border: 1px solid #777; padding: 12px 25px; border-radius: 6px; font-weight: bold; cursor: pointer;
-font-size: 14px; margin-top: 25px; display: flex; align-items: center; gap: 10px; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+.jornal-alerta { background: var(--vermelho-alerta); color: #000; font-weight: bold; padding: 6px 16px; border-radius: 20px; font-size: 13px; margin-bottom: 20px; font-family: Arial, Helvetica, sans-serif !important; }
+.jornal-mensagem { color: #fff; font-size: 15px; line-height: 1.5; font-style: italic; border-left: 3px solid var(--ouro-puro); padding-left: 10px; margin-bottom: 20px; word-wrap: break-word; max-width: 100%; font-family: Arial, Helvetica, sans-serif !important; }
+.jornal-footer { color: var(--texto-secundario); font-size: 11px; display: flex; align-items: center; gap: 10px; border-top: 1px solid #222; padding-top: 15px; width: 100%; justify-content: center; font-family: Arial, Helvetica, sans-serif !important; }
+.btn-salvar-imagem { background: #555555; color: #ffffff; border: 1px solid #777; padding: 12px 25px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px; margin-top: 25px; display: flex; align-items: center; gap: 10px; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
 .btn-salvar-imagem:hover { background: #777777; transform: translateY(-2px); }
-#modal-historico { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.9); z-index: 9998; display: none; flex-direction: column;
-align-items: center; justify-content: center; backdrop-filter: blur(5px); }
-.historico-card { width: 90%; max-width: 600px; max-height: 80vh; background: #0a0a0a; border: 1px solid var(--ouro-puro); border-radius: 8px; padding: 30px; overflow-y: auto;
-position: relative; box-shadow: 0 0 40px rgba(0,0,0,0.8); }
+#modal-historico { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.9); z-index: 9998; display: none; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+.historico-card { width: 90%; max-width: 600px; max-height: 80vh; background: #0a0a0a; border: 1px solid var(--ouro-puro); border-radius: 8px; padding: 30px; overflow-y: auto; position: relative; box-shadow: 0 0 40px rgba(0,0,0,0.8); }
 .btn-fechar-historico { position: absolute; top: 20px; right: 20px; color: var(--texto-secundario); cursor: pointer; font-size: 24px; transition: 0.2s; }
 .btn-fechar-historico:hover { color: var(--vermelho-alerta); transform: scale(1.1); }
-.historico-item-linha { background: #111; padding: 15px; border-left: 4px solid var(--ouro-puro); margin-bottom: 15px; border-radius: 4px; display: flex; flex-direction: column; gap: 8px;
-animation: fadeIn 0.3s ease-out; }
+.historico-item-linha { background: #111; padding: 15px; border-left: 4px solid var(--ouro-puro); margin-bottom: 15px; border-radius: 4px; display: flex; flex-direction: column; gap: 8px; animation: fadeIn 0.3s ease-out; }
+
+/* ======================================================== */
+/* MÁSCARA CAMUFLADA (O QUE O PÚBLICO VÊ) */
+/* ======================================================== */
+#tela-publica { display: flex; flex-direction: column; align-items: center; width: 100%; min-height: 100vh; padding-top: 20px; background: var(--bg-base); position: relative; z-index: 50; }
+.top-menu-publico { width: 100%; max-width: 1200px; display: flex; justify-content: flex-end; gap: 15px; padding: 10px 20px; margin-bottom: 50px; }
+.btn-top { background: transparent; border: 1px solid #333; color: var(--texto-principal); padding: 8px 15px; border-radius: 20px; font-size: 12px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
+.btn-top:hover { border-color: var(--ouro-puro); color: var(--ouro-puro); }
+.btn-vip { border-color: var(--ouro-puro); color: var(--ouro-puro); font-weight: bold; }
+.central-area { display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; max-width: 800px; padding: 20px; }
+.logo-escudo { font-size: 60px; color: var(--ouro-puro); margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.2)); }
+.titulo-site { color: var(--ouro-puro); font-size: 42px; letter-spacing: 2px; margin-bottom: 20px; font-family: 'Georgia', serif; }
+.status-muralha { display: inline-flex; align-items: center; gap: 10px; border: 1px solid var(--ouro-puro); padding: 8px 20px; border-radius: 30px; font-size: 13px; font-weight: bold; margin-bottom: 40px; }
+.luz-verde { width: 10px; height: 10px; background-color: var(--verde-seguro); border-radius: 50%; box-shadow: 0 0 10px var(--verde-seguro); animation: piscar 2s infinite; }
+.texto-chamada { font-size: 15px; color: var(--texto-principal); margin-bottom: 5px; }
+.texto-sub { font-size: 14px; color: var(--texto-secundario); margin-bottom: 30px; }
+.texto-sub strong { color: var(--texto-principal); }
+.barra-denuncia { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 700px; background: #111; padding: 20px; border-radius: 10px; border: 1px solid #222; }
+.input-denuncia { width: 100%; background: #050505; border: 1px solid #333; color: #fff; padding: 15px 20px; font-size: 15px; border-radius: 6px; outline: none; transition: 0.3s; }
+.input-denuncia:focus { border-color: var(--ouro-puro); }
+#modal-boas-vindas { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); z-index: 9999; display: flex; align-items: center; justify-content: center; }
+.card-boas-vindas { background: #181818; border: 1px solid #333; border-radius: 12px; width: 90%; max-width: 550px; padding: 40px; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
+.btn-fechar-modal { position: absolute; top: 15px; right: 20px; font-size: 24px; color: #666; cursor: pointer; transition: 0.2s; }
+.btn-fechar-modal:hover { color: #fff; }
+.titulo-modal { color: var(--ouro-puro); font-size: 24px; text-align: center; margin-bottom: 25px; font-weight: bold; }
+.texto-modal { color: #ccc; font-size: 14px; line-height: 1.6; margin-bottom: 15px; text-align: justify; }
+
 @keyframes piscar { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
 @keyframes piscarRapido { 0%, 100% { opacity: 0.1; } 50% { opacity: 1; } }
 @keyframes respirarOlho { 0%, 100% { transform: scale(0.9); opacity: 0.6; } 50% { transform: scale(1.1); opacity: 1; } }
@@ -173,6 +173,29 @@ animation: fadeIn 0.3s ease-out; }
 </style>
 </head>
 <body>
+
+<!-- ========================================== -->
+<!-- SISTEMA DE MODAIS (Avisos) -->
+<!-- ========================================== -->
+
+<!-- Modal Público (Foto 1) -->
+<div id="modal-boas-vindas">
+    <div class="card-boas-vindas">
+        <i class="fa-solid fa-xmark btn-fechar-modal" onclick="fecharModalBoasVindas()"></i>
+        <h2 class="titulo-modal">Bem-vindo à RailanTech</h2>
+        <p class="texto-modal">
+            Você acaba de acessar a <strong>Muralha de Defesa Antifraude mais avançada do Brasil</strong>. Nossa missão é blindar o seu dispositivo e proteger o seu patrimônio contra engenharia social, falsas taxas e golpes digitais.
+        </p>
+        <p class="texto-modal">
+            Operamos com <strong>Inteligência Artificial de Segurança</strong> e Perícia Humana. Se você não tem intimidade com tecnologia, não se preocupe: o sistema fará todo o trabalho de varredura por você com segurança absoluta.
+        </p>
+        <div style="margin-top: 25px; padding: 12px; background: rgba(255, 77, 77, 0.05); border: 1px dashed var(--vermelho-alerta); border-radius: 6px; text-align: center;">
+            <p style="color: var(--vermelho-alerta); font-size: 13px; font-weight: bold; letter-spacing: 2px; margin: 0; font-family: 'Courier New', monospace;">
+                🚨 MÓDULO (OFFICE): CONTROLE RAILANTECH ATIVADO
+            </p>
+        </div>
+    </div>
+</div>
 
 <div id="modal-jornal" onclick="fecharCardGuerra(event)">
 <div class="jornal-card" id="area-print" onclick="event.stopPropagation()">
@@ -200,14 +223,54 @@ animation: fadeIn 0.3s ease-out; }
     <div class="icone-cadeado" style="color: #ffffff;"><i class="fa-solid fa-user-ninja"></i></div>
     <h1 class="titulo-bunker" style="color: #ffffff;">LABORATÓRIO (REC)</h1>
     <p style="color: #555555; margin-bottom: 30px; font-size: 12px; letter-spacing: 2px;">ACESSO EXCLUSIVO DO DIRETOR</p>
-    
     <input type="password" id="senha-laboratorio-input" class="input-senha" placeholder="CÓDIGO DE ACESSO" style="border-color: #333;" onkeypress="if(event.key === 'Enter') destravarLaboratorio()">
     <button class="btn-entrar" style="background: #ffffff; color: #000;" onclick="destravarLaboratorio()">Abrir Cofre</button>
-    
     <p id="msg-erro-laboratorio" style="color: var(--vermelho-alerta); margin-top: 25px; font-size: 13px; font-weight: bold; display: none;"> 🚨 CÓDIGO INVÁLIDO</p>
     <button onclick="fecharTelaCofre()" style="margin-top: 25px; background: transparent; border: none; color: #555; cursor: pointer; font-size: 10px; font-weight: bold; letter-spacing: 2px;">[ CANCELAR ]</button>
 </div>
 
+<!-- ========================================== -->
+<!-- 1. CAMUFLAGEM: A TELA PÚBLICA -->
+<!-- ========================================== -->
+<div id="tela-publica">
+    <div class="top-menu-publico">
+        <button class="btn-top"><i class="fa-solid fa-shield"></i> Denunciar Golpe</button>
+        <button class="btn-top"><i class="fa-solid fa-question"></i> Ajuda Tática</button>
+        <button class="btn-top"><i class="fa-solid fa-circle-info"></i> Sobre a Central</button>
+        <!-- BOTÃO SECRETO PARA ABRIR O BUNKER -->
+        <button class="btn-top btn-vip" onclick="abrirTelaBloqueio()"><i class="fa-solid fa-lock"></i> Acesso VIP (Laudos)</button>
+    </div>
+
+    <div class="central-area">
+        <div class="logo-escudo"><i class="fa-solid fa-scale-balanced"></i></div>
+        <h1 class="titulo-site">RailanTech</h1>
+        
+        <div class="status-muralha">
+            <div class="luz-verde"></div> Muralha Ativa: Monitorando Ameaças no Brasil
+        </div>
+
+        <p class="texto-chamada">Recebeu uma mensagem estranha? Falsa taxa, falso Pix, boleto suspeito?</p>
+        <p class="texto-sub"><strong>Não clique no escuro.</strong> Cole o texto ou envie a evidência na barra abaixo.</p>
+
+        <div class="barra-denuncia">
+            <input type="text" class="input-denuncia" placeholder="📎 Cole aqui o link, texto de Golpe ou anexe uma Evidência...">
+            <!-- BOTÃO INTELIGENTE DE DENÚNCIA (Foto 2) -->
+            <button id="botao-office-denuncia" onclick="ativarMotorOffice()" style="background: var(--ouro-puro); color: #000; border: none; padding: 15px 25px; border-radius: 6px; font-weight: bold; font-size: 15px; cursor: pointer; transition: all 0.3s ease; letter-spacing: 1px; display: flex; align-items: center; justify-content: center; width: 100%;">
+                ✅ DENUNCIAR GOLPE
+            </button>
+        </div>
+
+        <p style="font-size: 10px; color: #555; margin-top: 40px; max-width: 700px; line-height: 1.5;">
+            <strong style="color: #888;">⚖️ TERMO DE RESPONSABILIDADE E SEGURANÇA:</strong> O Terminal RailanTech é uma ferramenta de utilidade pública e apoio investigativo. Os laudos servem como alerta preventivo. A decisão de clicar em links ou realizar pagamentos é de inteira responsabilidade do usuário.<br><br>
+            <strong style="color: #888;">Privacidade Absoluta:</strong> Operamos com sigilo absoluto. Não solicitamos dados bancários.
+        </p>
+    </div>
+</div>
+
+
+<!-- ========================================== -->
+<!-- 2. A PORTA DE AÇO: LOGIN DO BUNKER -->
+<!-- ========================================== -->
 <div id="tela-bloqueio">
 <div class="icone-cadeado"><i class="fa-solid fa-user-shield"></i></div>
 <h1 class="titulo-bunker">Bunker de Comando</h1>
@@ -217,151 +280,179 @@ animation: fadeIn 0.3s ease-out; }
 <p id="msg-erro">   🚨   ACESSO NEGADO</p>
 </div>
 
-<nav id="sidebar">
-<i class="fa-solid fa-xmark btn-fechar-menu" onclick="toggleSidebar()" title="Fechar Gaveta"></i>
-<div class="sidebar-header">
-<i class="fa-solid fa-microchip"></i>
-<div style="line-height: 1.2;">
-<p style="color:#fff; font-size: 14px; font-weight: bold;">RAILANTECH</p>
-<p style="font-size: 10px; color: var(--ouro-puro);">DIRETOR PERICIAL</p>
-</div>
-</div>
-<div class="sidebar-item ativo" id="menu-osint" onclick="mudarAba('osint')"><i class="fa-solid fa-terminal"></i> Terminal Geral</div>
-<div class="sidebar-item" id="menu-cloudflare" onclick="mudarAba('cloudflare')"><i class="fa-solid fa-satellite-dish"></i> Status Satélite</div>
-<div class="divisor-menu"></div>
-<p style="color: #555; font-size: 10px; margin-bottom: 10px; padding-left: 15px; font-weight: bold; letter-spacing: 1px;">TRIAGEM DE AMEAÇAS</p>
-<div class="sidebar-item" id="menu-zap" onclick="mudarAba('zap')"><i class="fa-brands fa-whatsapp"></i> Análise ZAP</div>
-<div class="sidebar-item" id="menu-email" onclick="mudarAba('email')"><i class="fa-solid fa-envelope"></i> Análise E-Mail</div>
-<div class="sidebar-item" id="menu-sms" onclick="mudarAba('sms')"><i class="fa-solid fa-comment-sms"></i> Análise SMS / Outro</div>
 
-<div class="divisor-menu"></div>
-<div class="sidebar-item" id="menu-laboratorio" onclick="abrirTelaCofre()">
-    <i class="fa-solid fa-folder-closed" style="color: #ffffff;"></i> LABORATÓRIO
-</div>
-
-<div class="sidebar-footer">Adaptação Visual 1% Monstro</div>
-</nav>
-
-<div class="top-bar">
-<div class="btn-menu" onclick="toggleSidebar()"><i class="fa-solid fa-bars-staggered"></i></div>
-<div class="top-title">RailanTech Command Center</div>
-<div class="status-satelite" id="indicador-satelite"><span></span> VERIFICANDO...</div>
-</div>
-
-<div id="painel-bunker">
-
-<div id="view-osint" class="view-section ativa">
-<div class="radar-bunker">
-<div class="radar-grid">
-<div>
-<h4 style="color: var(--texto-secundario); font-size: 11px; margin-bottom: 15px; letter-spacing: 1px;">LINHA DO TEMPO (ARQUIVO)</h4>
-<div class="mes-box botao-arquivo-secreto" id="box-mes-atual" onclick="abrirGavetaHistorico('atual')" title="Ver Histórico do Mês">
-<span id="nome-mes-atual">Carregando...</span> <strong style="color: #fff;" id="qtd-mes-atual">0</strong>
-</div>
-<div class="mes-box botao-arquivo-secreto" style="border-left-color: #444;" id="box-mes-passado" onclick="abrirGavetaHistorico('passado')" title="Ver Histórico do Mês Anterior">
-<span id="nome-mes-passado">Mês Passado</span> <strong style="color: #fff;" id="qtd-mes-passado">0</strong>
-</div>
-</div>
-<div class="olho-tecnologico">
-<div class="radar-proativo-trigger" onclick="solicitarRespostaIA()" title="Pedir Resposta Proativa da I.A"></div>
-<div class="olho-iris"></div>
-</div>
-<div>
-<h4 style="color: var(--texto-secundario); font-size: 11px; margin-bottom: 15px; letter-spacing: 1px;">SEMÁFORO TÁTICO</h4>
-<div class="semaforo-item desligado" id="status-seguro"><span class="luz-neuro luz-verde"></span>   ✅   SEGURO</div>
-<div class="semaforo-item desligado" id="status-suspeito"><span class="luz-neuro luz-amarela"></span>   ⚠️   SUSPEITO</div>
-<div class="semaforo-item desligado" id="status-neutro"><span class="luz-neuro luz-branca"></span>   🛡️   NEUTRO</div>
-<div class="semaforo-item desligado" id="status-perigo"><span class="luz-neuro luz-vermelha"></span>   🚨   PERIGO</div>
-<div class="semaforo-item desligado" id="status-hacker"><span class="luz-neuro luz-roxa"></span>   ☠️   HACKER</div>
-</div>
-</div>
-<p style="text-align: center; color: var(--texto-secundario); font-size: 11px; margin-top: 20px;">
-<span class="texto-radar-secreto" onclick="abrirGavetaHistorico('radar')" title="Ver Satélite ao Vivo">
-RADAR DO POVO: <strong style="color:#fff;" id="contador-visitas">0</strong> VISITAS HOJE   🗒️
-</span>
-</p>
-</div>
-<div class="painel-emissao">
-<h3 style="color: var(--ouro-puro); font-size: 16px; margin-bottom: 20px;"><i class="fa-solid fa-scale-balanced"></i> EMISSÃO DE LAUDOS VIP</h3>
-<div style="display: flex; gap: 15px; flex-wrap: wrap;">
-<input type="text" id="input-codigo-laudo" class="input-senha" style="width: 250px; text-align: left; margin: 0;" placeholder="CÓDIGO RT-PF-...">
-<textarea id="input-texto-laudo" class="input-senha" style="width: 100%; height: 60px; text-align: left; font-size: 14px; margin: 0;" placeholder="ESCREVA O VEREDITO OFICIAL DO DIRETOR..."></textarea>
-<button class="btn-entrar" style="padding: 12px 30px;" onclick="transmitirLaudo()">Transmitir Laudo Blindado</button>
-</div>
-<p id="status-laudo" style="color: var(--verde-seguro); font-size: 12px; font-weight: bold; margin-top: 15px; display: none;">   ✓   LAUDO ATUALIZADO!</p>
-</div>
-</div>
-
-<div id="view-cloudflare" class="view-section">
-<h2 class="cf-header" style="color: var(--ouro-puro); text-transform: uppercase; font-size: 24px;">Painel de Defesa Orbital</h2>
-<div class="cf-grid">
-<div class="cf-modulo">
-<i class="fa-solid fa-shield-halved cf-icon"></i>
-<div class="cf-text">
-<h4>Escudo Anti-DDoS</h4>
-<div class="cf-status"><div class="luz-neuro luz-verde"></div> INTEGRIDADE 100%</div>
-</div>
-</div>
-<div class="cf-modulo">
-<i class="fa-solid fa-ghost cf-icon"></i>
-<div class="cf-text">
-<h4>Túnel de Sombra (IP)</h4>
-<div class="cf-status"><div class="luz-neuro luz-verde"></div> FANTASMA ATIVO</div>
-</div>
-</div>
-</div>
-<h3 style="color: var(--vermelho-alerta); font-size: 16px; margin-top: 20px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px;"><i class="fa-solid fa-skull-crossbones"></i> PRISÃO DE INVASORES (RATOEIRA 1%)</h3>
-<div class="grid-dossies" id="grade-hackers"></div>
-</div>
-
-<div id="view-zap" class="view-section">
-<div class="header-triagem">
-<div><h2><i class="fa-brands fa-whatsapp"></i> Triagem: ZAP</h2></div>
-</div>
-<div class="grid-triagem">
-<div class="coluna-triagem coluna-oficial"><div class="titulo-coluna">  ✅   Oficial</div><div class="lista-numeros" id="lista-zap-oficial"></div></div>
-<div class="coluna-triagem coluna-estranho"><div class="titulo-coluna">  ⚠️   Estranho</div><div class="lista-numeros" id="lista-zap-estranho"></div></div>
-<div class="coluna-triagem coluna-neutro"><div class="titulo-coluna">  🛡️   Jogos/Neutro</div><div class="lista-numeros" id="lista-zap-neutro"></div></div>
-<div class="coluna-triagem coluna-falso"><div class="titulo-coluna">  🚨   Falso</div><div class="lista-numeros" id="lista-zap-falso"></div></div>
-</div>
-</div>
-
-<div id="view-email" class="view-section">
-<div class="header-triagem"><h2><i class="fa-solid fa-envelope"></i> Triagem: E-Mail</h2></div>
-<div class="grid-triagem">
-<div class="coluna-triagem coluna-oficial"><div class="titulo-coluna">  ✅   Oficial</div><div class="lista-numeros"></div></div>
-<div class="coluna-triagem coluna-estranho"><div class="titulo-coluna">  ⚠️   Estranho</div><div class="lista-numeros"></div></div>
-<div class="coluna-triagem coluna-neutro"><div class="titulo-coluna">  🛡️   Neutro</div><div class="lista-numeros"></div></div>
-<div class="coluna-triagem coluna-falso"><div class="titulo-coluna">  🚨   Falso</div><div class="lista-numeros"></div></div>
-</div>
-</div>
-
-<div id="view-sms" class="view-section">
-<div class="header-triagem"><h2><i class="fa-solid fa-comment-sms"></i> Triagem: SMS / Outro</h2></div>
-<div class="grid-triagem">
-<div class="coluna-triagem coluna-oficial"><div class="titulo-coluna">  ✅   Oficial</div><div class="lista-numeros"></div></div>
-<div class="coluna-triagem coluna-estranho"><div class="titulo-coluna">  ⚠️   Estranho</div><div class="lista-numeros"></div></div>
-<div class="coluna-triagem coluna-neutro"><div class="titulo-coluna">  🛡️   Neutro</div><div class="lista-numeros"></div></div>
-<div class="coluna-triagem coluna-falso"><div class="titulo-coluna">  🚨   Falso</div><div class="lista-numeros"></div></div>
-</div>
-</div>
-
-<div id="view-laboratorio" class="view-section">
-    <div class="header-triagem" style="border-bottom-color: #555;">
-        <div><h2 style="color: #ffffff;"><i class="fa-solid fa-flask"></i> Laboratório Secreto (REC)</h2></div>
-        <button onclick="trancarLaboratorioDeNovo()" style="background: transparent; border: 1px solid #555; color: #aaa; padding: 5px 15px; border-radius: 4px; cursor: pointer; font-size: 11px;">🔒 Trancar Cofre</button>
+<!-- ========================================== -->
+<!-- 3. O CORAÇÃO DO SISTEMA: BUNKER INTERNO -->
+<!-- ========================================== -->
+<div id="sistema-bunker" style="display: none;">
+    <nav id="sidebar">
+    <i class="fa-solid fa-xmark btn-fechar-menu" onclick="toggleSidebar()" title="Fechar Gaveta"></i>
+    <div class="sidebar-header">
+    <i class="fa-solid fa-microchip"></i>
+    <div style="line-height: 1.2;">
+    <p style="color:#fff; font-size: 14px; font-weight: bold;">RAILANTECH</p>
+    <p style="font-size: 10px; color: var(--ouro-puro);">DIRETOR PERICIAL</p>
     </div>
-    <div style="background: rgba(168, 85, 247, 0.05); border: 1px solid var(--roxo-hacker); border-radius: 8px; padding: 20px; min-height: 400px;">
-        <p style="color: var(--roxo-hacker); font-size: 12px; font-weight: bold; letter-spacing: 2px; margin-bottom: 20px;"><i class="fa-solid fa-satellite-dish"></i> SATÉLITE RECATIVADO: ARQUIVOS CAPTURADOS</p>
-        <div class="lista-numeros coluna-hacker" id="gaveta-arquivos-hacker" style="display: flex; flex-direction: column; gap: 15px;">
-            </div>
     </div>
-</div>
-
+    <div class="sidebar-item ativo" id="menu-osint" onclick="mudarAba('osint')"><i class="fa-solid fa-terminal"></i> Terminal Geral</div>
+    <div class="sidebar-item" id="menu-cloudflare" onclick="mudarAba('cloudflare')"><i class="fa-solid fa-satellite-dish"></i> Status Satélite</div>
+    <div class="divisor-menu"></div>
+    <p style="color: #555; font-size: 10px; margin-bottom: 10px; padding-left: 15px; font-weight: bold; letter-spacing: 1px;">TRIAGEM DE AMEAÇAS</p>
+    <div class="sidebar-item" id="menu-zap" onclick="mudarAba('zap')"><i class="fa-brands fa-whatsapp"></i> Análise ZAP</div>
+    <div class="sidebar-item" id="menu-email" onclick="mudarAba('email')"><i class="fa-solid fa-envelope"></i> Análise E-Mail</div>
+    <div class="sidebar-item" id="menu-sms" onclick="mudarAba('sms')"><i class="fa-solid fa-comment-sms"></i> Análise SMS / Outro</div>
+    <div class="divisor-menu"></div>
+    <div class="sidebar-item" id="menu-laboratorio" onclick="abrirTelaCofre()">
+        <i class="fa-solid fa-folder-closed" style="color: #ffffff;"></i> LABORATÓRIO
+    </div>
+    <div class="sidebar-footer">Adaptação Visual 1% Monstro</div>
+    </nav>
+    <div class="top-bar">
+    <div class="btn-menu" onclick="toggleSidebar()"><i class="fa-solid fa-bars-staggered"></i></div>
+    <div class="top-title">RailanTech Command Center</div>
+    <div class="status-satelite" id="indicador-satelite"><span></span> VERIFICANDO...</div>
+    </div>
+    <div id="painel-bunker">
+    <div id="view-osint" class="view-section ativa">
+    <div class="radar-bunker">
+    <div class="radar-grid">
+    <div>
+    <h4 style="color: var(--texto-secundario); font-size: 11px; margin-bottom: 15px; letter-spacing: 1px;">LINHA DO TEMPO (ARQUIVO)</h4>
+    <div class="mes-box botao-arquivo-secreto" id="box-mes-atual" onclick="abrirGavetaHistorico('atual')" title="Ver Histórico do Mês">
+    <span id="nome-mes-atual">Carregando...</span> <strong style="color: #fff;" id="qtd-mes-atual">0</strong>
+    </div>
+    <div class="mes-box botao-arquivo-secreto" style="border-left-color: #444;" id="box-mes-passado" onclick="abrirGavetaHistorico('passado')" title="Ver Histórico do Mês Anterior">
+    <span id="nome-mes-passado">Mês Passado</span> <strong style="color: #fff;" id="qtd-mes-passado">0</strong>
+    </div>
+    </div>
+    <div class="olho-tecnologico">
+    <div class="radar-proativo-trigger" onclick="solicitarRespostaIA()" title="Pedir Resposta Proativa da I.A"></div>
+    <div class="olho-iris"></div>
+    </div>
+    <div>
+    <h4 style="color: var(--texto-secundario); font-size: 11px; margin-bottom: 15px; letter-spacing: 1px;">SEMÁFORO TÁTICO</h4>
+    <div class="semaforo-item desligado" id="status-seguro"><span class="luz-neuro luz-verde"></span>   ✅   SEGURO</div>
+    <div class="semaforo-item desligado" id="status-suspeito"><span class="luz-neuro luz-amarela"></span>   ⚠️   SUSPEITO</div>
+    <div class="semaforo-item desligado" id="status-neutro"><span class="luz-neuro luz-branca"></span>   🛡️   NEUTRO</div>
+    <div class="semaforo-item desligado" id="status-perigo"><span class="luz-neuro luz-vermelha"></span>   🚨   PERIGO</div>
+    <div class="semaforo-item desligado" id="status-hacker"><span class="luz-neuro luz-roxa"></span>   ☠️   HACKER</div>
+    </div>
+    </div>
+    <p style="text-align: center; color: var(--texto-secundario); font-size: 11px; margin-top: 20px;">
+    <span class="texto-radar-secreto" onclick="abrirGavetaHistorico('radar')" title="Ver Satélite ao Vivo">
+    RADAR DO POVO: <strong style="color:#fff;" id="contador-visitas">0</strong> VISITAS HOJE   🗒️
+    </span>
+    </p>
+    </div>
+    <div class="painel-emissao">
+    <h3 style="color: var(--ouro-puro); font-size: 16px; margin-bottom: 20px;"><i class="fa-solid fa-scale-balanced"></i> EMISSÃO DE LAUDOS VIP</h3>
+    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+    <input type="text" id="input-codigo-laudo" class="input-senha" style="width: 250px; text-align: left; margin: 0;" placeholder="CÓDIGO RT-PF-...">
+    <textarea id="input-texto-laudo" class="input-senha" style="width: 100%; height: 60px; text-align: left; font-size: 14px; margin: 0;" placeholder="ESCREVA O VEREDITO OFICIAL DO DIRETOR..."></textarea>
+    <button class="btn-entrar" style="padding: 12px 30px;" onclick="transmitirLaudo()">Transmitir Laudo Blindado</button>
+    </div>
+    <p id="status-laudo" style="color: var(--verde-seguro); font-size: 12px; font-weight: bold; margin-top: 15px; display: none;">   ✓   LAUDO ATUALIZADO!</p>
+    </div>
+    </div>
+    <div id="view-cloudflare" class="view-section">
+    <h2 class="cf-header" style="color: var(--ouro-puro); text-transform: uppercase; font-size: 24px;">Painel de Defesa Orbital</h2>
+    <div class="cf-grid">
+    <div class="cf-modulo">
+    <i class="fa-solid fa-shield-halved cf-icon"></i>
+    <div class="cf-text">
+    <h4>Escudo Anti-DDoS</h4>
+    <div class="cf-status"><div class="luz-neuro luz-verde"></div> INTEGRIDADE 100%</div>
+    </div>
+    </div>
+    <div class="cf-modulo">
+    <i class="fa-solid fa-ghost cf-icon"></i>
+    <div class="cf-text">
+    <h4>Túnel de Sombra (IP)</h4>
+    <div class="cf-status"><div class="luz-neuro luz-verde"></div> FANTASMA ATIVO</div>
+    </div>
+    </div>
+    </div>
+    <h3 style="color: var(--vermelho-alerta); font-size: 16px; margin-top: 20px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px;"><i class="fa-solid fa-skull-crossbones"></i> PRISÃO DE INVASORES (RATOEIRA 1%)</h3>
+    <div class="grid-dossies" id="grade-hackers"></div>
+    </div>
+    <div id="view-zap" class="view-section">
+    <div class="header-triagem">
+    <div><h2><i class="fa-brands fa-whatsapp"></i> Triagem: ZAP</h2></div>
+    </div>
+    <div class="grid-triagem">
+    <div class="coluna-triagem coluna-oficial"><div class="titulo-coluna">  ✅   Oficial</div><div class="lista-numeros" id="lista-zap-oficial"></div></div>
+    <div class="coluna-triagem coluna-estranho"><div class="titulo-coluna">  ⚠️   Estranho</div><div class="lista-numeros" id="lista-zap-estranho"></div></div>
+    <div class="coluna-triagem coluna-neutro"><div class="titulo-coluna">  🛡️   Jogos/Neutro</div><div class="lista-numeros" id="lista-zap-neutro"></div></div>
+    <div class="coluna-triagem coluna-falso"><div class="titulo-coluna">  🚨   Falso</div><div class="lista-numeros" id="lista-zap-falso"></div></div>
+    </div>
+    </div>
+    <div id="view-email" class="view-section">
+    <div class="header-triagem"><h2><i class="fa-solid fa-envelope"></i> Triagem: E-Mail</h2></div>
+    <div class="grid-triagem">
+    <div class="coluna-triagem coluna-oficial"><div class="titulo-coluna">  ✅   Oficial</div><div class="lista-numeros"></div></div>
+    <div class="coluna-triagem coluna-estranho"><div class="titulo-coluna">  ⚠️   Estranho</div><div class="lista-numeros"></div></div>
+    <div class="coluna-triagem coluna-neutro"><div class="titulo-coluna">  🛡️   Neutro</div><div class="lista-numeros"></div></div>
+    <div class="coluna-triagem coluna-falso"><div class="titulo-coluna">  🚨   Falso</div><div class="lista-numeros"></div></div>
+    </div>
+    </div>
+    <div id="view-sms" class="view-section">
+    <div class="header-triagem"><h2><i class="fa-solid fa-comment-sms"></i> Triagem: SMS / Outro</h2></div>
+    <div class="grid-triagem">
+    <div class="coluna-triagem coluna-oficial"><div class="titulo-coluna">  ✅   Oficial</div><div class="lista-numeros"></div></div>
+    <div class="coluna-triagem coluna-estranho"><div class="titulo-coluna">  ⚠️   Estranho</div><div class="lista-numeros"></div></div>
+    <div class="coluna-triagem coluna-neutro"><div class="titulo-coluna">  🛡️   Neutro</div><div class="lista-numeros"></div></div>
+    <div class="coluna-triagem coluna-falso"><div class="titulo-coluna">  🚨   Falso</div><div class="lista-numeros"></div></div>
+    </div>
+    </div>
+    <div id="view-laboratorio" class="view-section">
+        <div class="header-triagem" style="border-bottom-color: #555;">
+            <div><h2 style="color: #ffffff;"><i class="fa-solid fa-flask"></i> Laboratório Secreto (REC)</h2></div>
+            <button onclick="trancarLaboratorioDeNovo()" style="background: transparent; border: 1px solid #555; color: #aaa; padding: 5px 15px; border-radius: 4px; cursor: pointer; font-size: 11px;">🔒 Trancar Cofre</button>
+        </div>
+        <div style="background: rgba(168, 85, 247, 0.05); border: 1px solid var(--roxo-hacker); border-radius: 8px; padding: 20px; min-height: 400px;">
+            <p style="color: var(--roxo-hacker); font-size: 12px; font-weight: bold; letter-spacing: 2px; margin-bottom: 20px;"><i class="fa-solid fa-satellite-dish"></i> SATÉLITE RECATIVADO: ARQUIVOS CAPTURADOS</p>
+            <div class="lista-numeros coluna-hacker" id="gaveta-arquivos-hacker" style="display: flex; flex-direction: column; gap: 15px;">
+                </div>
+        </div>
+    </div>
+    </div>
 </div>
 
 <script>
-//   🚨   MANTENHA A URL EXATA DO SEU CLOUDFLARE AQUI
+// ==========================================
+// FUNÇÕES DA TELA PÚBLICA (CAMUFLAGEM)
+// ==========================================
+function fecharModalBoasVindas() {
+    document.getElementById('modal-boas-vindas').style.display = 'none';
+}
+
+function abrirTelaBloqueio() {
+    // Esconde o site público e abre a porta de segurança do Bunker
+    document.getElementById('tela-publica').style.display = 'none';
+    document.getElementById('tela-bloqueio').style.display = 'flex';
+}
+
+function ativarMotorOffice() {
+    const botao = document.getElementById('botao-office-denuncia');
+    botao.innerHTML = '⏳ 🔎 ANALISANDO (OFFICE)...';
+    botao.style.background = '#222222';
+    botao.style.color = '#aaaaaa';
+    botao.style.cursor = 'wait';
+    botao.disabled = true;
+
+    setTimeout(() => {
+        botao.innerHTML = '✅ DENUNCIAR GOLPE';
+        botao.style.background = 'var(--ouro-puro)';
+        botao.style.color = '#000';
+        botao.style.cursor = 'pointer';
+        botao.disabled = false;
+        alert("A I.A. RailanTech recebeu os dados. Enviando para análise...");
+    }, 4000);
+}
+
+// ==========================================
+// CÓDIGOS ORIGINAIS DO BUNKER
+// ==========================================
 const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
 let senhaMestraGlobal = "";
 let loopRadar = null;
@@ -371,7 +462,6 @@ let visitasGlobais = 0;
 let laboratorioDestravado = false;
 
 function toggleSidebar() { document.getElementById('sidebar').classList.toggle('aberto'); }
-
 function mudarAba(aba) {
     document.querySelectorAll('.view-section').forEach(el => el.classList.remove('ativa'));
     document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('ativo'));
@@ -381,7 +471,6 @@ function mudarAba(aba) {
     window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
-/* NOVAS REGRAS DO LABORATÓRIO SECRETO */
 function abrirTelaCofre() {
     if (laboratorioDestravado) {
         mudarAba('laboratorio');
@@ -391,11 +480,7 @@ function abrirTelaCofre() {
         document.getElementById('modal-cofre-laboratorio').style.display = "flex";
     }
 }
-
-function fecharTelaCofre() {
-    document.getElementById('modal-cofre-laboratorio').style.display = "none";
-}
-
+function fecharTelaCofre() { document.getElementById('modal-cofre-laboratorio').style.display = "none"; }
 function destravarLaboratorio() {
     const senha = document.getElementById('senha-laboratorio-input').value;
     if (senha === "Bunker_OuroPuro@95") {
@@ -406,25 +491,20 @@ function destravarLaboratorio() {
         document.getElementById('msg-erro-laboratorio').style.display = "block";
     }
 }
-
 function trancarLaboratorioDeNovo() {
     laboratorioDestravado = false;
     mudarAba('osint');
 }
-
 function abrirDossie(elemento) { elemento.nextElementSibling.classList.toggle('aberto'); }
-
 function copiarCodigo(event, codigo) {
     event.stopPropagation();
     navigator.clipboard.writeText(codigo).then(() => { alert("COPIADO: " + codigo); });
 }
-
 function gerarBandeira(codigoPais) {
     if (!codigoPais || codigoPais === "Desconhecido" || codigoPais === "XX") return "  🏴 ‍ ☠️  ";
     const pontosDeCodigo = codigoPais.toUpperCase().split('').map(char => 127397 + char.charCodeAt());
     return String.fromCodePoint(...pontosDeCodigo);
 }
-
 function abrirCardGuerra(mensagemCrua, pais, event) {
     if(event) event.stopPropagation();
     let mensagemLimpa = mensagemCrua;
@@ -433,12 +513,10 @@ function abrirCardGuerra(mensagemCrua, pais, event) {
     document.getElementById('jornal-bandeira').innerText = gerarBandeira(pais);
     document.getElementById('modal-jornal').style.display = 'flex';
 }
-
 function fecharCardGuerra(event) {
     if(event && event.target !== document.getElementById('modal-jornal')) return;
     document.getElementById('modal-jornal').style.display = 'none';
 }
-
 function baixarImagem(event) {
     if(event) event.stopPropagation();
     const botao = event.currentTarget;
@@ -452,13 +530,9 @@ function baixarImagem(event) {
         link.click();
         botao.innerHTML = '<i class="fa-solid fa-check"></i> Salvo com Sucesso!';
         botao.style.background = "var(--verde-seguro)";
-        setTimeout(() => {
-            botao.innerHTML = textoOriginal;
-            botao.style.background = "#555555";
-        }, 3000);
+        setTimeout(() => { botao.innerHTML = textoOriginal; botao.style.background = "#555555"; }, 3000);
     });
 }
-
 function abrirGavetaHistorico(tipo) {
     const lista = document.getElementById('lista-historico');
     const titulo = document.getElementById('titulo-historico');
@@ -510,9 +584,7 @@ function abrirGavetaHistorico(tipo) {
     }
     document.getElementById('modal-historico').style.display = 'flex';
 }
-
 function fecharGavetaHistorico() { document.getElementById('modal-historico').style.display = 'none'; }
-
 async function solicitarRespostaIA() {
     if(!confirm("  ⚠️   Pedir para a I.A analisar o mês e escrever uma resposta oficial?")) return;
     try {
@@ -520,7 +592,6 @@ async function solicitarRespostaIA() {
         alert("  ✓   Ordem transmitida ao Satélite.");
     } catch(e) {}
 }
-
 function atualizarStatusSatelite(isOnline) {
     const indicador = document.getElementById('indicador-satelite');
     if (isOnline) {
@@ -533,7 +604,6 @@ function atualizarStatusSatelite(isOnline) {
         document.body.classList.add('modo-offline');
     }
 }
-
 async function deletarDossie(protocolo, event) {
     event.stopPropagation();
     if(!confirm("  ⚠️   DESTRUIR este dossiê?")) return;
@@ -550,6 +620,12 @@ async function acessarBunker() {
     if(!senha) return;
     document.getElementById('msg-erro').style.display = "none";
     document.getElementById('btn-login').innerText = "VERIFICANDO...";
+    
+    // Mostra o Bunker apenas depois que passar na senha
+    document.getElementById('tela-bloqueio').style.display = "none";
+    document.getElementById('sistema-bunker').style.display = "block";
+    document.getElementById('painel-bunker').style.display = "block";
+    
     await buscarDossiesSecretos(senha);
 }
 
@@ -570,8 +646,6 @@ async function buscarDossiesSecretos(chaveMestra) {
             throw new Error("SATÉLITE REJEITOU (" + detalheErro + ")");
         }
         senhaMestraGlobal = chaveMestra;
-        document.getElementById('tela-bloqueio').style.display = "none";
-        document.getElementById('painel-bunker').style.display = "block";
         atualizarStatusSatelite(true);
         const dados = await req.json();
         const dadosString = JSON.stringify(dados);
@@ -608,7 +682,6 @@ async function buscarDossiesSecretos(chaveMestra) {
                     } else if (dossie.protocolo !== "Aviso") {
                         temDossie = true;
                         if (dossie.perfil && (dossie.perfil.toLowerCase().includes('hacker') || dossie.perfil.toLowerCase().includes('invasor'))) {
-                            // JOGA OS DADOS NO LABORATÓRIO (ESCONDIDO)
                             if(gavetaArquivosHacker) renderCardRetratil(dossie, gavetaArquivosHacker, true);
                         } else {
                             if(gavetaZapEstranho) renderCardRetratil(dossie, gavetaZapEstranho, false);
@@ -647,6 +720,9 @@ async function buscarDossiesSecretos(chaveMestra) {
     } catch (e) {
         document.getElementById('btn-login').innerText = "Desbloquear Base";
         document.getElementById('senha-input').value = "";
+        // Se errar a senha, oculta o Bunker novamente
+        document.getElementById('sistema-bunker').style.display = "none";
+        
         if (e.message.includes("Failed to fetch")) {
             document.getElementById('msg-erro').innerText = "  🚨   REDE BLOQUEADA: O Cloudflare não está permitindo a conexão.";
         } else {
@@ -657,7 +733,6 @@ async function buscarDossiesSecretos(chaveMestra) {
         if(loopRadar) { clearInterval(loopRadar); loopRadar = null; }
     }
 }
-
 function renderCardHacker(dossie, grade) {
     if(!grade) return;
     const bandeira = gerarBandeira(dossie.pais);
@@ -670,9 +745,7 @@ function renderCardHacker(dossie, grade) {
     let iconeMaquina = " 💻 ";
     if(dossie.dadosProfundos && dossie.dadosProfundos.maquina) {
         const mq = dossie.dadosProfundos.maquina.toLowerCase();
-        if(mq.includes("mobi") || mq.includes("android") || mq.includes("iphone") || mq.includes("ipad")) {
-            iconeMaquina = " 📱 ";
-        }
+        if(mq.includes("mobi") || mq.includes("android") || mq.includes("iphone") || mq.includes("ipad")) { iconeMaquina = " 📱 "; }
     }
     let badgeVpn = "";
     if(dossie.dadosProfundos && dossie.dadosProfundos.vpn && dossie.dadosProfundos.vpn !== "Não" && dossie.dadosProfundos.vpn !== "Análise Requerida") {
@@ -696,7 +769,6 @@ function renderCardHacker(dossie, grade) {
     <button class="btn-card-guerra" onclick="abrirCardGuerra(decodeURIComponent('${msgSegura}'), '${dossie.pais}')"><i class="fa-solid fa-camera"></i> Gerar Card de Alerta</button>`;
     grade.appendChild(card);
 }
-
 function renderCardRetratil(dossie, gaveta, isHackerColumn) {
     if(!gaveta) return;
     const bandeira = gerarBandeira(dossie.pais);
@@ -739,7 +811,6 @@ function renderCardRetratil(dossie, gaveta, isHackerColumn) {
     </div>${conteudoProfundoHacker}</div>`;
     gaveta.appendChild(item);
 }
-
 async function transmitirLaudo() {
     const codigo = document.getElementById('input-codigo-laudo').value.trim();
     const texto = document.getElementById('input-texto-laudo').value.trim();
@@ -752,7 +823,6 @@ async function transmitirLaudo() {
         ultimoHashDados = ""; buscarDossiesSecretos(senhaMestraGlobal);
     } catch(e) {}
 }
-
 document.addEventListener('DOMContentLoaded', () => {
     const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
     const d = new Date();
