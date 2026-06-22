@@ -40,7 +40,7 @@ input, button, textarea { -webkit-appearance: none; border: none; outline: none;
 
 /* MODAIS */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--fundo-modal); z-index: 999; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); animation: fadeIn 0.3s; }
-.modal-content { background-color: var(--bg-secundario); border-radius: 20px; width: 90%; max-width: 600px; padding: 40px; padding-bottom: 50px; position: relative; max-height: 85dvh; overflow-y: auto; border: 1px solid var(--borda); box-shadow: 0 15px 50px rgba(0,0,0,0.8); }
+.modal-content { background-color: var(--bg-secundario); border-radius: 20px; width: 90%; max-width: 600px; padding: 40px; position: relative; max-height: 85dvh; overflow-y: auto; border: 1px solid var(--borda); box-shadow: 0 15px 50px rgba(0,0,0,0.8); }
 .modal-title { font-size: 22px; margin-bottom: 25px; color: var(--ouro-brilho); display: flex; align-items: center; gap: 10px; font-weight: 600; padding-right: 30px; }
 .btn-fechar { position: absolute; top: 20px; right: 20px; background: transparent; color: var(--texto-secundario); cursor: pointer; font-size: 22px; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
 .btn-fechar:hover { background-color: rgba(255,255,255,0.08); color: var(--vermelho-alerta); }
@@ -62,7 +62,7 @@ textarea.input-texto { resize: vertical; }
 .main-container { margin-top: 5dvh; padding: 10px; width: 100%; }
 .titulo-central { font-size: 36px; } .conteudo-central img { width: 160px; }
 .menu-flutuante { width: 90%; left: 5%; right: 5%; top: 70px; }
-.modal-content { padding: 25px 20px 45px 20px; width: 95%; max-height: 90dvh; }
+.modal-content { padding: 25px 20px 35px 20px; width: 95%; max-height: 90dvh; }
 .botoes-grid { grid-template-columns: 1fr !important; }
 .btn-fechar { top: 15px; right: 15px; }
 }
@@ -86,7 +86,6 @@ summary::-webkit-details-marker { display: none; }
 <div class="menu-item" onclick="abrirModalPainel('form-dossie')">  🛡️   Denunciar Golpe</div>
 <div class="menu-item" onclick="abrirModalPainel('painel-ajuda')">  ❓   Ajuda Tática</div>
 <div class="menu-item" onclick="abrirModalPainel('painel-sobre')">  ℹ️   Sobre a Central</div>
-<!-- BOTÃO REDIRECIONA PARA O BUNKER SECRETO -->
 <div class="menu-item" style="color: var(--ouro-puro); font-weight: bold;" onclick="window.location.href='bunker.html'">  🔐   Acesso VIP (Laudos)</div>
 </div>
 </div>
@@ -102,13 +101,14 @@ Recebeu uma mensagem estranha? Falsa taxa, falso Pix, boleto suspeito?<br>
 </p>
 </div>
 
-<!-- BARRA INTELIGENTE -->
-<div style="width: 100%; background: #111; border: 1px solid #222; border-radius: 30px; padding: 15px 25px; display: flex; align-items: center; max-width: 700px; margin: 0 auto; box-shadow: 0 5px 15px rgba(0,0,0,0.5); transition: 0.3s;">
+<!-- BARRA INTELIGENTE CORRIGIDA -->
+<div style="width: 100%; background: #111; border: 1px solid #222; border-radius: 35px; padding: 12px 20px; display: flex; align-items: center; max-width: 750px; margin: 0 auto; box-shadow: 0 5px 15px rgba(0,0,0,0.5); transition: 0.3s;">
 <input type="file" id="input-imagem-detetive" accept="image/*,video/*,audio/*" style="display:none" onchange="acionarDetetiveImagem(event)">
-<i class="fa-solid fa-paperclip" onclick="document.getElementById('input-imagem-detetive').click()" style="color: #666; font-size: 18px; cursor: pointer; transition: 0.3s;" title="Anexar Evidência"></i>
-<input type="text" id="input-detetive" placeholder="Cole aqui o link, texto de Golpe ou anexe uma Evidência..." style="background: transparent; border: none; color: #fff; width: 100%; padding: 0 15px; outline: none; font-size: 15px;" onkeypress="if(event.key === 'Enter') acionarDetetive()">
-<!-- BOTÃO ANIMADO (Foto 2) -->
-<button id="btn-office-busca" onclick="acionarDetetive()" style="background: var(--ouro-puro); border: none; outline: none; cursor: pointer; display: flex; align-items: center; padding: 8px 15px; border-radius: 20px; font-weight: bold; font-size: 12px; transition: 0.3s;">
+<i class="fa-solid fa-paperclip" onclick="document.getElementById('input-imagem-detetive').click()" style="color: #888; font-size: 20px; cursor: pointer; transition: 0.3s; margin-right: 15px;" title="Anexar Evidência"></i>
+<input type="text" id="input-detetive" placeholder="Cole aqui o link, texto de Golpe ou anexe uma Evidência..." style="background: transparent; border: none; color: #fff; width: 100%; padding: 0 10px; outline: none; font-size: 16px;" onkeypress="if(event.key === 'Enter') acionarDetetive()">
+
+<!-- BOTÃO ANIMADO BLINDADO CONTRA QUEBRA DE LINHA -->
+<button id="btn-office-busca" onclick="acionarDetetive()" style="background: var(--ouro-puro); color: #000; border: none; outline: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 24px; border-radius: 30px; font-weight: 800; font-size: 14px; transition: 0.3s; white-space: nowrap; box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);">
 ✅ DENUNCIAR
 </button>
 </div>
@@ -125,7 +125,7 @@ A RailanTech não se responsabiliza por danos causados por terceiros.<br>
 </div>
 
 <!-- ============================================== -->
-<!-- O MODAL PSICOLÓGICO DE BOAS-VINDAS -->
+<!-- O MODAL PSICOLÓGICO DE BOAS-VINDAS CORRIGIDO -->
 <!-- ============================================== -->
 <div class="modal-overlay" id="modalOSINT">
 <div class="modal-content">
@@ -136,7 +136,6 @@ A RailanTech não se responsabiliza por danos causados por terceiros.<br>
 <h2 style="color: var(--ouro-puro); font-size: 24px;">Bem-vindo à RailanTech</h2>
 </div>
 
-<!-- TEXTO SIMPLIFICADO PARA O POVO LER E ENTENDER RÁPIDO -->
 <p style="color: var(--texto-secundario); font-size: 15px; margin-bottom: 15px; line-height: 1.6; text-align: justify;">
 Você acaba de acessar a central de defesa antifraude. A nossa missão é proteger você contra golpes digitais, links falsos e mensagens suspeitas.
 </p>
@@ -144,9 +143,9 @@ Você acaba de acessar a central de defesa antifraude. A nossa missão é proteg
 O nosso sistema faz toda a verificação por você de forma segura. Fique tranquilo.
 </p>
 
-<!-- ETIQUETA OFFICE DE AUTORIDADE -->
-<div style="margin-top: 25px; padding: 12px; background: rgba(255, 77, 77, 0.05); border: 1px dashed var(--vermelho-alerta); border-radius: 6px; text-align: center;">
-<p style="color: var(--vermelho-alerta); font-size: 13px; font-weight: bold; letter-spacing: 2px; margin: 0; font-family: 'Courier New', monospace;">
+<!-- ETIQUETA OFFICE DE AUTORIDADE COM VERMELHO SANGUE PURO -->
+<div style="margin-top: 30px; padding: 15px; background: rgba(255, 0, 0, 0.08); border: 1px dashed #ff4d4d; border-radius: 8px; text-align: center;">
+<p style="color: #ff4d4d; font-size: 14px; font-weight: 800; letter-spacing: 1.5px; margin: 0; font-family: 'Courier New', monospace;">
 🚨 MÓDULO (OFFICE): CONTROLE RAILANTECH ATIVADO
 </p>
 </div>
@@ -290,8 +289,8 @@ const btnOffice = document.getElementById('btn-office-busca');
 const texto = input.value.trim();
 if (!texto) return;
 
-// Muda o botão para "Analisando (OFFICE)"
-btnOffice.innerHTML = '⏳ 🔎 ANALISANDO (OFFICE)...';
+// Muda o botão para "Analisando (OFFICE)" sem quebrar a linha
+btnOffice.innerHTML = '⏳ ANALISANDO...';
 btnOffice.style.background = '#222222';
 btnOffice.style.color = '#aaaaaa';
 btnOffice.style.cursor = 'wait';
@@ -338,7 +337,7 @@ if (file.size > limiteTamanho) { alert("  🚨   EVIDÊNCIA MUITO PESADA. Máxim
 const resposta = document.getElementById('resposta-detetive');
 const btnOffice = document.getElementById('btn-office-busca');
 
-btnOffice.innerHTML = '⏳ 🔎 ANALISANDO (OFFICE)...';
+btnOffice.innerHTML = '⏳ ANALISANDO...';
 btnOffice.style.background = '#222222';
 btnOffice.style.color = '#aaaaaa';
 btnOffice.style.cursor = 'wait';
