@@ -116,7 +116,7 @@ Recebeu uma mensagem estranha? Falsa taxa, falso Pix, boleto suspeito?<br>
 <b>  ⚖️   TERMO DE RESPONSABILIDADE E SEGURANÇA:</b> O Terminal RailanTech é uma ferramenta de utilidade pública e apoio investigativo.
 Os laudos servem como alerta preventivo. A decisão de clicar em links ou realizar pagamentos é de inteira responsabilidade do usuário.
 A RailanTech não se responsabiliza por danos causados por terceiros.<br>
-<b>Privacidade Absoluta (Lei de Proteção):</b> Operamos com sigilo absoluto. Não solicitamos nem armazenamos CPFs, senhas, e-mails ou dados bancários.
+<b>Privacidade Absoluta (LGPD - Lei Geral de Proteção de Dados):</b> Operamos com sigilo absoluto. Não solicitamos nem armazenamos CPFs, senhas, e-mails ou dados bancários.
 </p>
 </div>
 
@@ -244,22 +244,17 @@ window.onload = function() {
 setTimeout(maquinaDeEscrever, 500);
 abrirModalPainel('painel-bem-vindo');
 verificarCaixaPreta();
-checarStatusServidor(); // 🚨 AQUI O RADAR DO SERVIDOR É ATIVADO 🚨
+checarStatusServidor();
 };
 
-// =========================================================================
-// 🧠 ENGENHARIA 1% MONSTRO: RADAR AUTOMÁTICO DE SERVIDOR
-// =========================================================================
 async function checarStatusServidor() {
 const caixa = document.getElementById('caixa-status-office');
 const texto = document.getElementById('texto-status-office');
 const luzMuralha = document.getElementById('luz-muralha');
 
 try {
-// O sistema dispara um "Ping" silencioso para a sua Matriz (Cloudflare)
 await fetch(API_MATRIZ, { method: "GET" });
 
-// Se a rede estiver de pé, as luzes ficam VERDES automaticamente
 caixa.style.background = "rgba(0, 230, 118, 0.08)";
 caixa.style.borderColor = "var(--verde-seguro)";
 texto.style.color = "var(--verde-seguro)";
@@ -272,15 +267,13 @@ if (luzMuralha) {
 }
 
 } catch (erro) {
-// Se o Cloudflare cair ou o I.A estiver atualizando, a luz fica VERMELHA no modal e DESLIGADA na tela principal.
 caixa.style.background = "rgba(255, 77, 77, 0.08)";
 caixa.style.borderColor = "var(--vermelho-alerta)";
 texto.style.color = "var(--vermelho-alerta)";
 texto.innerHTML = "🚨 MÓDULO (OFFICE): SISTEMA EM ATUALIZAÇÃO / OFFLINE";
 
-// COR NADA IGUAL DESLIGAR (Muralha Apaga)
 if (luzMuralha) {
-    luzMuralha.style.backgroundColor = "#444444"; // Cor cinza/desligada
+    luzMuralha.style.backgroundColor = "#444444";
     luzMuralha.style.boxShadow = "none";
     luzMuralha.style.animation = "none";
 }
