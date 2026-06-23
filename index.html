@@ -9,13 +9,14 @@
 :root {
 --bg-principal: #131314; --bg-secundario: #1e1f20; --bg-hover: #333538;
 --texto-principal: #e3e3e3; --texto-secundario: #c4c7c5; --borda: #444746;
---destaque-azul: #a8c7fa; --vermelho-alerta: #f28b82; --verde-seguro: #81c995;
+--destaque-azul: #a8c7fa; --vermelho-alerta: #ff4d4d; --verde-seguro: #00e676;
 --ouro-puro: #d4af37; --ouro-brilho: #f3e5ab; --fundo-modal: rgba(0, 0, 0, 0.85);
 }
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
 body { background-color: var(--bg-principal); color: var(--texto-principal); min-height: 100dvh; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
 input, button, textarea { -webkit-appearance: none; border: none; outline: none; }
 
+/* MENU */
 .top-bar { position: absolute; top: 0; width: 100%; padding: 20px 25px; display: flex; justify-content: flex-end; align-items: center; z-index: 100; }
 .menu-btn { background: none; color: var(--texto-secundario); cursor: pointer; padding: 10px; border-radius: 50%; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
 .menu-flutuante { position: absolute; top: 70px; right: 25px; background-color: var(--bg-secundario); border-radius: 12px; width: 350px; padding: 12px 0; border: 1px solid var(--borda); display: none; z-index: 101; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
@@ -30,12 +31,14 @@ input, button, textarea { -webkit-appearance: none; border: none; outline: none;
 .menu-item:hover { background-color: rgba(255,255,255,0.08); border-color: var(--texto-secundario); }
 }
 
+/* NÚCLEO CENTRAL */
 .main-container { width: 100%; max-width: 800px; padding: 20px; display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 10dvh; flex: 1;}
 .conteudo-central img { width: 220px; height: auto; margin-bottom: 20px; }
 .titulo-central { color: var(--ouro-puro); font-size: 48px; font-weight: 600; margin-bottom: 15px; letter-spacing: -0.5px; }
 .placar-autoridade { background: rgba(212, 175, 55, 0.08); border: 1px solid var(--ouro-puro); border-radius: 30px; padding: 8px 25px; color: var(--ouro-brilho); font-weight: 600; font-size: 14px; margin-bottom: 30px; display: inline-flex; align-items: center; gap: 10px; }
 .placar-autoridade span { display: inline-block; width: 8px; height: 8px; background-color: var(--verde-seguro); border-radius: 50%; box-shadow: 0 0 10px var(--verde-seguro); animation: pulse 2s infinite; }
 
+/* MODAIS */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--fundo-modal); z-index: 999; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); animation: fadeIn 0.3s; }
 .modal-content { background-color: var(--bg-secundario); border-radius: 20px; width: 90%; max-width: 600px; padding: 40px; position: relative; max-height: 85dvh; overflow-y: auto; border: 1px solid var(--borda); box-shadow: 0 15px 50px rgba(0,0,0,0.8); }
 .modal-title { font-size: 22px; margin-bottom: 25px; color: var(--ouro-brilho); display: flex; align-items: center; gap: 10px; font-weight: 600; padding-right: 30px; }
@@ -53,6 +56,17 @@ textarea.input-texto { resize: vertical; }
 .btn-enviar-dossie { background: linear-gradient(45deg, var(--ouro-puro), var(--ouro-brilho)); color: #000; padding: 18px; border-radius: 35px; font-weight: 700; width: 100%; cursor: pointer; font-size: 16px; margin-top: 15px; margin-bottom: 10px; transition: 0.2s; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
 .btn-enviar-dossie:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5); }
 .protocolo-box { background: var(--bg-principal); border: 1px solid var(--ouro-puro); padding: 15px; border-radius: 10px; font-size: 22px; font-weight: bold; color: var(--ouro-brilho); margin: 20px 0 10px 0; letter-spacing: 2px; text-align: center; }
+
+/* ANIMAÇÃO SIRENE (VERDE E VERMELHO) PARA O OFFICE */
+@keyframes sireneOffice {
+  0%, 100% { border-color: var(--vermelho-alerta); color: var(--vermelho-alerta); background: rgba(255, 77, 77, 0.05); }
+  50% { border-color: var(--verde-seguro); color: var(--verde-seguro); background: rgba(0, 230, 118, 0.05); }
+}
+.etiqueta-office {
+  margin-top: 30px; padding: 15px; border: 1px dashed; border-radius: 8px; text-align: center;
+  animation: sireneOffice 3s infinite ease-in-out;
+}
+.etiqueta-office p { font-size: 14px; font-weight: 800; letter-spacing: 1.5px; margin: 0; font-family: 'Courier New', monospace; color: inherit; }
 
 @media (max-width: 1024px) { .titulo-central { font-size: 42px; } }
 @media (max-width: 768px) {
@@ -97,13 +111,14 @@ Recebeu uma mensagem estranha? Falsa taxa, falso Pix, boleto suspeito?<br>
 </p>
 </div>
 
-<div style="width: 100%; background: #111; border: 1px solid #222; border-radius: 35px; padding: 12px 20px; display: flex; align-items: center; max-width: 750px; margin: 0 auto; box-shadow: 0 5px 15px rgba(0,0,0,0.5); transition: 0.3s;">
+<!-- BARRA INTELIGENTE ORIGINAL (BONITA) RECUPERADA -->
+<div style="width: 100%; background: #111; border: 1px solid #222; border-radius: 30px; padding: 15px 25px; display: flex; align-items: center; max-width: 700px; margin: 0 auto; box-shadow: 0 5px 15px rgba(0,0,0,0.5); transition: 0.3s;">
 <input type="file" id="input-imagem-detetive" accept="image/*,video/*,audio/*" style="display:none" onchange="acionarDetetiveImagem(event)">
-<i class="fa-solid fa-paperclip" onclick="document.getElementById('input-imagem-detetive').click()" style="color: #888; font-size: 20px; cursor: pointer; transition: 0.3s; margin-right: 15px;" title="Anexar Evidência"></i>
-<input type="text" id="input-detetive" placeholder="Cole aqui o link, texto de Golpe ou anexe uma Evidência..." style="background: transparent; border: none; color: #fff; width: 100%; padding: 0 10px; outline: none; font-size: 16px;" onkeypress="if(event.key === 'Enter') acionarDetetive()">
+<i class="fa-solid fa-paperclip" onclick="document.getElementById('input-imagem-detetive').click()" style="color: #666; font-size: 18px; cursor: pointer; transition: 0.3s; margin-right: 15px;" title="Anexar Evidência"></i>
+<input type="text" id="input-detetive" placeholder="Cole aqui o link, texto de Golpe ou anexe uma Evidência..." style="background: transparent; border: none; color: #fff; width: 100%; padding: 0 15px; outline: none; font-size: 15px;" onkeypress="if(event.key === 'Enter') acionarDetetive()">
 
-<button id="btn-office-busca" onclick="acionarDetetive()" style="background: var(--ouro-puro); color: #000; border: none; outline: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 24px; border-radius: 30px; font-weight: 800; font-size: 14px; transition: 0.3s; white-space: nowrap; box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);">
-✅ DENUNCIAR
+<button id="btn-office-busca" onclick="acionarDetetive()" style="background: transparent; border: none; outline: none; cursor: pointer; display: flex; align-items: center;">
+<i id="icone-busca" class="fa-solid fa-paper-plane" style="color: var(--ouro-puro); font-size: 18px; transition: 0.3s;" title="Analisar"></i>
 </button>
 </div>
 <div id="resposta-detetive" style="text-align: center; margin-top: 25px; margin-bottom: 40px; font-size: 15px; font-weight: bold; min-height: 24px; color: #aaa; width: 100%; max-width: 700px; line-height: 1.6;"></div>
@@ -118,6 +133,9 @@ A RailanTech não se responsabiliza por danos causados por terceiros.<br>
 </p>
 </div>
 
+<!-- ============================================== -->
+<!-- O MODAL PSICOLÓGICO DE BOAS-VINDAS (OFFICE ANIMADO) -->
+<!-- ============================================== -->
 <div class="modal-overlay" id="modalOSINT">
 <div class="modal-content">
 <button class="btn-fechar" onclick="document.getElementById('modalOSINT').style.display='none'">  ✖  </button>
@@ -132,11 +150,12 @@ Você acaba de acessar a central de defesa antifraude. A nossa missão é proteg
 <p style="color: var(--texto-secundario); font-size: 15px; line-height: 1.6; text-align: justify;">
 O nosso sistema faz toda a verificação por você de forma segura. Fique tranquilo.
 </p>
-<div style="margin-top: 30px; padding: 15px; background: rgba(255, 0, 0, 0.08); border: 1px dashed #ff4d4d; border-radius: 8px; text-align: center;">
-<p style="color: #ff4d4d; font-size: 14px; font-weight: 800; letter-spacing: 1.5px; margin: 0; font-family: 'Courier New', monospace;">
-🚨 MÓDULO (OFFICE): CONTROLE RAILANTECH ATIVADO
-</p>
+
+<!-- NOVA ETIQUETA OFFICE: PISCA VERDE E VERMELHO -->
+<div class="etiqueta-office">
+<p>🚨 MÓDULO (OFFICE): CONTROLE RAILANTECH ATIVADO</p>
 </div>
+
 </div>
 
 <div id="painel-sobre" style="display:none;">
@@ -272,13 +291,13 @@ async function acionarDetetive() {
 const input = document.getElementById('input-detetive');
 const resposta = document.getElementById('resposta-detetive');
 const btnOffice = document.getElementById('btn-office-busca');
+const iconeBusca = document.getElementById('icone-busca');
 const texto = input.value.trim();
 if (!texto) return;
 
-btnOffice.innerHTML = '⏳ ANALISANDO (OFFICE)...';
-btnOffice.style.background = '#222222';
-btnOffice.style.color = '#aaaaaa';
-btnOffice.style.cursor = 'wait';
+// Muda apenas o ícone do aviãozinho para uma engrenagem rodando
+iconeBusca.className = 'fa-solid fa-circle-notch fa-spin';
+iconeBusca.style.color = '#888';
 btnOffice.disabled = true;
 
 resposta.style.color = "#888";
@@ -304,10 +323,9 @@ resposta.style.color = "var(--texto-secundario)"; resposta.innerHTML = "  ⚪   
 } catch (erro) {
 resposta.style.color = "var(--vermelho-alerta)"; resposta.innerHTML = "  🚨   Erro de comunicação com a Central OFFICE.";
 } finally {
-btnOffice.innerHTML = '✅ DENUNCIAR';
-btnOffice.style.background = 'var(--ouro-puro)';
-btnOffice.style.color = '#000';
-btnOffice.style.cursor = 'pointer';
+// Volta o aviãozinho dourado original
+iconeBusca.className = 'fa-solid fa-paper-plane';
+iconeBusca.style.color = 'var(--ouro-puro)';
 btnOffice.disabled = false;
 }
 }
@@ -320,11 +338,11 @@ if (file.size > limiteTamanho) { alert("  🚨   EVIDÊNCIA MUITO PESADA. Máxim
 
 const resposta = document.getElementById('resposta-detetive');
 const btnOffice = document.getElementById('btn-office-busca');
+const iconeBusca = document.getElementById('icone-busca');
 
-btnOffice.innerHTML = '⏳ ANALISANDO (OFFICE)...';
-btnOffice.style.background = '#222222';
-btnOffice.style.color = '#aaaaaa';
-btnOffice.style.cursor = 'wait';
+// Muda apenas o ícone do aviãozinho para uma engrenagem rodando
+iconeBusca.className = 'fa-solid fa-circle-notch fa-spin';
+iconeBusca.style.color = '#888';
 btnOffice.disabled = true;
 
 resposta.style.color = "#888";
@@ -353,10 +371,9 @@ resposta.style.color = "var(--texto-secundario)"; resposta.innerHTML = "  ⚪   
 } catch (erro) {
 resposta.style.color = "var(--vermelho-alerta)"; resposta.innerHTML = "  🚨   Erro de comunicação com o Satélite OFFICE.";
 } finally {
-btnOffice.innerHTML = '✅ DENUNCIAR';
-btnOffice.style.background = 'var(--ouro-puro)';
-btnOffice.style.color = '#000';
-btnOffice.style.cursor = 'pointer';
+// Volta o aviãozinho dourado original
+iconeBusca.className = 'fa-solid fa-paper-plane';
+iconeBusca.style.color = 'var(--ouro-puro)';
 btnOffice.disabled = false;
 }
 };
