@@ -34,7 +34,7 @@ input, button, textarea { -webkit-appearance: none; border: none; outline: none;
 .conteudo-central img { width: 220px; height: auto; margin-bottom: 20px; }
 .titulo-central { color: var(--ouro-puro); font-size: 48px; font-weight: 600; margin-bottom: 15px; letter-spacing: -0.5px; }
 .placar-autoridade { background: rgba(212, 175, 55, 0.08); border: 1px solid var(--ouro-puro); border-radius: 30px; padding: 8px 25px; color: var(--ouro-brilho); font-weight: 600; font-size: 14px; margin-bottom: 30px; display: inline-flex; align-items: center; gap: 10px; }
-.placar-autoridade span { display: inline-block; width: 8px; height: 8px; background-color: var(--verde-seguro); border-radius: 50%; box-shadow: 0 0 10px var(--verde-seguro); animation: pulse 2s infinite; }
+.placar-autoridade span { display: inline-block; width: 8px; height: 8px; border-radius: 50%; transition: 0.3s; }
 
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--fundo-modal); z-index: 999; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); animation: fadeIn 0.3s; }
 .modal-content { background-color: var(--bg-secundario); border-radius: 20px; width: 90%; max-width: 600px; padding: 40px; position: relative; max-height: 85dvh; overflow-y: auto; border: 1px solid var(--borda); box-shadow: 0 15px 50px rgba(0,0,0,0.8); }
@@ -90,7 +90,9 @@ summary::-webkit-details-marker { display: none; }
 <div class="conteudo-central">
 <img src="escudo-sem-fundo.png" alt="Escudo RailanTech" onerror="this.style.display='none'">
 <h1 class="titulo-central">RailanTech</h1>
-<div class="placar-autoridade"><span></span> Muralha Ativa: Monitorando Ameaças no Brasil</div>
+
+<div class="placar-autoridade"><span id="luz-muralha"></span> Muralha Ativa: Monitorando Ameaças no Brasil</div>
+
 <p style="color: var(--texto-secundario); margin-bottom: 30px; font-size: 15px; max-width: 600px; line-height: 1.6;">
 Recebeu uma mensagem estranha? Falsa taxa, falso Pix, boleto suspeito?<br>
 <b>Não clique no escuro.</b> Cole o texto ou envie a evidência na barra abaixo.
@@ -246,26 +248,42 @@ checarStatusServidor(); // 🚨 AQUI O RADAR DO SERVIDOR É ATIVADO 🚨
 };
 
 // =========================================================================
-// 🧠 ENGENHARIA 1% MONSTRO: RADAR AUTOMÁTICO DE SERVIDOR (CLOUDFLARE/I.A)
+// 🧠 ENGENHARIA 1% MONSTRO: RADAR AUTOMÁTICO DE SERVIDOR
 // =========================================================================
 async function checarStatusServidor() {
 const caixa = document.getElementById('caixa-status-office');
 const texto = document.getElementById('texto-status-office');
+const luzMuralha = document.getElementById('luz-muralha');
+
 try {
 // O sistema dispara um "Ping" silencioso para a sua Matriz (Cloudflare)
 await fetch(API_MATRIZ, { method: "GET" });
 
-// Se a rede estiver de pé, a luz fica VERDE automaticamente
+// Se a rede estiver de pé, as luzes ficam VERDES automaticamente
 caixa.style.background = "rgba(0, 230, 118, 0.08)";
 caixa.style.borderColor = "var(--verde-seguro)";
 texto.style.color = "var(--verde-seguro)";
 texto.innerHTML = "🟢 MÓDULO (OFFICE): SISTEMA ONLINE E ATIVADO";
+
+if (luzMuralha) {
+    luzMuralha.style.backgroundColor = "var(--verde-seguro)";
+    luzMuralha.style.boxShadow = "0 0 10px var(--verde-seguro)";
+    luzMuralha.style.animation = "pulse 2s infinite";
+}
+
 } catch (erro) {
-// Se o Cloudflare cair ou o I.A estiver atualizando, a luz fica VERMELHA automaticamente
+// Se o Cloudflare cair ou o I.A estiver atualizando, a luz fica VERMELHA no modal e DESLIGADA na tela principal.
 caixa.style.background = "rgba(255, 77, 77, 0.08)";
 caixa.style.borderColor = "var(--vermelho-alerta)";
 texto.style.color = "var(--vermelho-alerta)";
 texto.innerHTML = "🚨 MÓDULO (OFFICE): SISTEMA EM ATUALIZAÇÃO / OFFLINE";
+
+// COR NADA IGUAL DESLIGAR (Muralha Apaga)
+if (luzMuralha) {
+    luzMuralha.style.backgroundColor = "#444444"; // Cor cinza/desligada
+    luzMuralha.style.boxShadow = "none";
+    luzMuralha.style.animation = "none";
+}
 }
 }
 
