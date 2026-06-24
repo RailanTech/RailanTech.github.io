@@ -1,44 +1,84 @@
-<!-- 🚨 RADAR E TRAVA DE SEGURANÇA (JavaScript do index.html) 🚨 -->
-<script>
-  // ⚠️ A URL OFICIAL DO SEU MOTOR (A COZINHA)
-  const workerUrl = "https://motor-osint-privado.analise-seguranca.workers.dev";
-  
-  const luzRadar = document.getElementById("luz-radar"); // A bolinha visual
-  const textoRadar = document.getElementById("texto-radar");
-  const botaoEnviar = document.getElementById("botao-denunciar");
-  const caixaTexto = document.getElementById("input-dados");
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radar OSINT 1%</title>
+    <style>
+        /* Estilo 1% Monstro - Focado no Operacional */
+        body { font-family: 'Courier New', Courier, monospace; background-color: #0d0d0d; color: #00ff00; padding: 20px; }
+        .painel { border: 1px solid #333; padding: 20px; border-radius: 5px; max-width: 600px; margin: 0 auto; background: #111; }
+        
+        /* O Radar Visual */
+        #painel-radar { display: flex; align-items: center; margin-bottom: 20px; padding: 10px; background: #000; border: 1px solid #222; }
+        #luz-radar { width: 15px; height: 15px; border-radius: 50%; background-color: gray; margin-right: 10px; box-shadow: 0 0 5px gray; }
+        #texto-radar { font-weight: bold; }
 
-  // 📡 Função que checa o servidor de tempos em tempos
-  async function checarRadar() {
-    try {
-      // O Garçom bate na porta da Cozinha perguntando se está viva
-      const resposta = await fetch(`${workerUrl}?comando=ping`);
-      
-      if (resposta.ok) {
-        // 🟢 SISTEMA VIVO E BLINDADO
-        luzRadar.style.backgroundColor = "green";
-        textoRadar.innerText = "Sistema Online";
-        botaoEnviar.disabled = false; // Destrava o botão
-        botaoEnviar.style.opacity = "1";
-        caixaTexto.disabled = false; // Destrava a digitação
-      } else {
-        throw new Error("Caiu");
-      }
-    } catch (erro) {
-      // 🔴 SISTEMA MORTO OU OCUPADO
-      luzRadar.style.backgroundColor = "red";
-      textoRadar.innerText = "Sistema Offline";
-      
-      // TRAVA SUICIDA ATIVADA: Bloqueia tudo para evitar erros na tela
-      botaoEnviar.disabled = true; 
-      botaoEnviar.style.opacity = "0.5";
-      caixaTexto.disabled = true; 
-      caixaTexto.value = "🚨 SISTEMA EM MANUTENÇÃO - AGUARDE...";
-    }
-  }
+        /* Campos de Ação */
+        textarea { width: 100%; height: 150px; margin-bottom: 15px; background: #000; color: #00ff00; border: 1px solid #333; padding: 10px; resize: vertical; box-sizing: border-box; }
+        button { background: #222; color: #00ff00; border: 1px solid #00ff00; padding: 10px 20px; cursor: pointer; font-weight: bold; width: 100%; text-transform: uppercase; }
+        button:hover:not(:disabled) { background: #00ff00; color: #000; }
+        button:disabled { border-color: #555; color: #555; cursor: not-allowed; }
+    </style>
+</head>
+<body>
 
-  // Liga o radar assim que o site abre
-  checarRadar();
-  // Fica checando a cada 30 segundos (30000 milissegundos) para economizar
-  setInterval(checarRadar, 30000);
-</script>
+    <div class="painel">
+        <h2>>> TERMINAL OSINT</h2>
+
+        <!-- A CARROCERIA (OS BOTÕES E LUZES) -->
+        <div id="painel-radar">
+            <div id="luz-radar"></div>
+            <span id="texto-radar">Iniciando Varredura...</span>
+        </div>
+
+        <textarea id="input-dados" placeholder="[ INSIRA OS DADOS DO ALVO AQUI ]"></textarea>
+        <button id="botao-denunciar">Processar Análise</button>
+    </div>
+
+    <!-- O MOTOR / GARÇOM (O SCRIPT DE CONEXÃO COM O CLOUDFLARE) -->
+    <script>
+        const workerUrl = "https://motor-osint-privado.analise-seguranca.workers.dev";
+        
+        const luzRadar = document.getElementById("luz-radar");
+        const textoRadar = document.getElementById("texto-radar");
+        const botaoEnviar = document.getElementById("botao-denunciar");
+        const caixaTexto = document.getElementById("input-dados");
+
+        async function checarRadar() {
+            try {
+                const resposta = await fetch(`${workerUrl}?comando=ping`);
+                
+                if (resposta.ok) {
+                    // 🟢 MOTOR RESPONDENDO
+                    luzRadar.style.backgroundColor = "#00ff00";
+                    luzRadar.style.boxShadow = "0 0 10px #00ff00";
+                    textoRadar.innerText = "SISTEMA ONLINE - CONEXÃO BLINDADA";
+                    textoRadar.style.color = "#00ff00";
+                    botaoEnviar.disabled = false; 
+                    botaoEnviar.style.opacity = "1";
+                    caixaTexto.disabled = false; 
+                } else {
+                    throw new Error("Caiu");
+                }
+            } catch (erro) {
+                // 🔴 MOTOR OFFLINE OU OCUPADO
+                luzRadar.style.backgroundColor = "red";
+                luzRadar.style.boxShadow = "0 0 10px red";
+                textoRadar.innerText = "SISTEMA OFFLINE - TRAVA ATIVADA";
+                textoRadar.style.color = "red";
+                botaoEnviar.disabled = true; 
+                botaoEnviar.style.opacity = "0.5";
+                caixaTexto.disabled = true; 
+                caixaTexto.value = "🚨 COMUNICAÇÃO PERDIDA COM A BASE.";
+            }
+        }
+
+        // Dá o primeiro ping assim que o site carrega
+        checarRadar();
+        // Mantém a vigília a cada 30 segundos
+        setInterval(checarRadar, 30000);
+    </script>
+
+</body>
+</html>
