@@ -9,12 +9,10 @@
         body { font-family: 'Courier New', Courier, monospace; background-color: #0d0d0d; color: #00ff00; padding: 20px; }
         .painel { border: 1px solid #333; padding: 20px; border-radius: 5px; max-width: 600px; margin: 0 auto; background: #111; }
         
-        /* O Radar Visual */
         #painel-radar { display: flex; align-items: center; margin-bottom: 20px; padding: 10px; background: #000; border: 1px solid #222; }
         #luz-radar { width: 15px; height: 15px; border-radius: 50%; background-color: gray; margin-right: 10px; box-shadow: 0 0 5px gray; }
         #texto-radar { font-weight: bold; }
 
-        /* Campos de Ação */
         textarea { width: 100%; height: 150px; margin-bottom: 15px; background: #000; color: #00ff00; border: 1px solid #333; padding: 10px; resize: vertical; box-sizing: border-box; }
         button { background: #222; color: #00ff00; border: 1px solid #00ff00; padding: 10px 20px; cursor: pointer; font-weight: bold; width: 100%; text-transform: uppercase; }
         button:hover:not(:disabled) { background: #00ff00; color: #000; }
@@ -26,17 +24,15 @@
     <div class="painel">
         <h2>>> TERMINAL OSINT</h2>
 
-        <!-- A CARROCERIA (OS BOTÕES E LUZES) -->
         <div id="painel-radar">
             <div id="luz-radar"></div>
             <span id="texto-radar">Iniciando Varredura...</span>
         </div>
 
-        <textarea id="input-dados" placeholder="[ INSIRA OS DADOS DO ALVO AQUI ]"></textarea>
+        <textarea id="input-dados" placeholder="[ INSIRA OS DADOS DO ALVO AQUI (Ex: um link, e-mail ou mensagem suspeita) ]"></textarea>
         <button id="botao-denunciar">Processar Análise</button>
     </div>
 
-    <!-- O MOTOR / GARÇOM (O SCRIPT DE CONEXÃO COM O CLOUDFLARE) -->
     <script>
         const workerUrl = "https://motor-osint-privado.analise-seguranca.workers.dev";
         
@@ -45,12 +41,11 @@
         const botaoEnviar = document.getElementById("botao-denunciar");
         const caixaTexto = document.getElementById("input-dados");
 
+        // 📡 1. O RADAR QUE CHECA A CONEXÃO
         async function checarRadar() {
             try {
                 const resposta = await fetch(`${workerUrl}?comando=ping`);
-                
                 if (resposta.ok) {
-                    // 🟢 MOTOR RESPONDENDO
                     luzRadar.style.backgroundColor = "#00ff00";
                     luzRadar.style.boxShadow = "0 0 10px #00ff00";
                     textoRadar.innerText = "SISTEMA ONLINE - CONEXÃO BLINDADA";
@@ -62,7 +57,6 @@
                     throw new Error("Caiu");
                 }
             } catch (erro) {
-                // 🔴 MOTOR OFFLINE OU OCUPADO
                 luzRadar.style.backgroundColor = "red";
                 luzRadar.style.boxShadow = "0 0 10px red";
                 textoRadar.innerText = "SISTEMA OFFLINE - TRAVA ATIVADA";
@@ -70,13 +64,50 @@
                 botaoEnviar.disabled = true; 
                 botaoEnviar.style.opacity = "0.5";
                 caixaTexto.disabled = true; 
-                caixaTexto.value = "🚨 COMUNICAÇÃO PERDIDA COM A BASE.";
             }
         }
 
-        // Dá o primeiro ping assim que o site carrega
+        // 🎯 2. A AÇÃO DE ENVIAR A MENSAGEM (A PEÇA QUE FALTAVA)
+        botaoEnviar.addEventListener("click", async () => {
+            const texto = caixaTexto.value;
+            if (texto.trim() === "") return; // Se estiver vazio, não faz nada
+
+            // Muda o botão para avisar que está trabalhando
+            botaoEnviar.innerText = "⏳ ANALISANDO...";
+            botaoEnviar.disabled = true;
+
+            // Prepara a caixa no formato exato que a API do Google exige
+            const pacoteGoogle = {
+                contents: [{
+                    parts: [{ text: "Você é um perito analista. Analise essa mensagem/link de forma direta, simples e responda se é fraude ou seguro: " + texto }]
+                }]
+            };
+
+            try {
+                // Envia para o seu Motor no Cloudflare
+                const req = await fetch(workerUrl, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(pacoteGoogle)
+                });
+                
+                const res = await req.json();
+                
+                // Extrai a resposta limpa e coloca na tela
+                const respostaDoMotor = res.candidates[0].content.parts[0].text;
+                caixaTexto.value = ">> RELATÓRIO DO MOTOR:\n\n" + respostaDoMotor;
+
+            } catch (e) {
+                caixaTexto.value = "🚨 ERRO NA ANÁLISE. TENTE NOVAMENTE.";
+            }
+
+            // Destrava o botão para uma nova pesquisa
+            botaoEnviar.innerText = "PROCESSAR NOVA ANÁLISE";
+            botaoEnviar.disabled = false;
+        });
+
+        // Liga as engrenagens
         checarRadar();
-        // Mantém a vigília a cada 30 segundos
         setInterval(checarRadar, 30000);
     </script>
 
