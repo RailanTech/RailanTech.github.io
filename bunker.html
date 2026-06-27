@@ -50,7 +50,15 @@ font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: bo
 .divisor-menu { height: 1px; background: var(--borda); margin: 15px 0; }
 .sidebar-footer { margin-top: auto; padding-top: 20px; font-size: 10px; color: #444; text-align: center; }
 .top-bar { width: 100%; height: 70px; background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--borda); display: flex;
-align-items: center; padding: 0 30px; position: sticky; top: 0; z-index: 900; }
+align-items: center; padding: 0 30px; position: sticky; top: 0; z-index: 900; gap: 16px; }
+.top-nav-links { display: flex; align-items: center; gap: 14px; margin-left: auto; margin-right: 16px; }
+.btn-nav-link { color: var(--texto-secundario); text-decoration: none; font-size: 11px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; transition: 0.25s; white-space: nowrap; }
+.btn-nav-link:hover, .btn-nav-link.ativo { color: var(--ouro-puro); }
+.link-voltar-central { display: inline-block; margin-top: 28px; color: var(--texto-secundario); text-decoration: none; font-size: 12px; font-weight: bold; letter-spacing: 2px; transition: 0.25s; }
+.link-voltar-central:hover { color: var(--ouro-puro); }
+@media (max-width: 768px) {
+.top-nav-links { display: none; }
+}
 .btn-menu { font-size: 20px; color: var(--texto-secundario); cursor: pointer; transition: 0.3s; }
 .btn-menu:hover { color: var(--ouro-puro); }
 .top-title { flex-grow: 1; text-align: center; font-size: 14px; letter-spacing: 4px; color: var(--ouro-puro); text-transform: uppercase; }
@@ -108,10 +116,7 @@ border-left: 4px solid var(--ouro-puro); }
 font-size: 11px; color: var(--verde-seguro); font-weight: bold; }
 .header-triagem { border-bottom: 2px solid var(--ouro-puro); padding-bottom: 15px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end;}
 .header-triagem h2 { color: var(--ouro-puro); text-transform: uppercase; font-size: 22px; margin-bottom: 5px; }
-
-/* REGRAS ATUALIZADAS (APAGADA A COLUNA 5 DOS HACKERS) */
 .grid-triagem { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
-
 .coluna-triagem { background: #0a0a0a; border: 1px solid #222; border-radius: 6px; overflow: hidden; }
 .titulo-coluna { padding: 15px; text-align: center; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; background: #111; border-bottom: 1px solid #222;}
 .coluna-oficial .titulo-coluna { color: var(--verde-seguro); border-bottom-color: rgba(0, 230, 118, 0.3); }
@@ -173,7 +178,6 @@ animation: fadeIn 0.3s ease-out; }
 </style>
 </head>
 <body>
-
 <div id="modal-jornal" onclick="fecharCardGuerra(event)">
 <div class="jornal-card" id="area-print" onclick="event.stopPropagation()">
 <div class="jornal-header"><i class="fa-solid fa-microchip"></i> RAILANTECH</div>
@@ -187,7 +191,6 @@ animation: fadeIn 0.3s ease-out; }
 </div>
 <button class="btn-salvar-imagem" onclick="baixarImagem(event)"><i class="fa-solid fa-download"></i> Salvar Arquivo</button>
 </div>
-
 <div id="modal-historico">
 <div class="historico-card">
 <i class="fa-solid fa-xmark btn-fechar-historico" onclick="fecharGavetaHistorico()"></i>
@@ -195,7 +198,6 @@ animation: fadeIn 0.3s ease-out; }
 <div id="lista-historico"></div>
 </div>
 </div>
-
 <div id="modal-cofre-laboratorio" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.98); z-index: 9999; display: none; flex-direction: column; align-items: center; justify-content: center;">
     <div class="icone-cadeado" style="color: #ffffff;"><i class="fa-solid fa-user-ninja"></i></div>
     <h1 class="titulo-bunker" style="color: #ffffff;">LABORATÓRIO (REC)</h1>
@@ -207,7 +209,6 @@ animation: fadeIn 0.3s ease-out; }
     <p id="msg-erro-laboratorio" style="color: var(--vermelho-alerta); margin-top: 25px; font-size: 13px; font-weight: bold; display: none;"> 🚨 CÓDIGO INVÁLIDO</p>
     <button onclick="fecharTelaCofre()" style="margin-top: 25px; background: transparent; border: none; color: #555; cursor: pointer; font-size: 10px; font-weight: bold; letter-spacing: 2px;">[ CANCELAR ]</button>
 </div>
-
 <div id="tela-bloqueio">
 <div class="icone-cadeado"><i class="fa-solid fa-user-shield"></i></div>
 <h1 class="titulo-bunker">Bunker de Comando</h1>
@@ -215,8 +216,9 @@ animation: fadeIn 0.3s ease-out; }
 <input type="password" id="senha-input" class="input-senha" placeholder="CHAVE MESTRA" onkeypress="if(event.key === 'Enter') acessarBunker()">
 <button class="btn-entrar" id="btn-login" onclick="acessarBunker()">Desbloquear Base</button>
 <p id="msg-erro">   🚨   ACESSO NEGADO</p>
+<a href="index.html" class="link-voltar-central"><i class="fa-solid fa-arrow-left"></i> Voltar à Central</a>
+<p id="aviso-preview-bunker" style="display:none; margin-top: 18px; color: var(--ouro-puro); font-size: 11px; letter-spacing: 1px; max-width: 320px; line-height: 1.6;">Modo preview local: interface navegável. Login real requer API online.</p>
 </div>
-
 <nav id="sidebar">
 <i class="fa-solid fa-xmark btn-fechar-menu" onclick="toggleSidebar()" title="Fechar Gaveta"></i>
 <div class="sidebar-header">
@@ -233,23 +235,23 @@ animation: fadeIn 0.3s ease-out; }
 <div class="sidebar-item" id="menu-zap" onclick="mudarAba('zap')"><i class="fa-brands fa-whatsapp"></i> Análise ZAP</div>
 <div class="sidebar-item" id="menu-email" onclick="mudarAba('email')"><i class="fa-solid fa-envelope"></i> Análise E-Mail</div>
 <div class="sidebar-item" id="menu-sms" onclick="mudarAba('sms')"><i class="fa-solid fa-comment-sms"></i> Análise SMS / Outro</div>
-
 <div class="divisor-menu"></div>
 <div class="sidebar-item" id="menu-laboratorio" onclick="abrirTelaCofre()">
     <i class="fa-solid fa-folder-closed" style="color: #ffffff;"></i> LABORATÓRIO
 </div>
-
 <div class="sidebar-footer">Adaptação Visual 1% Monstro</div>
 </nav>
-
 <div class="top-bar">
 <div class="btn-menu" onclick="toggleSidebar()"><i class="fa-solid fa-bars-staggered"></i></div>
 <div class="top-title">RailanTech Command Center</div>
+<div class="top-nav-links">
+<a href="index.html" class="btn-nav-link">Central</a>
+<a href="portal-vip.html" class="btn-nav-link">Portal VIP</a>
+<a href="bunker.html" class="btn-nav-link ativo">Bunker</a>
+</div>
 <div class="status-satelite" id="indicador-satelite"><span></span> VERIFICANDO...</div>
 </div>
-
 <div id="painel-bunker">
-
 <div id="view-osint" class="view-section ativa">
 <div class="radar-bunker">
 <div class="radar-grid">
@@ -291,7 +293,6 @@ RADAR DO POVO: <strong style="color:#fff;" id="contador-visitas">0</strong> VISI
 <p id="status-laudo" style="color: var(--verde-seguro); font-size: 12px; font-weight: bold; margin-top: 15px; display: none;">   ✓   LAUDO ATUALIZADO!</p>
 </div>
 </div>
-
 <div id="view-cloudflare" class="view-section">
 <h2 class="cf-header" style="color: var(--ouro-puro); text-transform: uppercase; font-size: 24px;">Painel de Defesa Orbital</h2>
 <div class="cf-grid">
@@ -313,7 +314,6 @@ RADAR DO POVO: <strong style="color:#fff;" id="contador-visitas">0</strong> VISI
 <h3 style="color: var(--vermelho-alerta); font-size: 16px; margin-top: 20px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px;"><i class="fa-solid fa-skull-crossbones"></i> PRISÃO DE INVASORES (RATOEIRA 1%)</h3>
 <div class="grid-dossies" id="grade-hackers"></div>
 </div>
-
 <div id="view-zap" class="view-section">
 <div class="header-triagem">
 <div><h2><i class="fa-brands fa-whatsapp"></i> Triagem: ZAP</h2></div>
@@ -325,7 +325,6 @@ RADAR DO POVO: <strong style="color:#fff;" id="contador-visitas">0</strong> VISI
 <div class="coluna-triagem coluna-falso"><div class="titulo-coluna">  🚨   Falso</div><div class="lista-numeros" id="lista-zap-falso"></div></div>
 </div>
 </div>
-
 <div id="view-email" class="view-section">
 <div class="header-triagem"><h2><i class="fa-solid fa-envelope"></i> Triagem: E-Mail</h2></div>
 <div class="grid-triagem">
@@ -335,7 +334,6 @@ RADAR DO POVO: <strong style="color:#fff;" id="contador-visitas">0</strong> VISI
 <div class="coluna-triagem coluna-falso"><div class="titulo-coluna">  🚨   Falso</div><div class="lista-numeros"></div></div>
 </div>
 </div>
-
 <div id="view-sms" class="view-section">
 <div class="header-triagem"><h2><i class="fa-solid fa-comment-sms"></i> Triagem: SMS / Outro</h2></div>
 <div class="grid-triagem">
@@ -345,7 +343,6 @@ RADAR DO POVO: <strong style="color:#fff;" id="contador-visitas">0</strong> VISI
 <div class="coluna-triagem coluna-falso"><div class="titulo-coluna">  🚨   Falso</div><div class="lista-numeros"></div></div>
 </div>
 </div>
-
 <div id="view-laboratorio" class="view-section">
     <div class="header-triagem" style="border-bottom-color: #555;">
         <div><h2 style="color: #ffffff;"><i class="fa-solid fa-flask"></i> Laboratório Secreto (REC)</h2></div>
@@ -357,21 +354,18 @@ RADAR DO POVO: <strong style="color:#fff;" id="contador-visitas">0</strong> VISI
             </div>
     </div>
 </div>
-
 </div>
-
 <script>
 //   🚨   MANTENHA A URL EXATA DO SEU CLOUDFLARE AQUI
 const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
+const MODO_PREVIEW_LOCAL = window.location.protocol === 'file:';
 let senhaMestraGlobal = "";
 let loopRadar = null;
 let ultimoHashDados = "";
 let memoriaDossiesGlobais = [];
 let visitasGlobais = 0;
 let laboratorioDestravado = false;
-
 function toggleSidebar() { document.getElementById('sidebar').classList.toggle('aberto'); }
-
 function mudarAba(aba) {
     document.querySelectorAll('.view-section').forEach(el => el.classList.remove('ativa'));
     document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('ativo'));
@@ -380,7 +374,6 @@ function mudarAba(aba) {
     if(window.innerWidth < 768) { toggleSidebar(); }
     window.scrollTo({top: 0, behavior: 'smooth'});
 }
-
 /* NOVAS REGRAS DO LABORATÓRIO SECRETO */
 function abrirTelaCofre() {
     if (laboratorioDestravado) {
@@ -391,11 +384,9 @@ function abrirTelaCofre() {
         document.getElementById('modal-cofre-laboratorio').style.display = "flex";
     }
 }
-
 function fecharTelaCofre() {
     document.getElementById('modal-cofre-laboratorio').style.display = "none";
 }
-
 function destravarLaboratorio() {
     const senha = document.getElementById('senha-laboratorio-input').value;
     if (senha === "Bunker_OuroPuro@95") {
@@ -406,25 +397,20 @@ function destravarLaboratorio() {
         document.getElementById('msg-erro-laboratorio').style.display = "block";
     }
 }
-
 function trancarLaboratorioDeNovo() {
     laboratorioDestravado = false;
     mudarAba('osint');
 }
-
 function abrirDossie(elemento) { elemento.nextElementSibling.classList.toggle('aberto'); }
-
 function copiarCodigo(event, codigo) {
     event.stopPropagation();
     navigator.clipboard.writeText(codigo).then(() => { alert("COPIADO: " + codigo); });
 }
-
 function gerarBandeira(codigoPais) {
     if (!codigoPais || codigoPais === "Desconhecido" || codigoPais === "XX") return "  🏴 ‍ ☠️  ";
     const pontosDeCodigo = codigoPais.toUpperCase().split('').map(char => 127397 + char.charCodeAt());
     return String.fromCodePoint(...pontosDeCodigo);
 }
-
 function abrirCardGuerra(mensagemCrua, pais, event) {
     if(event) event.stopPropagation();
     let mensagemLimpa = mensagemCrua;
@@ -433,12 +419,10 @@ function abrirCardGuerra(mensagemCrua, pais, event) {
     document.getElementById('jornal-bandeira').innerText = gerarBandeira(pais);
     document.getElementById('modal-jornal').style.display = 'flex';
 }
-
 function fecharCardGuerra(event) {
     if(event && event.target !== document.getElementById('modal-jornal')) return;
     document.getElementById('modal-jornal').style.display = 'none';
 }
-
 function baixarImagem(event) {
     if(event) event.stopPropagation();
     const botao = event.currentTarget;
@@ -458,7 +442,6 @@ function baixarImagem(event) {
         }, 3000);
     });
 }
-
 function abrirGavetaHistorico(tipo) {
     const lista = document.getElementById('lista-historico');
     const titulo = document.getElementById('titulo-historico');
@@ -510,9 +493,7 @@ function abrirGavetaHistorico(tipo) {
     }
     document.getElementById('modal-historico').style.display = 'flex';
 }
-
 function fecharGavetaHistorico() { document.getElementById('modal-historico').style.display = 'none'; }
-
 async function solicitarRespostaIA() {
     if(!confirm("  ⚠️   Pedir para a I.A analisar o mês e escrever uma resposta oficial?")) return;
     try {
@@ -520,9 +501,15 @@ async function solicitarRespostaIA() {
         alert("  ✓   Ordem transmitida ao Satélite.");
     } catch(e) {}
 }
-
 function atualizarStatusSatelite(isOnline) {
     const indicador = document.getElementById('indicador-satelite');
+    if (MODO_PREVIEW_LOCAL && !senhaMestraGlobal) {
+        indicador.className = 'status-satelite';
+        indicador.style.color = 'var(--ouro-puro)';
+        indicador.innerHTML = '<span style="background:var(--ouro-puro);box-shadow:0 0 10px var(--ouro-puro)"></span> PREVIEW LOCAL';
+        document.body.classList.remove('modo-offline');
+        return;
+    }
     if (isOnline) {
         indicador.className = 'status-satelite online';
         indicador.innerHTML = '<span></span> ONLINE';
@@ -533,7 +520,6 @@ function atualizarStatusSatelite(isOnline) {
         document.body.classList.add('modo-offline');
     }
 }
-
 async function deletarDossie(protocolo, event) {
     event.stopPropagation();
     if(!confirm("  ⚠️   DESTRUIR este dossiê?")) return;
@@ -549,6 +535,19 @@ async function acessarBunker() {
     const senha = document.getElementById('senha-input').value.trim();
     if(!senha) return;
     document.getElementById('msg-erro').style.display = "none";
+    
+    /* 🚨 PASSAGEM SECRETA DO DIRETOR (MODO OFFLINE VISUAL) 🚨 */
+    if(senha.toUpperCase() === "DEMO") {
+        document.getElementById('tela-bloqueio').style.display = "none";
+        document.getElementById('painel-bunker').style.display = "block";
+        const indicador = document.getElementById('indicador-satelite');
+        indicador.className = 'status-satelite';
+        indicador.style.color = 'var(--ouro-puro)';
+        indicador.innerHTML = '<span style="background:var(--ouro-puro);box-shadow:0 0 10px var(--ouro-puro)"></span> PREVIEW VISUAL ATIVO';
+        document.body.classList.remove('modo-offline');
+        return;
+    }
+
     document.getElementById('btn-login').innerText = "VERIFICANDO...";
     await buscarDossiesSecretos(senha);
 }
@@ -657,7 +656,6 @@ async function buscarDossiesSecretos(chaveMestra) {
         if(loopRadar) { clearInterval(loopRadar); loopRadar = null; }
     }
 }
-
 function renderCardHacker(dossie, grade) {
     if(!grade) return;
     const bandeira = gerarBandeira(dossie.pais);
@@ -696,7 +694,6 @@ function renderCardHacker(dossie, grade) {
     <button class="btn-card-guerra" onclick="abrirCardGuerra(decodeURIComponent('${msgSegura}'), '${dossie.pais}')"><i class="fa-solid fa-camera"></i> Gerar Card de Alerta</button>`;
     grade.appendChild(card);
 }
-
 function renderCardRetratil(dossie, gaveta, isHackerColumn) {
     if(!gaveta) return;
     const bandeira = gerarBandeira(dossie.pais);
@@ -739,7 +736,6 @@ function renderCardRetratil(dossie, gaveta, isHackerColumn) {
     </div>${conteudoProfundoHacker}</div>`;
     gaveta.appendChild(item);
 }
-
 async function transmitirLaudo() {
     const codigo = document.getElementById('input-codigo-laudo').value.trim();
     const texto = document.getElementById('input-texto-laudo').value.trim();
@@ -752,8 +748,12 @@ async function transmitirLaudo() {
         ultimoHashDados = ""; buscarDossiesSecretos(senhaMestraGlobal);
     } catch(e) {}
 }
-
 document.addEventListener('DOMContentLoaded', () => {
+    if (MODO_PREVIEW_LOCAL) {
+        const aviso = document.getElementById('aviso-preview-bunker');
+        if (aviso) aviso.style.display = 'block';
+        atualizarStatusSatelite(false);
+    }
     const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
     const d = new Date();
     if(document.getElementById('nome-mes-atual')) {
