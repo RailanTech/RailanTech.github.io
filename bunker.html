@@ -50,15 +50,7 @@ font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: bo
 .divisor-menu { height: 1px; background: var(--borda); margin: 15px 0; }
 .sidebar-footer { margin-top: auto; padding-top: 20px; font-size: 10px; color: #444; text-align: center; }
 .top-bar { width: 100%; height: 70px; background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--borda); display: flex;
-align-items: center; padding: 0 30px; position: sticky; top: 0; z-index: 900; gap: 16px; }
-.top-nav-links { display: flex; align-items: center; gap: 14px; margin-left: auto; margin-right: 16px; }
-.btn-nav-link { color: var(--texto-secundario); text-decoration: none; font-size: 11px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; transition: 0.25s; white-space: nowrap; }
-.btn-nav-link:hover, .btn-nav-link.ativo { color: var(--ouro-puro); }
-.link-voltar-central { display: inline-block; margin-top: 28px; color: var(--texto-secundario); text-decoration: none; font-size: 12px; font-weight: bold; letter-spacing: 2px; transition: 0.25s; }
-.link-voltar-central:hover { color: var(--ouro-puro); }
-@media (max-width: 768px) {
-.top-nav-links { display: none; }
-}
+align-items: center; padding: 0 30px; position: sticky; top: 0; z-index: 900; }
 .btn-menu { font-size: 20px; color: var(--texto-secundario); cursor: pointer; transition: 0.3s; }
 .btn-menu:hover { color: var(--ouro-puro); }
 .top-title { flex-grow: 1; text-align: center; font-size: 14px; letter-spacing: 4px; color: var(--ouro-puro); text-transform: uppercase; }
@@ -116,6 +108,7 @@ border-left: 4px solid var(--ouro-puro); }
 font-size: 11px; color: var(--verde-seguro); font-weight: bold; }
 .header-triagem { border-bottom: 2px solid var(--ouro-puro); padding-bottom: 15px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end;}
 .header-triagem h2 { color: var(--ouro-puro); text-transform: uppercase; font-size: 22px; margin-bottom: 5px; }
+/* REGRAS ATUALIZADAS (APAGADA A COLUNA 5 DOS HACKERS) */
 .grid-triagem { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
 .coluna-triagem { background: #0a0a0a; border: 1px solid #222; border-radius: 6px; overflow: hidden; }
 .titulo-coluna { padding: 15px; text-align: center; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; background: #111; border-bottom: 1px solid #222;}
@@ -216,8 +209,6 @@ animation: fadeIn 0.3s ease-out; }
 <input type="password" id="senha-input" class="input-senha" placeholder="CHAVE MESTRA" onkeypress="if(event.key === 'Enter') acessarBunker()">
 <button class="btn-entrar" id="btn-login" onclick="acessarBunker()">Desbloquear Base</button>
 <p id="msg-erro">   🚨   ACESSO NEGADO</p>
-<a href="index.html" class="link-voltar-central"><i class="fa-solid fa-arrow-left"></i> Voltar à Central</a>
-<p id="aviso-preview-bunker" style="display:none; margin-top: 18px; color: var(--ouro-puro); font-size: 11px; letter-spacing: 1px; max-width: 320px; line-height: 1.6;">Modo preview local: interface navegável. Login real requer API online.</p>
 </div>
 <nav id="sidebar">
 <i class="fa-solid fa-xmark btn-fechar-menu" onclick="toggleSidebar()" title="Fechar Gaveta"></i>
@@ -244,11 +235,6 @@ animation: fadeIn 0.3s ease-out; }
 <div class="top-bar">
 <div class="btn-menu" onclick="toggleSidebar()"><i class="fa-solid fa-bars-staggered"></i></div>
 <div class="top-title">RailanTech Command Center</div>
-<div class="top-nav-links">
-<a href="index.html" class="btn-nav-link">Central</a>
-<a href="portal-vip.html" class="btn-nav-link">Portal VIP</a>
-<a href="bunker.html" class="btn-nav-link ativo">Bunker</a>
-</div>
 <div class="status-satelite" id="indicador-satelite"><span></span> VERIFICANDO...</div>
 </div>
 <div id="painel-bunker">
@@ -358,7 +344,6 @@ RADAR DO POVO: <strong style="color:#fff;" id="contador-visitas">0</strong> VISI
 <script>
 //   🚨   MANTENHA A URL EXATA DO SEU CLOUDFLARE AQUI
 const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
-const MODO_PREVIEW_LOCAL = window.location.protocol === 'file:';
 let senhaMestraGlobal = "";
 let loopRadar = null;
 let ultimoHashDados = "";
@@ -503,13 +488,6 @@ async function solicitarRespostaIA() {
 }
 function atualizarStatusSatelite(isOnline) {
     const indicador = document.getElementById('indicador-satelite');
-    if (MODO_PREVIEW_LOCAL && !senhaMestraGlobal) {
-        indicador.className = 'status-satelite';
-        indicador.style.color = 'var(--ouro-puro)';
-        indicador.innerHTML = '<span style="background:var(--ouro-puro);box-shadow:0 0 10px var(--ouro-puro)"></span> PREVIEW LOCAL';
-        document.body.classList.remove('modo-offline');
-        return;
-    }
     if (isOnline) {
         indicador.className = 'status-satelite online';
         indicador.innerHTML = '<span></span> ONLINE';
@@ -530,28 +508,13 @@ async function deletarDossie(protocolo, event) {
         ultimoHashDados = ""; buscarDossiesSecretos(senhaMestraGlobal);
     } catch(e) {}
 }
-
 async function acessarBunker() {
     const senha = document.getElementById('senha-input').value.trim();
     if(!senha) return;
     document.getElementById('msg-erro').style.display = "none";
-    
-    /* 🚨 PASSAGEM SECRETA DO DIRETOR (MODO OFFLINE VISUAL) 🚨 */
-    if(senha.toUpperCase() === "DEMO") {
-        document.getElementById('tela-bloqueio').style.display = "none";
-        document.getElementById('painel-bunker').style.display = "block";
-        const indicador = document.getElementById('indicador-satelite');
-        indicador.className = 'status-satelite';
-        indicador.style.color = 'var(--ouro-puro)';
-        indicador.innerHTML = '<span style="background:var(--ouro-puro);box-shadow:0 0 10px var(--ouro-puro)"></span> PREVIEW VISUAL ATIVO';
-        document.body.classList.remove('modo-offline');
-        return;
-    }
-
     document.getElementById('btn-login').innerText = "VERIFICANDO...";
     await buscarDossiesSecretos(senha);
 }
-
 async function buscarDossiesSecretos(chaveMestra) {
     try {
         const req = await fetch(API_MATRIZ, { method: "GET", headers: { "Authorization": "Bearer " + chaveMestra } });
@@ -749,11 +712,6 @@ async function transmitirLaudo() {
     } catch(e) {}
 }
 document.addEventListener('DOMContentLoaded', () => {
-    if (MODO_PREVIEW_LOCAL) {
-        const aviso = document.getElementById('aviso-preview-bunker');
-        if (aviso) aviso.style.display = 'block';
-        atualizarStatusSatelite(false);
-    }
     const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
     const d = new Date();
     if(document.getElementById('nome-mes-atual')) {
