@@ -438,5 +438,14 @@ btn.style.borderColor = 'var(--ouro-puro)';
 });
 }
 </script>
+<script>
+(function(){
+  function bloquearTrava(e){if(e)e.preventDefault();return false;}
+ document.addEventListener('contextmenu',bloquearTrava);
+ document.addEventListener('keydown',function(e){
+   if(e.keyCode===123||(e.ctrlKey&&e.shiftKey&&(e.keyCode===73||e.keyCode===74||e.keyCode===67))||(e.ctrlKey&&(e.keyCode===85||e.keyCode===83))){bloquearTrava(e);return false;}
+  });
+})();
+</script>
 </body>
 </html>
