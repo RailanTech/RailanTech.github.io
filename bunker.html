@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
+<head><script type='text/javascript' nonce='nQfgZjCoovZ3FLBVIzl2uQ==' src='https://contribution.usercontent.google.com/LAqvbu17fP22w6rLvxKg38a0uSZRlit9sZxz2aXcHZBgOSpsq0IJAgJbo5aOeilfVQsELC3hOdwoN1dnH5aAUEHLJVEQXW-3YMJs1Q9jwEmiF0VOrefkmgB4odbHgPKW-rtVd52qGw3DY_jYEFxuqzksHRcutJ-1SG-MAdvpjq2aTLapmz6_NVQgzVf_SGIbDnuvFWJrrWI74ho_bTDINCPKDRhAwUtVrmuRhBL6_L8I8A_KZ1aIidr9D6a-hYqI0A0c0Qd7GrFlVyst4lOQROBnbytgl19Z9HGgyQC09e3QDoKMD-yGleMmQClb6oWPUNdGlrER1f6Y1gIRs8EoklaLyTWzf5Y545YSbEcSNzuD7My2hdUNI4W4ImqK1fWgm1c0E0pYuIcRrTuZ0ZOQMkshxAe8B-16MHj--03No_bzGNk3KMWGXBP2pge1_V_7wUb6gFYheLie4QSibFKvLs8Yoi5c5aLJrkf5Jb78-CWKKcsbHR1FsOFLb1MbmZMiV9HlXpzk3yVxzJDn0h_8NZciTt_VVMSlFb3f4Km_qwYsk0HX0g6NWTFpZQrIg2bItpFE3h0huwi2fgShR4UtD-wpgxR4WKiw_nlVrFALb6n8jtm7BLFOZQsdH0ch_3eejH6Q-t2WDGznV93DVP151LBdBmJyNfDZi0-jsx6SYIm9KwsLoxjtmQVT0U_RgsGj6Hr3T6MW-qMYIO420w'></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bunker Secreto - RailanTech</title>
@@ -210,7 +210,7 @@ animation: fadeIn 0.3s ease-out; }
     <h1 class="titulo-bunker" style="color: #ffffff;">LABORATÓRIO (REC)</h1>
     <p style="color: #555555; margin-bottom: 30px; font-size: 12px; letter-spacing: 2px;">ACESSO EXCLUSIVO DO DIRETOR</p>
     
-    <input type="password" id="senha-laboratorio-input" class="input-senha" placeholder="CÓDIGO DE ACESSO" style="border-color: #333;" onkeypress="if(event.key === 'Enter') destravarLaboratorio()">
+    <input type="password" id="senha-laboratorio-input" class="input-senha" placeholder="CÓDIGO DE ACESSO" style="border-color: #333;" onkeypress="if(event.key === &#39;Enter&#39;) destravarLaboratorio()">
     <button class="btn-entrar" style="background: #ffffff; color: #000;" onclick="destravarLaboratorio()">Abrir Cofre</button>
     
     <p id="msg-erro-laboratorio" style="color: var(--vermelho-alerta); margin-top: 25px; font-size: 13px; font-weight: bold; display: none;"> 🚨 CÓDIGO INVÁLIDO</p>
@@ -220,7 +220,7 @@ animation: fadeIn 0.3s ease-out; }
 <div class="icone-cadeado"><i class="fa-solid fa-user-shield"></i></div>
 <h1 class="titulo-bunker">Bunker de Comando</h1>
 <p style="color: var(--texto-secundario); margin-bottom: 30px; font-size: 12px; letter-spacing: 2px;">PROTOCOLO 1% MONSTRO ATIVADO</p>
-<input type="password" id="senha-input" class="input-senha" placeholder="CHAVE MESTRA" onkeypress="if(event.key === 'Enter') acessarBunker()">
+<input type="password" id="senha-input" class="input-senha" placeholder="CHAVE MESTRA" onkeypress="if(event.key === &#39;Enter&#39;) acessarBunker()">
 <button class="btn-entrar" id="btn-login" onclick="acessarBunker()">Desbloquear Base</button>
 <p id="msg-erro">   🚨   ACESSO NEGADO</p>
 </div>
@@ -233,13 +233,13 @@ animation: fadeIn 0.3s ease-out; }
 <p style="font-size: 10px; color: var(--ouro-puro);">DIRETOR PERICIAL</p>
 </div>
 </div>
-<div class="sidebar-item ativo" id="menu-osint" onclick="mudarAba('osint')"><i class="fa-solid fa-terminal"></i> Terminal Geral</div>
-<div class="sidebar-item" id="menu-cloudflare" onclick="mudarAba('cloudflare')"><i class="fa-solid fa-satellite-dish"></i> Status Satélite</div>
+<div class="sidebar-item ativo" id="menu-osint" onclick="mudarAba(&#39;osint&#39;)"><i class="fa-solid fa-terminal"></i> Terminal Geral</div>
+<div class="sidebar-item" id="menu-cloudflare" onclick="mudarAba(&#39;cloudflare&#39;)"><i class="fa-solid fa-satellite-dish"></i> Status Satélite</div>
 <div class="divisor-menu"></div>
 <p style="color: #555; font-size: 10px; margin-bottom: 10px; padding-left: 15px; font-weight: bold; letter-spacing: 1px;">TRIAGEM DE AMEAÇAS</p>
-<div class="sidebar-item" id="menu-zap" onclick="mudarAba('zap')"><i class="fa-brands fa-whatsapp"></i> Análise ZAP</div>
-<div class="sidebar-item" id="menu-email" onclick="mudarAba('email')"><i class="fa-solid fa-envelope"></i> Análise E-Mail</div>
-<div class="sidebar-item" id="menu-sms" onclick="mudarAba('sms')"><i class="fa-solid fa-comment-sms"></i> Análise SMS / Outro</div>
+<div class="sidebar-item" id="menu-zap" onclick="mudarAba(&#39;zap&#39;)"><i class="fa-brands fa-whatsapp"></i> Análise ZAP</div>
+<div class="sidebar-item" id="menu-email" onclick="mudarAba(&#39;email&#39;)"><i class="fa-solid fa-envelope"></i> Análise E-Mail</div>
+<div class="sidebar-item" id="menu-sms" onclick="mudarAba(&#39;sms&#39;)"><i class="fa-solid fa-comment-sms"></i> Análise SMS / Outro</div>
 <div class="divisor-menu"></div>
 <div class="sidebar-item" id="menu-laboratorio" onclick="abrirTelaCofre()">
     <i class="fa-solid fa-folder-closed" style="color: #ffffff;"></i> LABORATÓRIO
@@ -257,10 +257,10 @@ animation: fadeIn 0.3s ease-out; }
 <div class="radar-grid">
 <div>
 <h4 style="color: var(--texto-secundario); font-size: 11px; margin-bottom: 15px; letter-spacing: 1px;">LINHA DO TEMPO (ARQUIVO)</h4>
-<div class="mes-box botao-arquivo-secreto" id="box-mes-atual" onclick="abrirGavetaHistorico('atual')" title="Ver Histórico do Mês">
+<div class="mes-box botao-arquivo-secreto" id="box-mes-atual" onclick="abrirGavetaHistorico(&#39;atual&#39;)" title="Ver Histórico do Mês">
 <span id="nome-mes-atual">Carregando...</span> <strong style="color: #fff;" id="qtd-mes-atual">0</strong>
 </div>
-<div class="mes-box botao-arquivo-secreto" style="border-left-color: #444;" id="box-mes-passado" onclick="abrirGavetaHistorico('passado')" title="Ver Histórico do Mês Anterior">
+<div class="mes-box botao-arquivo-secreto" style="border-left-color: #444;" id="box-mes-passado" onclick="abrirGavetaHistorico(&#39;passado&#39;)" title="Ver Histórico do Mês Anterior">
 <span id="nome-mes-passado">Mês Passado</span> <strong style="color: #fff;" id="qtd-mes-passado">0</strong>
 </div>
 </div>
@@ -278,7 +278,7 @@ animation: fadeIn 0.3s ease-out; }
 </div>
 </div>
 <p style="text-align: center; color: var(--texto-secundario); font-size: 11px; margin-top: 20px;">
-<span class="texto-radar-secreto" onclick="abrirGavetaHistorico('radar')" title="Ver Satélite ao Vivo">
+<span class="texto-radar-secreto" onclick="abrirGavetaHistorico(&#39;radar&#39;)" title="Ver Satélite ao Vivo">
 RADAR DO POVO: <strong style="color:#fff;" id="contador-visitas">0</strong> VISITAS HOJE   🗒️
 </span>
 </p>
@@ -736,6 +736,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+<script>
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'U'))) {
+        e.preventDefault();
+    }
+});
 </script>
 </body>
 </html>
