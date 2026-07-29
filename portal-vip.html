@@ -2,10 +2,11 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<!-- ZOOM LIVRE PARA ACESSIBILIDADE -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portal VIP - RailanTech</title>
 
-<!-- Fontes Removidas por Segurança. Usando Fontes Nativas do Sistema -->
+<!-- INVISIBILIDADE: Fontes do Google Removidas. Usando Fontes Nativas do Sistema -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
@@ -179,12 +180,15 @@ input, button { -webkit-appearance: none; outline: none; font-family: inherit; }
 </div>
 
 <script>
+// 🚨 MANTENHA A URL EXATA DO SEU CLOUDFLARE AQUI
 const API_MATRIZ = "https://motor-osint-privado.analise-seguranca.workers.dev";
 
+// Faz o Enter funcionar no teclado
 document.getElementById('input-protocolo').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') buscarLaudo();
 });
 
+// Faz o clique do botão funcionar
 document.getElementById('btn-buscar').addEventListener('click', buscarLaudo);
 
 async function buscarLaudo() {
@@ -195,6 +199,7 @@ async function buscarLaudo() {
     const btnBuscar = document.getElementById('btn-buscar');
 
     if (!chave) {
+        // Notificação Visual Clean
         const textoOriginal = btnBuscar.innerHTML;
         btnBuscar.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Digite a Chave Oficial';
         btnBuscar.style.background = 'var(--vermelho-alerta)';
@@ -207,11 +212,13 @@ async function buscarLaudo() {
         return;
     }
 
+    // Efeito visual de processamento militar
     btnBuscar.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> ABRINDO O COFRE...';
     btnBuscar.disabled = true;
     caixaLaudo.style.display = 'none';
 
     try {
+        // Envia a chave para o Cloudflare investigar
         const req = await fetch(API_MATRIZ + "?protocolo=" + encodeURIComponent(chave), {
             method: "GET"
         });
@@ -221,6 +228,7 @@ async function buscarLaudo() {
         
         if (req.ok) {
             if (res.laudo) {
+                // ✅ CENÁRIO 1: O Laudo está pronto!
                 caixaLaudo.style.borderLeftColor = "var(--verde-seguro)";
                 caixaLaudo.style.boxShadow = "0 10px 30px rgba(16, 185, 129, 0.1)";
                 document.querySelector('.laudo-titulo').innerHTML = '<i class="fa-solid fa-check-double"></i> Laudo Oficial Concluído';
@@ -228,6 +236,7 @@ async function buscarLaudo() {
                 textoResultado.innerHTML = res.laudo.replace(/\n/g, '<br>');
             
             } else if (res.status === "em_analise") {
+                // ⏳ CENÁRIO 2: A chave existe, mas o Diretor ainda não deu o veredito
                 caixaLaudo.style.borderLeftColor = "var(--ouro-puro)";
                 caixaLaudo.style.boxShadow = "0 10px 30px rgba(212, 175, 55, 0.1)";
                 document.querySelector('.laudo-titulo').innerHTML = '<i class="fa-solid fa-hourglass-half"></i> Em Análise Pericial';
@@ -235,6 +244,7 @@ async function buscarLaudo() {
                 textoResultado.innerHTML = "O seu dossiê encontra-se na mesa de operações. O caso exige análise profunda e cruzamento de dados. Por favor, retorne e consulte a chave mais tarde.";
             }
         } else {
+            // ❌ CENÁRIO 3: A pessoa digitou a chave errada
             caixaLaudo.style.borderLeftColor = "var(--vermelho-alerta)";
             caixaLaudo.style.boxShadow = "0 10px 30px rgba(239, 68, 68, 0.1)";
             document.querySelector('.laudo-titulo').innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Chave Inválida ou Não Encontrada';
@@ -242,6 +252,7 @@ async function buscarLaudo() {
             textoResultado.innerHTML = "Não localizámos nenhum dossiê ou laudo associado a esta chave. Verifique se digitou o protocolo corretamente (Ex: RT-PF-...).";
         }
     } catch (error) {
+        // 🚨 CENÁRIO 4: Falha na Internet
         caixaLaudo.style.display = 'block';
         caixaLaudo.style.borderLeftColor = "var(--vermelho-alerta)";
         caixaLaudo.style.boxShadow = "0 10px 30px rgba(239, 68, 68, 0.1)";
@@ -249,6 +260,7 @@ async function buscarLaudo() {
         document.querySelector('.laudo-titulo').style.color = "var(--vermelho-alerta)";
         textoResultado.innerHTML = "O Satélite Cloudflare está inacessível neste momento devido a uma interferência de rede ou bloqueio de rota. Tente novamente em instantes.";
     } finally {
+        // Devolve o botão ao normal
         btnBuscar.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Consultar Laudo';
         btnBuscar.disabled = false;
     }
